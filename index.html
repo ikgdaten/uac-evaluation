@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluationsbogen: Uniartcity & Bildungsbrief</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            color: #3e3e3e;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+            background: #f9f7f4;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(101, 84, 68, 0.1);
+        }
+        
+        header {
+            text-align: center;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #5d4e37;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            color: #8b7355;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .version {
+            background: #a89080;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 3px;
+            display: inline-block;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .info-box {
+            background: #f5f1eb;
+            border-left: 3px solid #a89080;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .info-box strong {
+            color: #5d4e37;
+        }
+        
+        h2 {
+            color: #5d4e37;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #d4c4b0;
+            font-weight: 400;
+        }
+        
+        h3 {
+            color: #6b5d52;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .question-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #fafaf8;
+            border-radius: 3px;
+        }
+        
+        .scale-header {
+            background: #8b7355;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            font-weight: 400;
+            font-size: 15px;
+        }
+        
+        .scale-info {
+            display: none; /* Hidden from participants - theoretical basis for researchers only */
+        }
+        
+        .item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-left: 2px solid #c4b5a0;
+        }
+        
+        .item-number {
+            font-weight: 600;
+            color: #5d4e37;
+            margin-right: 5px;
+        }
+        
+        .item-text {
+            color: #4a4a4a;
+            line-height: 1.5;
+        }
+        
+        .reverse-badge {
+            display: none; /* Hidden from participants - for researcher documentation only */
+        }
+        
+        .likert-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            padding: 10px;
+            background: #f5f1eb;
+            border-radius: 3px;
+        }
+        
+        .likert-option {
+            text-align: center;
+            font-size: 11px;
+            color: #6b5d52;
+            flex: 1;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .likert-option:hover {
+            background: #e8dfd5;
+        }
+        
+        .likert-option input[type="radio"] {
+            margin-right: 0;
+            cursor: pointer;
+        }
+        
+        .likert-number {
+            display: block;
+            font-weight: 600;
+            color: #5d4e37;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        
+        .demo-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-left: 2px solid #8b9474;
+        }
+        
+        .demo-label {
+            font-weight: 600;
+            color: #5d4e37;
+            margin-bottom: 5px;
+        }
+        
+        .demo-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d4c4b0;
+            border-radius: 3px;
+            margin-top: 5px;
+            background: #fafaf8;
+        }
+        
+        .checkbox-group {
+            margin-top: 8px;
+        }
+        
+        .checkbox-group label {
+            display: block;
+            padding: 5px;
+            margin: 3px 0;
+        }
+        
+        .instruction {
+            background: #f9f3e8;
+            border-left: 3px solid #b8956a;
+            padding: 15px;
+            margin: 20px 0;
+            color: #5d4e37;
+        }
+
+        .required {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 10px 20px;
+            border-bottom: 2px solid #8b7355;
+            z-index: 100;
+            margin: -30px -30px 20px -30px;
+        }
+
+        .progress-container {
+            background: #e8dfd5;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #8b7355, #a89080);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #6b5d52;
+            text-align: center;
+        }
+
+        .likert-legend {
+            display: flex;
+            justify-content: space-between;
+            background: #f5f1eb;
+            padding: 10px 15px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #5d4e37;
+        }
+
+        .likert-legend span {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #d4c4b0;
+            text-align: center;
+            color: #8b7355;
+            font-size: 12px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .progress-bar {
+                display: none;
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .progress-bar {
+                margin: -15px -15px 15px -15px;
+                padding: 8px 15px;
+            }
+
+            .likert-scale {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .likert-option {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 10px;
+                padding: 12px;
+                background: #f5f1eb;
+                border-radius: 5px;
+                text-align: left;
+            }
+
+            .likert-option input[type="radio"] {
+                width: 20px;
+                height: 20px;
+            }
+
+            .likert-number {
+                display: inline;
+                margin-right: 10px;
+            }
+
+            .likert-legend {
+                flex-direction: column;
+                gap: 5px;
+                text-align: left;
+            }
+
+            .likert-legend span {
+                text-align: left;
+                padding: 5px 0;
+                border-bottom: 1px solid #e8dfd5;
+            }
+
+            .likert-legend span:last-child {
+                border-bottom: none;
+            }
+
+            .question-group {
+                padding: 10px;
+            }
+
+            .item {
+                padding: 8px;
+            }
+
+            .scale-header {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .info-box {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .demo-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
+        /* Improved spacing and readability */
+        .question-group {
+            margin-bottom: 35px;
+        }
+
+        .item {
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .scale-header {
+            margin-bottom: 20px;
+        }
+        /* Sprachumschalter */
+        .language-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            display: flex;
+            gap: 4px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #d4c4b0;
+            border-radius: 20px;
+            padding: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            font-family: Georgia, serif;
+        }
+        .language-switcher button {
+            background: transparent;
+            border: none;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-family: Georgia, serif;
+            color: #8b7355;
+            cursor: pointer;
+            border-radius: 16px;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+        .language-switcher button.active {
+            background: #8b7355;
+            color: white;
+        }
+        .language-switcher button:hover:not(.active) {
+            background: #f5f1eb;
+        }
+        @media print {
+            .language-switcher { display: none; }
+        }
+    </style>
+    <!-- Supabase SDK (für Datenbank-Anbindung) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Sprachumschalter DE/EN -->
+    <div class="language-switcher" role="group" aria-label="Language switcher">
+        <button type="button" id="lang-de" class="active" onclick="setLanguage('de')">DE</button>
+        <button type="button" id="lang-en" onclick="setLanguage('en')">EN</button>
+    </div>
+    <div class="container">
+        <!-- Fortschrittsanzeige -->
+        <div class="progress-bar" id="progress-bar">
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="progress-text" id="progress-text">0% abgeschlossen</div>
+        </div>
+
+        <header>
+            <h1 data-i18n="h1_title">EVALUATIONSBOGEN</h1>
+            <div class="subtitle" data-i18n="subtitle1">Uniartcity & Bildungsbrief</div>
+            <div class="subtitle" data-i18n="subtitle2">Wissenschaftliche Begleitstudie zur Wirksamkeit selbstbestimmter Bildung</div>
+            <div class="version">Version 2.1 | April 2026</div>
+        </header>
+
+        <div class="info-box">
+            <strong>Institut für Kulturgestaltung e.V.</strong><br>
+            Wissenschaftliche Leitung: Prof. Dr. Thomas Häcker, Universität Rostock<br>
+            <strong>Bearbeitungszeit:</strong> ca. 28-30 Minuten | <strong>Items:</strong> 80 + 9 Soziodemografie
+        </div>
+
+        <!-- DATENSCHUTZ & EINWILLIGUNG -->
+        <section class="section" id="consent-section">
+            <h2 data-i18n="h2_consent">DATENSCHUTZ & EINWILLIGUNG</h2>
+
+            <div class="info-box" style="background: #fff9e6; border-left-color: #d4a017;">
+                <strong>Bitte lesen Sie die folgenden Informationen sorgfältig durch:</strong>
+            </div>
+
+            <div style="background: white; padding: 20px; border: 1px solid #d4c4b0; border-radius: 3px; margin: 15px 0;">
+                <p style="margin-bottom: 15px;"><strong>Zweck der Studie:</strong><br>
+                Diese Befragung ist Teil einer wissenschaftlichen Längsschnittstudie zur Wirksamkeit selbstbestimmter Bildung. Wir untersuchen, wie sich psychologische Grundbedürfnisse (Autonomie, Kompetenz, soziale Eingebundenheit), Vertrauen und psychosoziale Outcomes über ein Semester entwickeln. Die Ergebnisse dienen ausschließlich Forschungszwecken.</p>
+
+                <p style="margin-bottom: 15px;"><strong>Freiwilligkeit:</strong><br>
+                Ihre Teilnahme ist vollständig freiwillig. Sie können die Befragung jederzeit ohne Angabe von Gründen abbrechen, ohne dass Ihnen daraus Nachteile entstehen.</p>
+
+                <p style="margin-bottom: 15px;"><strong>Anonymität & Datenschutz (Art. 13 DSGVO):</strong><br>
+                Alle Ihre Angaben werden streng vertraulich behandelt und anonymisiert ausgewertet. Es werden keine personenbezogenen Daten erhoben, die Rückschlüsse auf Ihre Identität zulassen:<br>
+                • <strong>Keine IP-Adressen</strong> werden gespeichert<br>
+                • <strong>Keine Namen oder E-Mail-Adressen</strong> werden erhoben<br>
+                • Nur ein <strong>selbstgenerierter Code</strong> ermöglicht die Zuordnung Ihrer Antworten über die Messzeitpunkte<br>
+                Die Daten werden gemäß DSGVO (Datenschutz-Grundverordnung) verarbeitet und ausschließlich für wissenschaftliche Zwecke verwendet.</p>
+
+                <p style="margin-bottom: 15px;"><strong>Datenspeicherung:</strong><br>
+                Die anonymisierten Daten werden auf sicheren Servern in Deutschland (EU) gespeichert und nach Abschluss der Studie für maximal 10 Jahre zu Dokumentationszwecken aufbewahrt.</p>
+
+                <p style="margin-bottom: 15px;"><strong>Widerrufsrecht:</strong><br>
+                Da die Daten vollständig anonymisiert erhoben werden, ist eine nachträgliche Löschung einzelner Datensätze technisch nicht möglich. Bis zum Absenden des Fragebogens können Sie Ihre Teilnahme jedoch jederzeit abbrechen.</p>
+
+                <p style="margin-bottom: 15px;"><strong>Verantwortliche Stelle:</strong><br>
+                Institut für Kulturgestaltung e.V.<br>
+                Weidelbach 14, 91550 Dinkelsbühl<br>
+                E-Mail: uniartcity@gmail.com</p>
+
+                <p style="margin-bottom: 15px;"><strong>Wissenschaftliche Leitung:</strong><br>
+                Prof. Dr. Thomas Häcker<br>
+                Universität Rostock, Institut für Schulpädagogik und Bildungsforschung</p>
+
+                <p><strong>Datenschutzbeauftragter:</strong><br>
+                Bei Fragen zum Datenschutz wenden Sie sich bitte an:<br>
+                datenschutz@uni-rostock.de</p>
+            </div>
+
+            <div class="demo-question" style="background: #f5f1eb; border-left-color: #8b7355;">
+                <div class="demo-label">Einwilligungserklärung <span class="required">*</span></div>
+                <div class="checkbox-group">
+                    <label style="display: flex; align-items: flex-start; gap: 10px;">
+                        <input type="checkbox" name="consent" id="consent-checkbox" required style="margin-top: 4px;">
+                        <span>Ich habe die Datenschutzinformationen gelesen und verstanden. Ich willige freiwillig in die Teilnahme an dieser Studie und die anonymisierte Verarbeitung meiner Daten zu Forschungszwecken ein.</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANONYMER TEILNEHMERCODE -->
+        <section class="section" id="code-section">
+            <h2 data-i18n="h2_code">ANONYMER TEILNEHMERCODE</h2>
+
+            <div class="info-box">
+                <strong>Warum ein persönlicher Code?</strong><br>
+                Dieser Code ermöglicht es uns, Ihre Antworten bei späteren Befragungen (z.B. nach einem Jahr) zuzuordnen, ohne Ihre Identität zu kennen. Bitte merken Sie sich diesen Code oder notieren Sie ihn sich.
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label">Bitte erstellen Sie Ihren persönlichen Code nach folgendem Schema: <span class="required">*</span></div>
+                <div style="background: #fafaf8; padding: 15px; border-radius: 3px; margin: 10px 0;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding: 8px; border-bottom: 1px solid #d4c4b0;"><strong>Position 1-2:</strong></td>
+                            <td style="padding: 8px; border-bottom: 1px solid #d4c4b0;">Die ersten zwei Buchstaben des Vornamens Ihrer Mutter (z.B. Anna → AN)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border-bottom: 1px solid #d4c4b0;"><strong>Position 3-4:</strong></td>
+                            <td style="padding: 8px; border-bottom: 1px solid #d4c4b0;">Ihr Geburtstag (nur der Tag, z.B. 05 oder 23)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><strong>Position 5-6:</strong></td>
+                            <td style="padding: 8px;">Die ersten zwei Buchstaben Ihres Geburtsortes (z.B. Berlin → BE)</td>
+                        </tr>
+                    </table>
+                </div>
+                <p style="font-size: 13px; color: #6b5d52; margin-bottom: 10px;"><em>Beispiel: Mutter heißt Anna, Geburtstag am 5., geboren in Berlin → AN05BE</em></p>
+                <input type="text" class="demo-input" name="participant-code" id="participant-code" placeholder="Ihr 6-stelliger Code (z.B. AN05BE)" maxlength="6" style="text-transform: uppercase; font-size: 18px; letter-spacing: 3px; text-align: center;" required>
+            </div>
+        </section>
+
+        <div class="instruction">
+            <strong>WICHTIGER HINWEIS ZUR EHRLICHKEIT:</strong><br>
+            Bitte antworten Sie so ehrlich wie möglich. Es gibt keine richtigen oder falschen Antworten. Ihre Antworten sind anonym und werden nur für Forschungszwecke verwendet. Auch kritische oder negative Erfahrungen sind für uns wertvoll und wichtig.
+        </div>
+
+        <!-- TEIL 1: SOZIODEMOGRAFISCHE ANGABEN -->
+        <section class="section page-break">
+            <h2 data-i18n="h2_part1">TEIL 1: SOZIODEMOGRAFISCHE ANGABEN</h2>
+            <p style="color: #8b7355; margin-bottom: 20px;">Diese Angaben helfen uns, die Ergebnisse besser zu verstehen. Alle Daten werden anonymisiert ausgewertet.</p>
+
+            <h3 data-i18n="h3_basis">Basis-Informationen</h3>
+            
+            <div class="demo-question">
+                <div class="demo-label">S1. Wie alt sind Sie? <span class="required">*</span></div>
+                <input type="number" class="demo-input" name="age" placeholder="Alter in Jahren" min="16" max="99" required>
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label">S2. Welchem Geschlecht fühlen Sie sich zugehörig? <span class="required">*</span></div>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="gender" value="weiblich" required> Weiblich</label>
+                    <label><input type="radio" name="gender" value="maennlich"> Männlich</label>
+                    <label><input type="radio" name="gender" value="divers"> Divers</label>
+                    <label><input type="radio" name="gender" value="keine-angabe"> Keine Angabe</label>
+                </div>
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label">S3. In welchem Semester befinden Sie sich? <span class="required">*</span></div>
+                <input type="number" class="demo-input" name="semester" placeholder="Semester (z.B. 1, 2, 3...)" min="1" max="20" required>
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label">S4. An welcher Institution studieren/lernen Sie? <span class="required">*</span></div>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="institution" value="flow-valley" required> Uniartcity of Flow Valley</label>
+                    <label><input type="radio" name="institution" value="flow-forest"> Uniartcity of Flow Forest</label>
+                    <label><input type="radio" name="institution" value="flow-hills"> Uniartcity of Flow Hills</label>
+                    <label><input type="radio" name="institution" value="konventionell" id="institution-konventionell"> Konventionelle Hochschule/Universität</label>
+                </div>
+                <div id="institution-detail" style="margin-top: 10px; padding-left: 25px; display: none;">
+                    <label style="font-size: 13px; color: #6b5d52;">Name der Hochschule/Universität:</label>
+                    <input type="text" class="demo-input" name="institution-name" id="institution-name" placeholder="z.B. Universität München">
+                </div>
+            </div>
+
+            <!-- Erhebungszeitpunkt - nur für UAC relevant -->
+            <div class="demo-question" id="timepoint-question" style="display: none;">
+                <div class="demo-label">S4b. Erhebungszeitpunkt <span class="required">*</span></div>
+                <div class="info-box" style="font-size: 13px; margin-bottom: 10px; padding: 10px;">
+                    <strong>Für UAC-Studierende:</strong> Bitte wählen Sie den aktuellen Erhebungszeitpunkt. Dies ermöglicht uns, Ihre Entwicklung über das Semester zu verfolgen.
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="timepoint" value="T1"> <strong>T1</strong> – Semesterbeginn (erste Befragung)</label>
+                    <label><input type="radio" name="timepoint" value="T2"> <strong>T2</strong> – Semestermitte (zweite Befragung)</label>
+                    <label><input type="radio" name="timepoint" value="T3"> <strong>T3</strong> – Semesterende (dritte Befragung)</label>
+                </div>
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label">S5. Was ist Ihr aktueller Studien-/Bildungsschwerpunkt? (Freitext)</div>
+                <textarea class="demo-input" rows="2" placeholder="Bitte kurz beschreiben..."></textarea>
+            </div>
+
+            <h3 data-i18n="h3_social">Sozialer Hintergrund</h3>
+
+            <div class="demo-question">
+                <div class="demo-label">S6. Welchen höchsten Bildungsabschluss hat Ihr Vater/Elternteil 1?</div>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="edu-father"> Kein Abschluss</label>
+                    <label><input type="radio" name="edu-father"> Hauptschulabschluss</label>
+                    <label><input type="radio" name="edu-father"> Realschulabschluss / Mittlere Reife</label>
+                    <label><input type="radio" name="edu-father"> Abitur / Fachabitur</label>
+                    <label><input type="radio" name="edu-father"> Abgeschlossenes Studium</label>
+                    <label><input type="radio" name="edu-father"> Promotion</label>
+                    <label><input type="radio" name="edu-father"> Weiß nicht</label>
+                </div>
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label">S7. Welchen höchsten Bildungsabschluss hat Ihre Mutter/Elternteil 2?</div>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="edu-mother"> Kein Abschluss</label>
+                    <label><input type="radio" name="edu-mother"> Hauptschulabschluss</label>
+                    <label><input type="radio" name="edu-mother"> Realschulabschluss / Mittlere Reife</label>
+                    <label><input type="radio" name="edu-mother"> Abitur / Fachabitur</label>
+                    <label><input type="radio" name="edu-mother"> Abgeschlossenes Studium</label>
+                    <label><input type="radio" name="edu-mother"> Promotion</label>
+                    <label><input type="radio" name="edu-mother"> Weiß nicht</label>
+                </div>
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label">S8. Haben Sie einen Migrationshintergrund?</div>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="migration"> Ja, ich bin selbst nach Deutschland migriert</label>
+                    <label><input type="radio" name="migration"> Ja, mindestens ein Elternteil ist nach Deutschland migriert</label>
+                    <label><input type="radio" name="migration"> Nein</label>
+                    <label><input type="radio" name="migration"> Keine Angabe</label>
+                </div>
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label">S9. Wie würden Sie die finanzielle Situation Ihrer Herkunftsfamilie beschreiben?</div>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="financial"> Sehr schwierig</label>
+                    <label><input type="radio" name="financial"> Eher schwierig</label>
+                    <label><input type="radio" name="financial"> Mittel</label>
+                    <label><input type="radio" name="financial"> Eher gut</label>
+                    <label><input type="radio" name="financial"> Sehr gut</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEIL 2: HAUPTFRAGEBOGEN -->
+        <section class="section page-break">
+            <h2 data-i18n="h2_part2">TEIL 2: IHRE BILDUNGSERFAHRUNG</h2>
+
+            <div class="instruction">
+                <strong>ANLEITUNG:</strong><br>
+                Bitte geben Sie für jede Aussage an, inwieweit Sie ihr zustimmen. Wählen Sie dazu eine Zahl von 1 bis 5. Es gibt keine richtigen oder falschen Antworten – es geht um Ihre persönliche Einschätzung. Bitte lesen Sie jede Aussage sorgfältig durch und beantworten Sie alle Fragen.
+            </div>
+
+            <div class="likert-legend">
+                <span><strong>1</strong><br>Stimme überhaupt nicht zu</span>
+                <span><strong>2</strong><br>Stimme eher nicht zu</span>
+                <span><strong>3</strong><br>Teils-teils</span>
+                <span><strong>4</strong><br>Stimme eher zu</span>
+                <span><strong>5</strong><br>Stimme voll und ganz zu</span>
+            </div>
+
+            <!-- SKALA A: SELBSTWIRKSAMKEIT -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_A">SKALA A: SELBSTWIRKSAMKEIT (6 Items)</div>
+                <div class="scale-info">Theoretische Basis: Bandura (1997)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr Vertrauen in die eigenen Fähigkeiten</p>
+
+                <div class="item">
+                    <span class="item-number">A1.</span>
+                    <span class="item-text" data-i18n="item_A1">Wenn sich Schwierigkeiten auftun, finde ich Mittel und Wege, diese zu überwinden.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option">
+                            <input type="radio" name="A1" value="1">
+                            <span class="likert-number">1</span>überhaupt nicht
+                        </label>
+                        <label class="likert-option">
+                            <input type="radio" name="A1" value="2">
+                            <span class="likert-number">2</span>eher nicht
+                        </label>
+                        <label class="likert-option">
+                            <input type="radio" name="A1" value="3">
+                            <span class="likert-number">3</span>teils-teils
+                        </label>
+                        <label class="likert-option">
+                            <input type="radio" name="A1" value="4">
+                            <span class="likert-number">4</span>eher zu
+                        </label>
+                        <label class="likert-option">
+                            <input type="radio" name="A1" value="5">
+                            <span class="likert-number">5</span>voll und ganz
+                        </label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">A2.</span>
+                    <span class="item-text" data-i18n="item_A2">Ich bin mir sicher, dass ich auch schwierige Aufgaben bewältigen kann, wenn ich mich anstrenge.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="A2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="A2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="A2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="A2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="A2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">A3.</span>
+                    <span class="item-text" data-i18n="item_A3">Bei schwierigen Herausforderungen zweifle ich oft an meinen Fähigkeiten.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="A3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="A3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="A3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="A3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="A3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">A4.</span>
+                    <span class="item-text" data-i18n="item_A4">Ich kann Herausforderungen gelassen entgegensehen, weil ich auf meine Fähigkeiten vertraue.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="A4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="A4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="A4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="A4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="A4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">A5.</span>
+                    <span class="item-text" data-i18n="item_A5">Ich traue mir zu, meine Lernziele selbstständig zu erreichen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="A5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="A5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="A5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="A5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="A5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">A6.</span>
+                    <span class="item-text" data-i18n="item_A6">Ich erlebe, dass ich Einfluss auf mein eigenes Leben habe und es aktiv gestalten kann.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="A6" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="A6" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="A6" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="A6" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="A6" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA B: AUTONOMIE -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_B">SKALA B: AUTONOMIE & SELBSTBESTIMMUNG (5 Items)</div>
+                <div class="scale-info">Theoretische Basis: Deci & Ryan (2000), Ryan & Deci (2017)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr Erleben von Eigenständigkeit und freier Entscheidung</p>
+
+                <div class="item">
+                    <span class="item-number">B1.</span>
+                    <span class="item-text" data-i18n="item_B1">Ich kann in meinem Lernprozess frei entscheiden, was und wie ich lerne.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="B1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="B1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="B1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="B1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="B1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">B2.</span>
+                    <span class="item-text" data-i18n="item_B2">Ich habe das Gefühl, dass andere mir vorschreiben, was ich lernen soll.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="B2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="B2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="B2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="B2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="B2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">B3.</span>
+                    <span class="item-text" data-i18n="item_B3">Meine Lernaktivitäten entspringen meinen eigenen Interessen und Werten.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="B3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="B3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="B3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="B3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="B3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">B4.</span>
+                    <span class="item-text" data-i18n="item_B4">Ich fühle mich in der Gestaltung meines Bildungsweges frei und nicht eingeschränkt.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="B4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="B4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="B4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="B4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="B4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">B5.</span>
+                    <span class="item-text" data-i18n="item_B5">Die Ziele, die ich verfolge, habe ich mir selbst gesetzt.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="B5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="B5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="B5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="B5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="B5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA C: SOZIALE EINGEBUNDENHEIT -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_C">SKALA C: SOZIALE EINGEBUNDENHEIT (5 Items)</div>
+                <div class="scale-info">Theoretische Basis: Deci & Ryan (2000), Ryan & Deci (2017)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr Gefühl von Verbundenheit und Gemeinschaft</p>
+
+                <div class="item">
+                    <span class="item-number">C1.</span>
+                    <span class="item-text" data-i18n="item_C1">Ich fühle mich in meinem Lernumfeld verstanden und akzeptiert.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="C1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="C1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="C1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="C1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="C1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">C2.</span>
+                    <span class="item-text" data-i18n="item_C2">Ich kann mich auf die Unterstützung anderer verlassen, wenn ich sie brauche.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="C2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="C2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="C2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="C2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="C2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">C3.</span>
+                    <span class="item-text" data-i18n="item_C3">Ich fühle mich in meinem Lernumfeld oft allein oder isoliert.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="C3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="C3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="C3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="C3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="C3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">C4.</span>
+                    <span class="item-text" data-i18n="item_C4">Ich erlebe echte Nähe und Verbundenheit mit den Menschen um mich herum.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="C4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="C4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="C4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="C4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="C4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">C5.</span>
+                    <span class="item-text" data-i18n="item_C5">Es fällt mir leicht, um Hilfe zu bitten, wenn ich sie brauche.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="C5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="C5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="C5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="C5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="C5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA D: INTRINSISCHE MOTIVATION -->
+            <div class="question-group page-break">
+                <div class="scale-header" data-i18n="scale_D">SKALA D: INTRINSISCHE MOTIVATION (5 Items)</div>
+                <div class="scale-info">Theoretische Basis: Ryan & Deci (2000)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Lernen aus innerer Freude und Interesse</p>
+
+                <div class="item">
+                    <span class="item-number">D1.</span>
+                    <span class="item-text" data-i18n="item_D1">Ich lerne, weil mich die Themen wirklich interessieren und begeistern.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="D1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="D1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="D1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="D1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="D1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">D2.</span>
+                    <span class="item-text" data-i18n="item_D2">Das Lernen selbst macht mir Freude, unabhängig von äußeren Belohnungen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="D2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="D2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="D2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="D2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="D2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">D3.</span>
+                    <span class="item-text" data-i18n="item_D3">Ich lerne hauptsächlich, weil ich muss, nicht weil ich will.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="D3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="D3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="D3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="D3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="D3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">D4.</span>
+                    <span class="item-text" data-i18n="item_D4">Beim Lernen vergesse ich manchmal die Zeit, weil ich so vertieft bin.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="D4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="D4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="D4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="D4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="D4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">D5.</span>
+                    <span class="item-text" data-i18n="item_D5">Ich empfinde das, was ich lerne, als persönlich bedeutsam und sinnvoll.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="D5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="D5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="D5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="D5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="D5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA E: REFLEXIONSKOMPETENZ -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_E">SKALA E: REFLEXIONSKOMPETENZ (5 Items)</div>
+                <div class="scale-info">Theoretische Basis: Flavell (1979)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihre Fähigkeit, über eigenes Lernen nachzudenken</p>
+
+                <div class="item">
+                    <span class="item-number">E1.</span>
+                    <span class="item-text" data-i18n="item_E1">Ich denke regelmäßig über meine Lernstrategien und deren Wirksamkeit nach.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="E1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="E1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="E1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="E1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="E1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">E2.</span>
+                    <span class="item-text" data-i18n="item_E2">Es fällt mir schwer, meinen eigenen Lernfortschritt einzuschätzen.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="E2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="E2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="E2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="E2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="E2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">E3.</span>
+                    <span class="item-text" data-i18n="item_E3">Ich kann meine eigenen Stärken und Entwicklungsbereiche klar benennen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="E3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="E3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="E3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="E3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="E3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">E4.</span>
+                    <span class="item-text" data-i18n="item_E4">Nach Projekten reflektiere ich bewusst, was ich gelernt habe.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="E4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="E4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="E4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="E4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="E4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">E5.</span>
+                    <span class="item-text" data-i18n="item_E5">Ich kann mir selbst Ziele setzen und diese verfolgen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="E5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="E5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="E5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="E5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="E5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA F: WOHLBEFINDEN -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_F">SKALA F: WOHLBEFINDEN (5 Items)</div>
+                <div class="scale-info">Theoretische Basis: WHO-5, Diener (1985)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr allgemeines Wohlbefinden und Ihre Zufriedenheit</p>
+
+                <div class="item">
+                    <span class="item-number">F1.</span>
+                    <span class="item-text" data-i18n="item_F1">Ich fühle mich die meiste Zeit froh und gut gelaunt.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="F1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="F1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="F1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="F1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="F1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">F2.</span>
+                    <span class="item-text" data-i18n="item_F2">Ich fühle mich energiegeladen und voller Tatendrang.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="F2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="F2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="F2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="F2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="F2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">F3.</span>
+                    <span class="item-text" data-i18n="item_F3">In letzter Zeit fühle ich mich oft erschöpft oder ausgelaugt.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="F3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="F3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="F3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="F3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="F3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">F4.</span>
+                    <span class="item-text" data-i18n="item_F4">Mein Alltag ist ausgefüllt mit Dingen, die mich interessieren.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="F4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="F4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="F4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="F4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="F4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">F5.</span>
+                    <span class="item-text" data-i18n="item_F5">Insgesamt bin ich mit meinem Leben zufrieden.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="F5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="F5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="F5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="F5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="F5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA G: KOOPERATION -->
+            <div class="question-group page-break">
+                <div class="scale-header" data-i18n="scale_G">SKALA G: KOOPERATION & ZUSAMMENARBEIT (5 Items)</div>
+                <div class="scale-info">Theoretische Basis: Johnson & Johnson (2009)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Die Qualität der Zusammenarbeit in Ihrem Lernumfeld<br>
+                <em style="font-size: 12px;">Falls Sie keine formellen Gruppenarbeiten haben, beziehen Sie sich auf informelle Zusammenarbeit mit Kommiliton:innen oder Mitstudierenden.</em></p>
+
+                <div class="item">
+                    <span class="item-number">G1.</span>
+                    <span class="item-text" data-i18n="item_G1">Bei Gruppenarbeiten kann ich mich auf andere verlassen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="G1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="G1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="G1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="G1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="G1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">G2.</span>
+                    <span class="item-text" data-i18n="item_G2">In Gruppenarbeiten kommt es häufig zu Konflikten, die uns blockieren.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="G2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="G2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="G2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="G2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="G2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">G3.</span>
+                    <span class="item-text" data-i18n="item_G3">Wir unterstützen uns gegenseitig beim Erreichen unserer Lernziele.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="G3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="G3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="G3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="G3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="G3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">G4.</span>
+                    <span class="item-text" data-i18n="item_G4">Ich erlebe, dass wir gemeinsam mehr erreichen als jeder für sich allein.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="G4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="G4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="G4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="G4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="G4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">G5.</span>
+                    <span class="item-text" data-i18n="item_G5">Wir geben einander regelmäßig ehrliches und konstruktives Feedback.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="G5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="G5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="G5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="G5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="G5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA H: PSYCHOLOGISCHE SICHERHEIT -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_H">SKALA H: PSYCHOLOGISCHE SICHERHEIT (6 Items)</div>
+                <div class="scale-info">Theoretische Basis: Edmondson (1999, 2018)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Die Sicherheit, Risiken einzugehen und Fehler zu machen</p>
+
+                <div class="item">
+                    <span class="item-number">H1.</span>
+                    <span class="item-text" data-i18n="item_H1">In meinem Lernumfeld kann ich Fehler machen, ohne Angst vor negativen Konsequenzen zu haben.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="H1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="H1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="H1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="H1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="H1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">H2.</span>
+                    <span class="item-text" data-i18n="item_H2">Ich kann Fragen stellen, ohne befürchten zu müssen, für dumm gehalten zu werden.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="H2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="H2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="H2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="H2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="H2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">H3.</span>
+                    <span class="item-text" data-i18n="item_H3">Ich habe Angst, dass mir Fehler vorgehalten werden.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="H3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="H3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="H3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="H3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="H3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">H4.</span>
+                    <span class="item-text" data-i18n="item_H4">Es ist sicher, in meinem Lernumfeld Risiken einzugehen und Neues auszuprobieren.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="H4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="H4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="H4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="H4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="H4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">H5.</span>
+                    <span class="item-text" data-i18n="item_H5">Ich kann meine Meinung offen äußern, auch wenn sie von anderen abweicht.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="H5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="H5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="H5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="H5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="H5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">H6.</span>
+                    <span class="item-text" data-i18n="item_H6">In meinem Lernumfeld werden Fehler als Lernchancen betrachtet, nicht als Versagen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="H6" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="H6" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="H6" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="H6" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="H6" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA I: RESILIENZ -->
+            <div class="question-group page-break">
+                <div class="scale-header" data-i18n="scale_I">SKALA I: RESILIENZ (6 Items)</div>
+                <div class="scale-info">Theoretische Basis: Connor & Davidson (2003), Masten (2001)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihre Fähigkeit, sich von Rückschlägen zu erholen</p>
+
+                <div class="item">
+                    <span class="item-number">I1.</span>
+                    <span class="item-text" data-i18n="item_I1">Nach Rückschlägen finde ich schnell wieder zu meiner Kraft zurück.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="I1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="I1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="I1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="I1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="I1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">I2.</span>
+                    <span class="item-text" data-i18n="item_I2">Ich kann gut mit unerwarteten Veränderungen umgehen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="I2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="I2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="I2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="I2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="I2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">I3.</span>
+                    <span class="item-text" data-i18n="item_I3">Unerwartete Veränderungen bringen mich leicht aus dem Gleichgewicht.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="I3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="I3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="I3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="I3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="I3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">I4.</span>
+                    <span class="item-text" data-i18n="item_I4">Schwierige Erfahrungen haben mich stärker gemacht.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="I4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="I4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="I4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="I4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="I4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">I5.</span>
+                    <span class="item-text" data-i18n="item_I5">Ich lasse mich von Misserfolgen nicht entmutigen, sondern lerne daraus.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="I5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="I5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="I5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="I5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="I5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">I6.</span>
+                    <span class="item-text" data-i18n="item_I6">Ich kann Kritik annehmen und konstruktiv nutzen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="I6" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="I6" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="I6" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="I6" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="I6" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA J: KOMPETENZERLEBEN -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_J">SKALA J: KOMPETENZERLEBEN (4 Items)</div>
+                <div class="scale-info">Theoretische Basis: Deci & Ryan (2000), Ryan & Deci (2017)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr Gefühl, wirksam zu sein und etwas zu können</p>
+
+                <div class="item">
+                    <span class="item-number">J1.</span>
+                    <span class="item-text" data-i18n="item_J1">Ich habe das Gefühl, dass ich in den Bereichen, die mir wichtig sind, kompetent bin.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="J1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="J1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="J1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="J1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="J1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">J2.</span>
+                    <span class="item-text" data-i18n="item_J2">Ich habe oft das Gefühl, den Anforderungen nicht gewachsen zu sein.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="J2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="J2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="J2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="J2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="J2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">J3.</span>
+                    <span class="item-text" data-i18n="item_J3">Ich erlebe, dass meine Fähigkeiten wachsen und sich weiterentwickeln.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="J3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="J3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="J3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="J3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="J3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">J4.</span>
+                    <span class="item-text" data-i18n="item_J4">Ich traue mir zu, auch anspruchsvolle Aufgaben erfolgreich abzuschließen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="J4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="J4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="J4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="J4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="J4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA K: FLOW-ERLEBEN -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_K">SKALA K: FLOW-ERLEBEN (4 Items)</div>
+                <div class="scale-info">Theoretische Basis: Csikszentmihalyi (1990)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Momente völliger Vertiefung und optimaler Erfahrung</p>
+
+                <div class="item">
+                    <span class="item-number">K1.</span>
+                    <span class="item-text" data-i18n="item_K1">Ich gehe in meinen Tätigkeiten völlig auf und vergesse alles um mich herum.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="K1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="K1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="K1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="K1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="K1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">K2.</span>
+                    <span class="item-text" data-i18n="item_K2">Ich fühle mich bei meinen Aufgaben häufig gelangweilt oder überfordert.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="K2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="K2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="K2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="K2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="K2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">K3.</span>
+                    <span class="item-text" data-i18n="item_K3">Ich bin so konzentriert, dass ich mich optimal gefordert fühle.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="K3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="K3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="K3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="K3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="K3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">K4.</span>
+                    <span class="item-text" data-i18n="item_K4">Meine Tätigkeiten erfüllen mich mit tiefer Zufriedenheit.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="K4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="K4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="K4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="K4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="K4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA L: NATURVERBUNDENHEIT -->
+            <div class="question-group page-break">
+                <div class="scale-header" data-i18n="scale_L">SKALA L: NATURVERBUNDENHEIT (5 Items)</div>
+                <div class="scale-info">Theoretische Basis: Mayer & Frantz (2004), Kaplan & Kaplan (1989)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihre Verbindung zur Natur im Alltag und beim Lernen</p>
+
+                <div class="item">
+                    <span class="item-number">L1.</span>
+                    <span class="item-text" data-i18n="item_L1">Ich fühle mich als Teil der Natur und nicht getrennt von ihr.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="L1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="L1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="L1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="L1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="L1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">L2.</span>
+                    <span class="item-text" data-i18n="item_L2">Der Kontakt mit der Natur spielt in meinem Leben kaum eine Rolle.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="L2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="L2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="L2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="L2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="L2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">L3.</span>
+                    <span class="item-text" data-i18n="item_L3">Wenn ich in der Natur bin (z.B. Wald, Park, Wiese), steigert das mein Wohlbefinden deutlich.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="L3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="L3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="L3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="L3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="L3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">L4.</span>
+                    <span class="item-text" data-i18n="item_L4">Ich suche bewusst den Kontakt zur Natur in meinem Alltag.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="L4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="L4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="L4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="L4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="L4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">L5.</span>
+                    <span class="item-text" data-i18n="item_L5">Naturerfahrungen helfen mir, klarer zu denken und mich zu konzentrieren.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="L5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="L5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="L5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="L5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="L5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA M: PARTIZIPATION & DEMOKRATIE -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_M">SKALA M: PARTIZIPATION & DEMOKRATIE (6 Items)</div>
+                <div class="scale-info">Theoretische Basis: Schulz et al. (2023), Flanagan & Levine (2010)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr Erleben von Mitbestimmung und Umgang mit Vielfalt</p>
+
+                <div class="item">
+                    <span class="item-number">M1.</span>
+                    <span class="item-text" data-i18n="item_M1">Ich habe das Gefühl, dass meine Stimme in meinem Lernumfeld gehört wird und zählt.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="M1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="M1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="M1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="M1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="M1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">M2.</span>
+                    <span class="item-text" data-i18n="item_M2">Ich kann bei wichtigen Entscheidungen, die mich betreffen, mitbestimmen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="M2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="M2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="M2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="M2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="M2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">M3.</span>
+                    <span class="item-text" data-i18n="item_M3">Bei Meinungsverschiedenheiten fällt es mir schwer, andere Perspektiven gelten zu lassen.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="M3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="M3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="M3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="M3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="M3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">M4.</span>
+                    <span class="item-text" data-i18n="item_M4">Ich habe gelernt, unterschiedliche Meinungen respektvoll auszuhandeln.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="M4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="M4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="M4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="M4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="M4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">M5.</span>
+                    <span class="item-text" data-i18n="item_M5">Ich traue mir zu, mich gesellschaftlich oder politisch zu engagieren.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="M5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="M5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="M5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="M5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="M5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">M6.</span>
+                    <span class="item-text" data-i18n="item_M6">Ich kann mit Menschen in gutem Kontakt bleiben, auch wenn wir unterschiedlicher Meinung sind.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="M6" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="M6" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="M6" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="M6" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="M6" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA N: TRANSFORMATION & IRRITATION -->
+            <div class="question-group page-break">
+                <div class="scale-header" data-i18n="scale_N">SKALA N: TRANSFORMATION & IRRITATION (4 Items)</div>
+                <div class="scale-info">Theoretische Basis: Mezirow (1991)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Herausfordernde und verändernde Aspekte Ihrer Bildungserfahrung<br>
+                <em style="font-size: 12px;">Bezogen auf Ihre aktuelle Studien-/Bildungszeit:</em></p>
+
+                <div class="item">
+                    <span class="item-number">N1.</span>
+                    <span class="item-text" data-i18n="item_N1">Meine bisherigen Überzeugungen wurden durch meine Bildungserfahrungen herausgefordert.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="N1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="N1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="N1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="N1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="N1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">N2.</span>
+                    <span class="item-text" data-i18n="item_N2">Ich habe Dinge über mich selbst erfahren, die auch unangenehm waren.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="N2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="N2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="N2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="N2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="N2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">N3.</span>
+                    <span class="item-text" data-i18n="item_N3">Die Bildungserfahrung hat mich verändert – ich bin nicht mehr derselbe Mensch wie vorher.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="N3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="N3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="N3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="N3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="N3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">N4.</span>
+                    <span class="item-text" data-i18n="item_N4">Es gab Momente, in denen ich an mir oder meinem Weg gezweifelt habe.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="N4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="N4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="N4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="N4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="N4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA O: MOTIVATION VOR BILDUNGSERFAHRUNG -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_O">SKALA O: MOTIVATION VOR DER AKTUELLEN BILDUNGSERFAHRUNG (3 Items)</div>
+                <div class="scale-info">Retrospektive Einschätzung – wie waren Sie VOR dieser Bildungserfahrung?</div>
+
+                <div class="item">
+                    <span class="item-number">O1.</span>
+                    <span class="item-text" data-i18n="item_O1">Schon vor meiner aktuellen Bildungserfahrung war mir selbstbestimmtes Lernen wichtig.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="O1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="O1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="O1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="O1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="O1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">O2.</span>
+                    <span class="item-text" data-i18n="item_O2">Ich habe mich bewusst für diesen Bildungsweg entschieden, weil er meinen Werten entspricht.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="O2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="O2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="O2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="O2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="O2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">O3.</span>
+                    <span class="item-text" data-i18n="item_O3">Auch in früheren Bildungskontexten habe ich gerne eigenständig gelernt.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="O3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="O3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="O3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="O3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="O3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKALA Q: UNGEWISSHEITSTOLERANZ -->
+            <div class="question-group">
+                <div class="scale-header" data-i18n="scale_Q">SKALA Q: UNGEWISSHEITSTOLERANZ (6 Items)</div>
+                <div class="scale-info">Theoretische Basis: Dalbert (1999) - Ungewissheitstoleranzskala (UGTS)</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr Umgang mit Ungewissheit und offenen Situationen</p>
+
+                <div class="item">
+                    <span class="item-number">Q1.</span>
+                    <span class="item-text" data-i18n="item_Q1">Ich probiere gerne Dinge aus, auch wenn nicht immer etwas dabei heraus kommt.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="Q1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="Q1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="Q1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="Q1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="Q1" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">Q2.</span>
+                    <span class="item-text" data-i18n="item_Q2">Ich mag es, wenn unverhofft Überraschungen auftreten.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="Q2" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="Q2" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="Q2" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="Q2" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="Q2" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">Q3.</span>
+                    <span class="item-text" data-i18n="item_Q3">Ich lasse die Dinge gerne auf mich zukommen.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="Q3" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="Q3" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="Q3" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="Q3" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="Q3" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">Q4.</span>
+                    <span class="item-text" data-i18n="item_Q4">Ich warte geradezu darauf, dass etwas Aufregendes passiert.</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="Q4" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="Q4" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="Q4" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="Q4" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="Q4" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">Q5.</span>
+                    <span class="item-text" data-i18n="item_Q5">Ich habe es gerne, wenn die Arbeit gleichmäßig verläuft.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="Q5" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="Q5" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="Q5" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="Q5" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="Q5" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="item-number">Q6.</span>
+                    <span class="item-text" data-i18n="item_Q6">Ich weiß gerne, was auf mich zukommt.</span>
+                    <span class="reverse-badge">R</span>
+                    <div class="likert-scale">
+                        <label class="likert-option"><input type="radio" name="Q6" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="Q6" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="Q6" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="Q6" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="Q6" value="5"><span class="likert-number">5</span></label>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SUBMIT SECTION -->
+        <section class="section" id="submit-section">
+            <div class="question-group" style="background: #f9f3e8; border: 2px solid #8b7355;">
+                <h2 style="margin-top: 0; border-bottom: none;" data-i18n="h2_submit">Fragebogen absenden</h2>
+
+                <div class="instruction" style="margin-bottom: 20px;">
+                    <strong data-i18n="submit_check_header">Bitte überprüfen Sie vor dem Absenden:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Haben Sie alle Fragen beantwortet?</li>
+                        <li>Haben Sie der Datenschutzerklärung zugestimmt?</li>
+                        <li>Haben Sie Ihren anonymen Code eingegeben?</li>
+                    </ul>
+                </div>
+
+                <div id="validation-errors" style="display: none; background: #fde8e8; border-left: 3px solid #c0392b; padding: 15px; margin-bottom: 20px; color: #922b21;">
+                    <strong data-i18n="validation_header">Bitte korrigieren Sie folgende Punkte:</strong>
+                    <ul id="error-list" style="margin-top: 10px; margin-left: 20px;"></ul>
+                </div>
+
+                <button type="button" id="submit-btn" onclick="submitForm()" style="
+                    background: linear-gradient(135deg, #8b7355, #6b5d52);
+                    color: white;
+                    border: none;
+                    padding: 18px 40px;
+                    font-size: 18px;
+                    font-family: Georgia, serif;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    width: 100%;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 15px rgba(107, 93, 82, 0.3);
+                ">
+                    <span data-i18n="btn_submit">Fragebogen absenden</span>
+                </button>
+                <p style="text-align: center; margin-top: 15px; font-size: 13px; color: #8b7355;" data-i18n="btn_note">
+                    Nach dem Absenden können Sie Ihre Antworten nicht mehr ändern.
+                </p>
+            </div>
+        </section>
+
+        <!-- DANKE-SEITE (initially hidden) -->
+        <section id="thank-you-page" style="display: none;">
+            <div style="text-align: center; padding: 60px 30px; background: linear-gradient(135deg, #f9f7f4, #f5f1eb);">
+                <div style="font-size: 60px; margin-bottom: 20px;">✓</div>
+                <h2 style="color: #5d4e37; font-size: 28px; margin-bottom: 20px; border: none;" data-i18n="h2_thankyou">Vielen Dank für Ihre Teilnahme!</h2>
+                <p style="color: #6b5d52; font-size: 16px; line-height: 1.8; max-width: 500px; margin: 0 auto 30px;">
+                    <span data-i18n="thanks_body">Ihre Antworten wurden erfolgreich übermittelt und tragen zur wissenschaftlichen Erforschung selbstbestimmter Bildung bei.</span>
+                </p>
+                <div style="background: white; padding: 20px; border-radius: 8px; max-width: 400px; margin: 0 auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <p style="margin: 0; color: #8b7355; font-size: 14px;">
+                        <strong data-i18n="thanks_code_label">Ihr anonymer Code:</strong><br>
+                        <span id="final-code" style="font-size: 20px; font-family: monospace; color: #5d4e37;"></span>
+                    </p>
+                    <p style="margin-top: 15px; font-size: 12px; color: #95a5a6;">
+                        <span data-i18n="thanks_code_note">Bitte notieren Sie sich diesen Code, falls Sie an der Folgebefragung teilnehmen.</span>
+                    </p>
+                </div>
+                <p style="margin-top: 40px; color: #8b7355; font-size: 14px;">
+                    <span data-i18n="thanks_contact">Bei Fragen wenden Sie sich an:</span><br>
+                    <a href="mailto:uniartcity@gmail.com" style="color: #5d4e37;">uniartcity@gmail.com</a>
+                </p>
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Institut für Kulturgestaltung e.V.</strong><br>
+            Weidelbach 14, 91550 Dinkelsbühl<br>
+            uniartcity@gmail.com | www.uniartcity.org</p>
+            <p style="margin-top: 15px;">Wissenschaftliche Leitung: Prof. Dr. Thomas Häcker<br>
+            Universität Rostock | Institut für Schulpädagogik und Bildungsforschung</p>
+            <p style="margin-top: 15px; font-size: 11px; color: #95a5a6;">
+                Evaluationsbogen Version 21 | Dezember 2025<br>
+                Alle Rechte vorbehalten © Institut für Kulturgestaltung e.V.
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // SUPABASE KONFIGURATION
+        // ============================================================
+        // Diese Werte sind öffentlich und dürfen im Frontend stehen.
+        // Die "publishable key" darf per Row Level Security (RLS) nur
+        // INSERT auf die Tabelle "responses" ausführen - nicht lesen.
+        const SUPABASE_URL = 'https://fbcbtoqmyyefdmevygvv.supabase.co';
+        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Y8P7htmG01eXuqUhXIxrhg_6Fwuyh5a';
+        const supabaseClient = (typeof supabase !== 'undefined')
+            ? supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+            : null;
+
+        // Aktuelle Sprache (wird von Sprachumschalter gesetzt, default 'de')
+        let currentLanguage = 'de';
+
+        // ============================================================
+        // TRANSLATIONS DE/EN
+        // ============================================================
+        // Keys match data-i18n attributes in the HTML.
+        // English translations for validated scales use the published
+        // English originals where available (BPNS-FS, WHO-5, GSE, KASU,
+        // Edmondson psychological safety, CD-RISC short, etc.).
+        const TRANSLATIONS = {
+          h1_title:        { de: 'EVALUATIONSBOGEN', en: 'EVALUATION QUESTIONNAIRE' },
+          subtitle1:       { de: 'Uniartcity & Bildungsbrief', en: 'Uniartcity & Bildungsbrief' },
+          subtitle2:       { de: 'Wissenschaftliche Begleitstudie zur Wirksamkeit selbstbestimmter Bildung', en: 'Scientific longitudinal study on the effectiveness of self-determined education' },
+          h2_consent:      { de: 'DATENSCHUTZ & EINWILLIGUNG', en: 'DATA PROTECTION & CONSENT' },
+          h2_code:         { de: 'ANONYMER TEILNEHMERCODE', en: 'ANONYMOUS PARTICIPANT CODE' },
+          h2_part1:        { de: 'TEIL 1: SOZIODEMOGRAFISCHE ANGABEN', en: 'PART 1: SOCIO-DEMOGRAPHIC INFORMATION' },
+          h2_part2:        { de: 'TEIL 2: IHRE BILDUNGSERFAHRUNG', en: 'PART 2: YOUR EDUCATIONAL EXPERIENCE' },
+          h2_submit:       { de: 'Fragebogen absenden', en: 'Submit questionnaire' },
+          h2_thankyou:     { de: 'Vielen Dank für Ihre Teilnahme!', en: 'Thank you for your participation!' },
+          h3_basis:        { de: 'Basis-Informationen', en: 'Basic information' },
+          h3_social:       { de: 'Sozialer Hintergrund', en: 'Social background' },
+          btn_submit:      { de: 'Fragebogen absenden', en: 'Submit questionnaire' },
+          btn_note:        { de: 'Nach dem Absenden können Sie Ihre Antworten nicht mehr ändern.', en: 'After submission you can no longer change your answers.' },
+          submit_check_header: { de: 'Bitte überprüfen Sie vor dem Absenden:', en: 'Please check before submitting:' },
+          validation_header: { de: 'Bitte korrigieren Sie folgende Punkte:', en: 'Please correct the following items:' },
+          thanks_body:     { de: 'Ihre Antworten wurden erfolgreich übermittelt und tragen zur wissenschaftlichen Erforschung selbstbestimmter Bildung bei.', en: 'Your answers have been successfully submitted and contribute to the scientific investigation of self-determined education.' },
+          thanks_code_label: { de: 'Ihr anonymer Code:', en: 'Your anonymous code:' },
+          thanks_code_note:{ de: 'Bitte notieren Sie sich diesen Code, falls Sie an der Folgebefragung teilnehmen.', en: 'Please keep this code in case you take part in the follow-up survey.' },
+          thanks_contact:  { de: 'Bei Fragen wenden Sie sich an:', en: 'If you have any questions, please contact:' },
+
+          // Scale headers
+          scale_A: { de: 'SKALA A: SELBSTWIRKSAMKEIT (6 Items)',       en: 'SCALE A: SELF-EFFICACY (6 items)' },
+          scale_B: { de: 'SKALA B: AUTONOMIE & SELBSTBESTIMMUNG (5 Items)', en: 'SCALE B: AUTONOMY & SELF-DETERMINATION (5 items)' },
+          scale_C: { de: 'SKALA C: SOZIALE EINGEBUNDENHEIT (5 Items)', en: 'SCALE C: SOCIAL RELATEDNESS (5 items)' },
+          scale_D: { de: 'SKALA D: INTRINSISCHE MOTIVATION (5 Items)', en: 'SCALE D: INTRINSIC MOTIVATION (5 items)' },
+          scale_E: { de: 'SKALA E: REFLEXIONSKOMPETENZ (5 Items)',     en: 'SCALE E: REFLECTION COMPETENCE (5 items)' },
+          scale_F: { de: 'SKALA F: WOHLBEFINDEN (5 Items)',            en: 'SCALE F: WELL-BEING (5 items)' },
+          scale_G: { de: 'SKALA G: KOOPERATION & ZUSAMMENARBEIT (5 Items)', en: 'SCALE G: COOPERATION & COLLABORATION (5 items)' },
+          scale_H: { de: 'SKALA H: PSYCHOLOGISCHE SICHERHEIT (6 Items)', en: 'SCALE H: PSYCHOLOGICAL SAFETY (6 items)' },
+          scale_I: { de: 'SKALA I: RESILIENZ (6 Items)',               en: 'SCALE I: RESILIENCE (6 items)' },
+          scale_J: { de: 'SKALA J: KOMPETENZERLEBEN (4 Items)',        en: 'SCALE J: EXPERIENCE OF COMPETENCE (4 items)' },
+          scale_K: { de: 'SKALA K: FLOW-ERLEBEN (4 Items)',            en: 'SCALE K: FLOW EXPERIENCE (4 items)' },
+          scale_L: { de: 'SKALA L: NATURVERBUNDENHEIT (5 Items)',      en: 'SCALE L: CONNECTEDNESS TO NATURE (5 items)' },
+          scale_M: { de: 'SKALA M: PARTIZIPATION & DEMOKRATIE (6 Items)', en: 'SCALE M: PARTICIPATION & DEMOCRACY (6 items)' },
+          scale_N: { de: 'SKALA N: TRANSFORMATION & IRRITATION (4 Items)', en: 'SCALE N: TRANSFORMATION & IRRITATION (4 items)' },
+          scale_O: { de: 'SKALA O: MOTIVATION VOR DER AKTUELLEN BILDUNGSERFAHRUNG (3 Items)', en: 'SCALE O: MOTIVATION PRIOR TO CURRENT EDUCATIONAL EXPERIENCE (3 items)' },
+          scale_Q: { de: 'SKALA Q: UNGEWISSHEITSTOLERANZ (6 Items)',   en: 'SCALE Q: TOLERANCE FOR UNCERTAINTY (6 items)' },
+
+          // Scale A: Self-Efficacy (GSE)
+          item_A1: { de: 'Wenn sich Schwierigkeiten auftun, finde ich Mittel und Wege, diese zu überwinden.', en: 'When difficulties arise, I can find ways to overcome them.' },
+          item_A2: { de: 'Ich bin mir sicher, dass ich auch schwierige Aufgaben bewältigen kann, wenn ich mich anstrenge.', en: 'I am confident that I can handle difficult tasks if I make an effort.' },
+          item_A3: { de: 'Bei schwierigen Herausforderungen zweifle ich oft an meinen Fähigkeiten.', en: 'When faced with difficult challenges, I often doubt my abilities.' },
+          item_A4: { de: 'Ich kann Herausforderungen gelassen entgegensehen, weil ich auf meine Fähigkeiten vertraue.', en: 'I can face challenges calmly because I trust in my abilities.' },
+          item_A5: { de: 'Ich traue mir zu, meine Lernziele selbstständig zu erreichen.', en: 'I am confident that I can reach my learning goals on my own.' },
+          item_A6: { de: 'Ich erlebe, dass ich Einfluss auf mein eigenes Leben habe und es aktiv gestalten kann.', en: 'I feel that I have influence over my own life and can actively shape it.' },
+
+          // Scale B: Autonomy
+          item_B1: { de: 'Ich kann in meinem Lernprozess frei entscheiden, was und wie ich lerne.', en: 'In my learning process I can freely decide what and how I learn.' },
+          item_B2: { de: 'Ich habe das Gefühl, dass andere mir vorschreiben, was ich lernen soll.', en: 'I feel that others tell me what I should learn.' },
+          item_B3: { de: 'Meine Lernaktivitäten entspringen meinen eigenen Interessen und Werten.', en: 'My learning activities spring from my own interests and values.' },
+          item_B4: { de: 'Ich fühle mich in der Gestaltung meines Bildungsweges frei und nicht eingeschränkt.', en: 'I feel free and unrestricted in shaping my own educational path.' },
+          item_B5: { de: 'Die Ziele, die ich verfolge, habe ich mir selbst gesetzt.', en: 'The goals I pursue are the ones I set for myself.' },
+
+          // Scale C: Social relatedness
+          item_C1: { de: 'Ich fühle mich in meinem Lernumfeld verstanden und akzeptiert.', en: 'I feel understood and accepted in my learning environment.' },
+          item_C2: { de: 'Ich kann mich auf die Unterstützung anderer verlassen, wenn ich sie brauche.', en: 'I can rely on the support of others when I need it.' },
+          item_C3: { de: 'Ich fühle mich in meinem Lernumfeld oft allein oder isoliert.', en: 'I often feel alone or isolated in my learning environment.' },
+          item_C4: { de: 'Ich erlebe echte Nähe und Verbundenheit mit den Menschen um mich herum.', en: 'I experience genuine closeness and connection with the people around me.' },
+          item_C5: { de: 'Es fällt mir leicht, um Hilfe zu bitten, wenn ich sie brauche.', en: 'It is easy for me to ask for help when I need it.' },
+
+          // Scale D: Intrinsic motivation
+          item_D1: { de: 'Ich lerne, weil mich die Themen wirklich interessieren und begeistern.', en: 'I learn because the topics really interest and excite me.' },
+          item_D2: { de: 'Das Lernen selbst macht mir Freude, unabhängig von äußeren Belohnungen.', en: 'Learning itself brings me joy, regardless of external rewards.' },
+          item_D3: { de: 'Ich lerne hauptsächlich, weil ich muss, nicht weil ich will.', en: 'I learn mainly because I have to, not because I want to.' },
+          item_D4: { de: 'Beim Lernen vergesse ich manchmal die Zeit, weil ich so vertieft bin.', en: 'When learning, I sometimes lose track of time because I am so absorbed.' },
+          item_D5: { de: 'Ich empfinde das, was ich lerne, als persönlich bedeutsam und sinnvoll.', en: 'I experience what I learn as personally meaningful and worthwhile.' },
+
+          // Scale E: Reflection competence
+          item_E1: { de: 'Ich denke regelmäßig über meine Lernstrategien und deren Wirksamkeit nach.', en: 'I regularly reflect on my learning strategies and how effective they are.' },
+          item_E2: { de: 'Es fällt mir schwer, meinen eigenen Lernfortschritt einzuschätzen.', en: 'I find it difficult to assess my own learning progress.' },
+          item_E3: { de: 'Ich kann meine eigenen Stärken und Entwicklungsbereiche klar benennen.', en: 'I can clearly name my own strengths and areas of development.' },
+          item_E4: { de: 'Nach Projekten reflektiere ich bewusst, was ich gelernt habe.', en: 'After projects I deliberately reflect on what I have learned.' },
+          item_E5: { de: 'Ich kann mir selbst Ziele setzen und diese verfolgen.', en: 'I am able to set my own goals and pursue them.' },
+
+          // Scale F: Well-being (WHO-5 adapted + life satisfaction)
+          item_F1: { de: 'Ich fühle mich die meiste Zeit froh und gut gelaunt.', en: 'Most of the time I feel cheerful and in good spirits.' },
+          item_F2: { de: 'Ich fühle mich energiegeladen und voller Tatendrang.', en: 'I feel energetic and full of drive.' },
+          item_F3: { de: 'In letzter Zeit fühle ich mich oft erschöpft oder ausgelaugt.', en: 'Lately I often feel exhausted or drained.' },
+          item_F4: { de: 'Mein Alltag ist ausgefüllt mit Dingen, die mich interessieren.', en: 'My daily life is filled with things that interest me.' },
+          item_F5: { de: 'Insgesamt bin ich mit meinem Leben zufrieden.', en: 'Overall, I am satisfied with my life.' },
+
+          // Scale G: Cooperation
+          item_G1: { de: 'Bei Gruppenarbeiten kann ich mich auf andere verlassen.', en: 'In group work I can rely on others.' },
+          item_G2: { de: 'In Gruppenarbeiten kommt es häufig zu Konflikten, die uns blockieren.', en: 'In group work we often run into conflicts that block us.' },
+          item_G3: { de: 'Wir unterstützen uns gegenseitig beim Erreichen unserer Lernziele.', en: 'We support each other in reaching our learning goals.' },
+          item_G4: { de: 'Ich erlebe, dass wir gemeinsam mehr erreichen als jeder für sich allein.', en: 'I experience that together we achieve more than any of us could alone.' },
+          item_G5: { de: 'Wir geben einander regelmäßig ehrliches und konstruktives Feedback.', en: 'We regularly give each other honest and constructive feedback.' },
+
+          // Scale H: Psychological safety (Edmondson)
+          item_H1: { de: 'In meinem Lernumfeld kann ich Fehler machen, ohne Angst vor negativen Konsequenzen zu haben.', en: 'In my learning environment I can make mistakes without fear of negative consequences.' },
+          item_H2: { de: 'Ich kann Fragen stellen, ohne befürchten zu müssen, für dumm gehalten zu werden.', en: 'I can ask questions without worrying that people will think I am stupid.' },
+          item_H3: { de: 'Ich habe Angst, dass mir Fehler vorgehalten werden.', en: 'I am afraid that mistakes will be held against me.' },
+          item_H4: { de: 'Es ist sicher, in meinem Lernumfeld Risiken einzugehen und Neues auszuprobieren.', en: 'It is safe to take risks and try new things in my learning environment.' },
+          item_H5: { de: 'Ich kann meine Meinung offen äußern, auch wenn sie von anderen abweicht.', en: 'I can express my opinion openly, even when it differs from others.' },
+          item_H6: { de: 'In meinem Lernumfeld werden Fehler als Lernchancen betrachtet, nicht als Versagen.', en: 'In my learning environment, mistakes are seen as learning opportunities, not failures.' },
+
+          // Scale I: Resilience
+          item_I1: { de: 'Nach Rückschlägen finde ich schnell wieder zu meiner Kraft zurück.', en: 'After setbacks I quickly regain my strength.' },
+          item_I2: { de: 'Ich kann gut mit unerwarteten Veränderungen umgehen.', en: 'I can cope well with unexpected changes.' },
+          item_I3: { de: 'Unerwartete Veränderungen bringen mich leicht aus dem Gleichgewicht.', en: 'Unexpected changes easily throw me off balance.' },
+          item_I4: { de: 'Schwierige Erfahrungen haben mich stärker gemacht.', en: 'Difficult experiences have made me stronger.' },
+          item_I5: { de: 'Ich lasse mich von Misserfolgen nicht entmutigen, sondern lerne daraus.', en: 'I do not let failures discourage me; I learn from them.' },
+          item_I6: { de: 'Ich kann Kritik annehmen und konstruktiv nutzen.', en: 'I can accept criticism and use it constructively.' },
+
+          // Scale J: Experience of competence
+          item_J1: { de: 'Ich habe das Gefühl, dass ich in den Bereichen, die mir wichtig sind, kompetent bin.', en: 'I feel competent in the areas that are important to me.' },
+          item_J2: { de: 'Ich habe oft das Gefühl, den Anforderungen nicht gewachsen zu sein.', en: 'I often feel that I am not up to the demands placed on me.' },
+          item_J3: { de: 'Ich erlebe, dass meine Fähigkeiten wachsen und sich weiterentwickeln.', en: 'I experience that my abilities are growing and developing.' },
+          item_J4: { de: 'Ich traue mir zu, auch anspruchsvolle Aufgaben erfolgreich abzuschließen.', en: 'I am confident that I can successfully complete even demanding tasks.' },
+
+          // Scale K: Flow
+          item_K1: { de: 'Ich gehe in meinen Tätigkeiten völlig auf und vergesse alles um mich herum.', en: 'I become fully absorbed in my activities and forget everything around me.' },
+          item_K2: { de: 'Ich fühle mich bei meinen Aufgaben häufig gelangweilt oder überfordert.', en: 'I often feel bored or overwhelmed by my tasks.' },
+          item_K3: { de: 'Ich bin so konzentriert, dass ich mich optimal gefordert fühle.', en: 'I am so focused that I feel optimally challenged.' },
+          item_K4: { de: 'Meine Tätigkeiten erfüllen mich mit tiefer Zufriedenheit.', en: 'My activities fill me with deep satisfaction.' },
+
+          // Scale L: Connectedness to nature
+          item_L1: { de: 'Ich fühle mich als Teil der Natur und nicht getrennt von ihr.', en: 'I feel that I am part of nature and not separate from it.' },
+          item_L2: { de: 'Der Kontakt mit der Natur spielt in meinem Leben kaum eine Rolle.', en: 'Contact with nature plays little role in my life.' },
+          item_L3: { de: 'Wenn ich in der Natur bin (z.B. Wald, Park, Wiese), steigert das mein Wohlbefinden deutlich.', en: 'When I am in nature (e.g. forest, park, meadow), it clearly improves my well-being.' },
+          item_L4: { de: 'Ich suche bewusst den Kontakt zur Natur in meinem Alltag.', en: 'I deliberately seek contact with nature in my everyday life.' },
+          item_L5: { de: 'Naturerfahrungen helfen mir, klarer zu denken und mich zu konzentrieren.', en: 'Experiences in nature help me think more clearly and concentrate.' },
+
+          // Scale M: Participation & democracy
+          item_M1: { de: 'Ich habe das Gefühl, dass meine Stimme in meinem Lernumfeld gehört wird und zählt.', en: 'I feel that my voice is heard and counts in my learning environment.' },
+          item_M2: { de: 'Ich kann bei wichtigen Entscheidungen, die mich betreffen, mitbestimmen.', en: 'I have a say in important decisions that affect me.' },
+          item_M3: { de: 'Bei Meinungsverschiedenheiten fällt es mir schwer, andere Perspektiven gelten zu lassen.', en: 'When opinions differ, I find it hard to accept other perspectives.' },
+          item_M4: { de: 'Ich habe gelernt, unterschiedliche Meinungen respektvoll auszuhandeln.', en: 'I have learned to negotiate differing opinions respectfully.' },
+          item_M5: { de: 'Ich traue mir zu, mich gesellschaftlich oder politisch zu engagieren.', en: 'I feel capable of engaging socially or politically.' },
+          item_M6: { de: 'Ich kann mit Menschen in gutem Kontakt bleiben, auch wenn wir unterschiedlicher Meinung sind.', en: 'I can stay in good contact with people even when we disagree.' },
+
+          // Scale N: Transformation & irritation
+          item_N1: { de: 'Meine bisherigen Überzeugungen wurden durch meine Bildungserfahrungen herausgefordert.', en: 'My previous beliefs have been challenged by my educational experiences.' },
+          item_N2: { de: 'Ich habe Dinge über mich selbst erfahren, die auch unangenehm waren.', en: 'I have learned things about myself that were also uncomfortable.' },
+          item_N3: { de: 'Die Bildungserfahrung hat mich verändert – ich bin nicht mehr derselbe Mensch wie vorher.', en: 'The educational experience has changed me — I am no longer the same person as before.' },
+          item_N4: { de: 'Es gab Momente, in denen ich an mir oder meinem Weg gezweifelt habe.', en: 'There were moments when I doubted myself or my path.' },
+
+          // Scale O: Prior motivation
+          item_O1: { de: 'Schon vor meiner aktuellen Bildungserfahrung war mir selbstbestimmtes Lernen wichtig.', en: 'Self-determined learning was already important to me before my current educational experience.' },
+          item_O2: { de: 'Ich habe mich bewusst für diesen Bildungsweg entschieden, weil er meinen Werten entspricht.', en: 'I consciously chose this educational path because it matches my values.' },
+          item_O3: { de: 'Auch in früheren Bildungskontexten habe ich gerne eigenständig gelernt.', en: 'In previous educational contexts, too, I enjoyed learning independently.' },
+
+          // Scale Q: Tolerance for uncertainty
+          item_Q1: { de: 'Ich probiere gerne Dinge aus, auch wenn nicht immer etwas dabei heraus kommt.', en: 'I enjoy trying things out, even when nothing always comes of it.' },
+          item_Q2: { de: 'Ich mag es, wenn unverhofft Überraschungen auftreten.', en: 'I like it when unexpected surprises happen.' },
+          item_Q3: { de: 'Ich lasse die Dinge gerne auf mich zukommen.', en: 'I like to let things come to me as they happen.' },
+          item_Q4: { de: 'Ich warte geradezu darauf, dass etwas Aufregendes passiert.', en: 'I almost look forward to something exciting happening.' },
+          item_Q5: { de: 'Ich habe es gerne, wenn die Arbeit gleichmäßig verläuft.', en: 'I like it when work proceeds evenly.' },
+          item_Q6: { de: 'Ich weiß gerne, was auf mich zukommt.', en: 'I like to know what is coming my way.' }
+        };
+
+        function setLanguage(lang) {
+          if (lang !== 'de' && lang !== 'en') return;
+          currentLanguage = lang;
+          document.documentElement.lang = lang;
+
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const entry = TRANSLATIONS[key];
+            if (entry && entry[lang]) {
+              el.textContent = entry[lang];
+            }
+          });
+
+          const deBtn = document.getElementById('lang-de');
+          const enBtn = document.getElementById('lang-en');
+          if (deBtn && enBtn) {
+            deBtn.classList.toggle('active', lang === 'de');
+            enBtn.classList.toggle('active', lang === 'en');
+          }
+
+          try { localStorage.setItem('uac-lang', lang); } catch (e) {}
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+          let saved = null;
+          try { saved = localStorage.getItem('uac-lang'); } catch (e) {}
+          if (saved === 'en') setLanguage('en');
+        });
+
+        // Progress bar functionality
+        function updateProgress() {
+            const allInputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"][name="consent"]');
+            const radioGroups = {};
+
+            // Group radio buttons by name
+            allInputs.forEach(input => {
+                if (input.type === 'radio') {
+                    if (!radioGroups[input.name]) {
+                        radioGroups[input.name] = { total: 1, checked: 0 };
+                    }
+                    if (input.checked) {
+                        radioGroups[input.name].checked = 1;
+                    }
+                }
+            });
+
+            // Count text inputs and textareas
+            const textInputs = document.querySelectorAll('input[type="text"][required], input[type="number"][required], textarea[required]');
+            let filledTextInputs = 0;
+            textInputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    filledTextInputs++;
+                }
+            });
+
+            // Calculate progress
+            const totalGroups = Object.keys(radioGroups).length;
+            const checkedGroups = Object.values(radioGroups).filter(g => g.checked > 0).length;
+            const totalRequired = totalGroups + textInputs.length;
+            const completedRequired = checkedGroups + filledTextInputs;
+
+            const percentage = totalRequired > 0 ? Math.round((completedRequired / totalRequired) * 100) : 0;
+
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = percentage + '% abgeschlossen';
+        }
+
+        // Show/hide institution detail field AND timepoint question
+        document.querySelectorAll('input[name="institution"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const detailDiv = document.getElementById('institution-detail');
+                const detailInput = document.getElementById('institution-name');
+                const timepointQuestion = document.getElementById('timepoint-question');
+                const timepointInputs = document.querySelectorAll('input[name="timepoint"]');
+
+                if (this.value === 'konventionell') {
+                    // Konventionelle Hochschule: Name-Feld zeigen, Zeitpunkt ausblenden
+                    detailDiv.style.display = 'block';
+                    detailInput.required = true;
+                    timepointQuestion.style.display = 'none';
+                    timepointInputs.forEach(input => input.required = false);
+                } else {
+                    // UAC-Standort: Name-Feld ausblenden, Zeitpunkt zeigen
+                    detailDiv.style.display = 'none';
+                    detailInput.required = false;
+                    detailInput.value = '';
+                    timepointQuestion.style.display = 'block';
+                    timepointInputs[0].required = true; // Mindestens einer muss gewählt werden
+                }
+                updateProgress();
+            });
+        });
+
+        // Update progress on any input change
+        document.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('change', updateProgress);
+            input.addEventListener('input', updateProgress);
+        });
+
+        // ===== ZEITSTEMPEL =====
+        const startTime = new Date();
+
+        // ===== LOCALSTORAGE BACKUP =====
+        function saveToLocalStorage() {
+            const formData = {};
+            document.querySelectorAll('input, textarea, select').forEach(input => {
+                if (input.name) {
+                    if (input.type === 'radio' || input.type === 'checkbox') {
+                        if (input.checked) {
+                            formData[input.name] = input.value;
+                        }
+                    } else {
+                        formData[input.name] = input.value;
+                    }
+                }
+            });
+            formData._lastSaved = new Date().toISOString();
+            localStorage.setItem('uac-fragebogen-backup', JSON.stringify(formData));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('uac-fragebogen-backup');
+            if (saved) {
+                const formData = JSON.parse(saved);
+                const lastSaved = new Date(formData._lastSaved);
+                const hoursSinceSave = (new Date() - lastSaved) / (1000 * 60 * 60);
+
+                // Nur laden wenn weniger als 24 Stunden alt
+                if (hoursSinceSave < 24) {
+                    if (confirm('Es wurden gespeicherte Antworten gefunden. Möchten Sie diese wiederherstellen?')) {
+                        Object.keys(formData).forEach(name => {
+                            if (name.startsWith('_')) return;
+                            const inputs = document.querySelectorAll(`[name="${name}"]`);
+                            inputs.forEach(input => {
+                                if (input.type === 'radio' || input.type === 'checkbox') {
+                                    input.checked = (input.value === formData[name]);
+                                } else {
+                                    input.value = formData[name];
+                                }
+                            });
+                        });
+                        // Trigger change events to update UI
+                        document.querySelectorAll('input[name="institution"]:checked').forEach(r => {
+                            r.dispatchEvent(new Event('change'));
+                        });
+                        updateProgress();
+                    }
+                }
+            }
+        }
+
+        // Auto-save alle 30 Sekunden
+        setInterval(saveToLocalStorage, 30000);
+
+        // Beim Laden prüfen ob Backup existiert
+        loadFromLocalStorage();
+
+        // ===== ABBRUCH-WARNUNG =====
+        let formStarted = false;
+        document.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('change', () => { formStarted = true; });
+        });
+
+        window.addEventListener('beforeunload', function(e) {
+            if (formStarted) {
+                e.preventDefault();
+                e.returnValue = 'Sie haben den Fragebogen noch nicht abgeschickt. Möchten Sie die Seite wirklich verlassen?';
+                return e.returnValue;
+            }
+        });
+
+        // Initial progress update
+        updateProgress();
+
+        // ===== VALIDIERUNG & SUBMIT =====
+        function validateForm() {
+            const errors = [];
+
+            // 1. Datenschutz-Einwilligung prüfen
+            const consent = document.querySelector('input[name="consent"]');
+            if (!consent || !consent.checked) {
+                errors.push('Bitte stimmen Sie der Datenschutzerklärung zu.');
+            }
+
+            // 2. Anonymer Code prüfen
+            const anonCode = document.getElementById('anonymous-code');
+            if (!anonCode || anonCode.value.trim().length < 6) {
+                errors.push('Bitte geben Sie Ihren anonymen Code ein (mindestens 6 Zeichen).');
+            }
+
+            // 3. Institution prüfen
+            const institution = document.querySelector('input[name="institution"]:checked');
+            if (!institution) {
+                errors.push('Bitte wählen Sie Ihre Bildungseinrichtung.');
+            } else if (institution.value === 'konventionell') {
+                const instName = document.getElementById('institution-name');
+                if (!instName || instName.value.trim() === '') {
+                    errors.push('Bitte geben Sie den Namen Ihrer Hochschule an.');
+                }
+            } else {
+                // UAC: Zeitpunkt prüfen
+                const timepoint = document.querySelector('input[name="timepoint"]:checked');
+                if (!timepoint) {
+                    errors.push('Bitte wählen Sie den Erhebungszeitpunkt (T1, T2 oder T3).');
+                }
+            }
+
+            // 4. Alter prüfen
+            const age = document.getElementById('age');
+            if (!age || age.value === '' || age.value < 16 || age.value > 99) {
+                errors.push('Bitte geben Sie ein gültiges Alter an (16-99).');
+            }
+
+            // 5. Geschlecht prüfen
+            const gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                errors.push('Bitte wählen Sie Ihr Geschlecht.');
+            }
+
+            // 6. Alle Likert-Skalen prüfen (A1-Q6)
+            const scaleNames = [
+                'A1','A2','A3','A4','A5','A6',
+                'B1','B2','B3','B4','B5',
+                'C1','C2','C3','C4','C5',
+                'D1','D2','D3','D4','D5',
+                'E1','E2','E3','E4','E5',
+                'F1','F2','F3','F4','F5',
+                'G1','G2','G3','G4','G5',
+                'H1','H2','H3','H4','H5','H6',
+                'I1','I2','I3','I4','I5','I6',
+                'J1','J2','J3','J4',
+                'K1','K2','K3','K4',
+                'L1','L2','L3','L4','L5',
+                'M1','M2','M3','M4','M5','M6',
+                'N1','N2','N3','N4',
+                'O1','O2','O3',
+                'Q1','Q2','Q3','Q4','Q5','Q6'
+            ];
+
+            let unansweredCount = 0;
+            scaleNames.forEach(name => {
+                const answered = document.querySelector(`input[name="${name}"]:checked`);
+                if (!answered) {
+                    unansweredCount++;
+                }
+            });
+
+            if (unansweredCount > 0) {
+                errors.push(`Es sind noch ${unansweredCount} Fragen unbeantwortet.`);
+            }
+
+            return errors;
+        }
+
+        // ============================================================
+        // MAPPING: Formular-Feldnamen → Datenbank-Spalten
+        // ============================================================
+        // Die Tabelle "responses" in Supabase erwartet snake_case-Namen
+        // für die soziodemografischen Felder und Kleinbuchstaben für die
+        // 80 Skalen-Items (a1..q6). Der Fragebogen nutzt intern die
+        // Namen aus dem alten HTML (z.B. "age", "gender", "A1"..."Q6").
+        function mapFormDataToDb(formData) {
+            const row = {
+                language: currentLanguage,
+                duration_seconds: Math.round((new Date() - startTime) / 1000),
+                anonymous_code: (formData['participant-code'] || '').toUpperCase(),
+                zeitpunkt: formData['timepoint'] || null,
+                institution: formData['institution'] || null,
+                institution_name: formData['institution-name'] || null,
+                sozio_alter: formData['age'] ? parseInt(formData['age'], 10) : null,
+                sozio_geschlecht: formData['gender'] || null,
+                sozio_semester: formData['semester'] ? parseInt(formData['semester'], 10) : null,
+                sozio_bildung: formData['edu-mother'] || formData['edu-father'] || null,
+                sozio_vorerfahrung: formData['migration'] || null,
+                sozio_land: formData['financial'] || null,
+                sozio_muttersprache: null,
+                sozio_sonstiges: null
+            };
+
+            // Skalen-Items: A1..Q6 → a1..q6 (SMALLINT)
+            const scaleLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','Q'];
+            scaleLetters.forEach(letter => {
+                for (let i = 1; i <= 10; i++) {
+                    const formKey = letter + i;
+                    const dbKey = letter.toLowerCase() + i;
+                    if (formData[formKey] !== undefined && formData[formKey] !== '') {
+                        row[dbKey] = parseInt(formData[formKey], 10);
+                    }
+                }
+            });
+
+            return row;
+        }
+
+        async function submitForm() {
+            const errors = validateForm();
+            const errorDiv = document.getElementById('validation-errors');
+            const errorList = document.getElementById('error-list');
+
+            if (errors.length > 0) {
+                // Fehler anzeigen
+                errorList.innerHTML = errors.map(e => `<li>${e}</li>`).join('');
+                errorDiv.style.display = 'block';
+                errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            // Keine Fehler - Form abschicken
+            errorDiv.style.display = 'none';
+
+            // Daten sammeln
+            const formData = collectFormData();
+            const dbRow = mapFormDataToDb(formData);
+
+            // Button deaktivieren während des Sendens
+            const submitBtn = document.getElementById('submit-btn');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.6';
+                submitBtn.textContent = 'Wird gesendet…';
+            }
+
+            // An Supabase senden
+            if (!supabaseClient) {
+                alert('Fehler: Die Datenbank-Verbindung konnte nicht initialisiert werden. Bitte laden Sie die Seite neu.');
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; submitBtn.textContent = 'Fragebogen absenden'; }
+                return;
+            }
+
+            const { error } = await supabaseClient
+                .from('responses')
+                .insert([dbRow]);
+
+            if (error) {
+                console.error('Supabase-Fehler:', error);
+                alert('Leider konnte der Fragebogen nicht gespeichert werden.\n\nBitte versuchen Sie es in einigen Sekunden erneut oder melden Sie sich bei uniartcity@gmail.com.\n\nTechnischer Hinweis: ' + error.message);
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; submitBtn.textContent = 'Fragebogen absenden'; }
+                return;
+            }
+
+            // Erfolg: localStorage leeren, Warnung aus, Danke-Seite anzeigen
+            localStorage.removeItem('uac-fragebogen-backup');
+            formStarted = false;
+
+            document.querySelectorAll('section').forEach(s => {
+                if (s.id !== 'thank-you-page') {
+                    s.style.display = 'none';
+                }
+            });
+            const headerEl = document.querySelector('header');
+            const progressEl = document.querySelector('.progress-bar');
+            const footerEl = document.querySelector('footer');
+            if (headerEl) headerEl.style.display = 'none';
+            if (progressEl) progressEl.style.display = 'none';
+            if (footerEl) footerEl.style.display = 'none';
+
+            // Anonymen Code anzeigen
+            const codeInput = document.getElementById('anonymous-code') || document.getElementById('participant-code');
+            if (codeInput) {
+                const finalCodeEl = document.getElementById('final-code');
+                if (finalCodeEl) finalCodeEl.textContent = codeInput.value.toUpperCase();
+            }
+
+            const thankYou = document.getElementById('thank-you-page');
+            if (thankYou) thankYou.style.display = 'block';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function collectFormData() {
+            const data = {};
+
+            // Alle Inputs durchgehen
+            document.querySelectorAll('input, textarea, select').forEach(input => {
+                if (!input.name) return;
+
+                if (input.type === 'radio') {
+                    if (input.checked) {
+                        data[input.name] = input.value;
+                    }
+                } else if (input.type === 'checkbox') {
+                    if (input.checked) {
+                        data[input.name] = true;
+                    }
+                } else {
+                    if (input.value.trim() !== '') {
+                        data[input.name] = input.value.trim();
+                    }
+                }
+            });
+
+            return data;
+        }
+
+        // Button-Hover-Effekt
+        const submitBtn = document.getElementById('submit-btn');
+        if (submitBtn) {
+            submitBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 6px 20px rgba(107, 93, 82, 0.4)';
+            });
+            submitBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 15px rgba(107, 93, 82, 0.3)';
+            });
+        }
+    </script>
+</body>
+</html>
