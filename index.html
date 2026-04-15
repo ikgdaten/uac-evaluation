@@ -488,24 +488,42 @@
         <section class="section" id="consent-section">
             <h2 data-i18n="h2_consent">DATENSCHUTZ & EINWILLIGUNG</h2>
 
-            <div class="info-box" style="background: #fff9e6; border-left-color: #d4a017;" data-i18n-html="consent_read_carefully"></div>
+            <div class="info-box" style="background: #fff9e6; border-left-color: #d4a017;" data-i18n-html="consent_read_carefully">
+                <strong>Bitte lesen Sie die folgenden Informationen sorgfältig durch:</strong>
+            </div>
 
             <div style="background: white; padding: 20px; border: 1px solid #d4c4b0; border-radius: 3px; margin: 15px 0;">
-                <p style="margin-bottom: 15px;" data-i18n-html="consent_purpose"></p>
+                <p style="margin-bottom: 15px;" data-i18n-html="consent_purpose"><strong>Zweck der Studie:</strong><br>
+                Diese Befragung ist Teil einer wissenschaftlichen Längsschnittstudie zur Wirksamkeit selbstbestimmter Bildung. Wir untersuchen, wie sich psychologische Grundbedürfnisse (Autonomie, Kompetenz, soziale Eingebundenheit), Vertrauen und psychosoziale Outcomes über ein Semester entwickeln. Die Ergebnisse dienen ausschließlich Forschungszwecken.</p>
 
-                <p style="margin-bottom: 15px;" data-i18n-html="consent_voluntary"></p>
+                <p style="margin-bottom: 15px;" data-i18n-html="consent_voluntary"><strong>Freiwilligkeit:</strong><br>
+                Ihre Teilnahme ist vollständig freiwillig. Sie können die Befragung jederzeit ohne Angabe von Gründen abbrechen, ohne dass Ihnen daraus Nachteile entstehen.</p>
 
-                <p style="margin-bottom: 15px;" data-i18n-html="consent_privacy"></p>
+                <p style="margin-bottom: 15px;" data-i18n-html="consent_privacy"><strong>Anonymität &amp; Datenschutz (Art. 13 DSGVO):</strong><br>
+                Alle Ihre Angaben werden streng vertraulich behandelt und anonymisiert ausgewertet. Es werden keine personenbezogenen Daten erhoben, die Rückschlüsse auf Ihre Identität zulassen:<br>
+                • <strong>Keine IP-Adressen</strong> werden gespeichert<br>
+                • <strong>Keine Namen oder E-Mail-Adressen</strong> werden erhoben<br>
+                • Nur ein <strong>selbstgenerierter Code</strong> ermöglicht die Zuordnung Ihrer Antworten über die Messzeitpunkte<br>
+                Die Daten werden gemäß DSGVO (Datenschutz-Grundverordnung) verarbeitet und ausschließlich für wissenschaftliche Zwecke verwendet.</p>
 
-                <p style="margin-bottom: 15px;" data-i18n-html="consent_storage"></p>
+                <p style="margin-bottom: 15px;" data-i18n-html="consent_storage"><strong>Datenspeicherung:</strong><br>
+                Die anonymisierten Daten werden auf sicheren Servern in Deutschland (EU) gespeichert und nach Abschluss der Studie für maximal 10 Jahre zu Dokumentationszwecken aufbewahrt.</p>
 
-                <p style="margin-bottom: 15px;" data-i18n-html="consent_revocation"></p>
+                <p style="margin-bottom: 15px;" data-i18n-html="consent_revocation"><strong>Widerrufsrecht:</strong><br>
+                Da die Daten vollständig anonymisiert erhoben werden, ist eine nachträgliche Löschung einzelner Datensätze technisch nicht möglich. Bis zum Absenden des Fragebogens können Sie Ihre Teilnahme jedoch jederzeit abbrechen.</p>
 
-                <p style="margin-bottom: 15px;" data-i18n-html="consent_responsible"></p>
+                <p style="margin-bottom: 15px;" data-i18n-html="consent_responsible"><strong>Verantwortliche Stelle:</strong><br>
+                Institut für Kulturgestaltung e.V.<br>
+                Weidelbach 14, 91550 Dinkelsbühl<br>
+                E-Mail: uniartcity@gmail.com</p>
 
-                <p style="margin-bottom: 15px;" data-i18n-html="consent_scientific"></p>
+                <p style="margin-bottom: 15px;" data-i18n-html="consent_scientific"><strong>Wissenschaftliche Leitung:</strong><br>
+                Prof. Dr. Thomas Häcker<br>
+                Universität Rostock, Institut für Schulpädagogik und Bildungsforschung</p>
 
-                <p data-i18n-html="consent_dpo"></p>
+                <p data-i18n-html="consent_dpo"><strong>Datenschutzbeauftragter:</strong><br>
+                Bei Fragen zum Datenschutz wenden Sie sich bitte an:<br>
+                datenschutz@uni-rostock.de</p>
             </div>
 
             <div class="demo-question" style="background: #f5f1eb; border-left-color: #8b7355;">
@@ -528,7 +546,10 @@
         <section class="section" id="code-section">
             <h2 data-i18n="h2_code">ANONYMER TEILNEHMERCODE</h2>
 
-            <div class="info-box" data-i18n-html="code_why"></div>
+            <div class="info-box" data-i18n-html="code_why">
+                <strong>Warum ein persönlicher Code?</strong><br>
+                Dieser Code ermöglicht es uns, Ihre Antworten bei späteren Befragungen (z.B. nach einem Jahr) zuzuordnen, ohne Ihre Identität zu kennen. Bitte merken Sie sich diesen Code oder notieren Sie ihn sich.
+            </div>
 
             <div class="demo-question">
                 <div class="demo-label"><span data-i18n="code_schema_label">Bitte erstellen Sie Ihren persönlichen Code nach folgendem Schema:</span> <span class="required">*</span></div>
@@ -548,12 +569,15 @@
                         </tr>
                     </table>
                 </div>
-                <p style="font-size: 13px; color: #6b5d52; margin-bottom: 10px;" data-i18n-html="code_example"></p>
+                <p style="font-size: 13px; color: #6b5d52; margin-bottom: 10px;" data-i18n-html="code_example"><em>Beispiel: Mutter heißt Anna, Geburtstag am 5., geboren in Berlin → AN05BE</em></p>
                 <input type="text" class="demo-input" name="participant-code" id="participant-code" data-i18n-placeholder="code_placeholder" maxlength="6" style="text-transform: uppercase; font-size: 18px; letter-spacing: 3px; text-align: center;" required>
             </div>
         </section>
 
-        <div class="instruction" data-i18n-html="honesty_note"></div>
+        <div class="instruction" data-i18n-html="honesty_note">
+            <strong>WICHTIGER HINWEIS ZUR EHRLICHKEIT:</strong><br>
+            Bitte antworten Sie so ehrlich wie möglich. Es gibt keine richtigen oder falschen Antworten. Ihre Antworten sind anonym und werden nur für Forschungszwecke verwendet. Auch kritische oder negative Erfahrungen sind für uns wertvoll und wichtig.
+        </div>
 
         <!-- TEIL 1: SOZIODEMOGRAFISCHE ANGABEN -->
         <section class="section page-break">
@@ -599,11 +623,13 @@
             <!-- Erhebungszeitpunkt - nur für UAC relevant -->
             <div class="demo-question" id="timepoint-question" style="display: none;">
                 <div class="demo-label"><span data-i18n="s4b_label">S4b. Erhebungszeitpunkt</span> <span class="required">*</span></div>
-                <div class="info-box" style="font-size: 13px; margin-bottom: 10px; padding: 10px;" data-i18n-html="s4b_info"></div>
+                <div class="info-box" style="font-size: 13px; margin-bottom: 10px; padding: 10px;" data-i18n-html="s4b_info">
+                    <strong>Für UAC-Studierende:</strong> Bitte wählen Sie den aktuellen Erhebungszeitpunkt. Dies ermöglicht uns, Ihre Entwicklung über das Semester zu verfolgen.
+                </div>
                 <div class="checkbox-group">
-                    <label><input type="radio" name="timepoint" value="T1"> <span data-i18n-html="s4b_t1"></span></label>
-                    <label><input type="radio" name="timepoint" value="T2"> <span data-i18n-html="s4b_t2"></span></label>
-                    <label><input type="radio" name="timepoint" value="T3"> <span data-i18n-html="s4b_t3"></span></label>
+                    <label><input type="radio" name="timepoint" value="T1"> <span data-i18n-html="s4b_t1"><strong>T1</strong> – Semesterbeginn (erste Befragung)</span></label>
+                    <label><input type="radio" name="timepoint" value="T2"> <span data-i18n-html="s4b_t2"><strong>T2</strong> – Semestermitte (zweite Befragung)</span></label>
+                    <label><input type="radio" name="timepoint" value="T3"> <span data-i18n-html="s4b_t3"><strong>T3</strong> – Semesterende (dritte Befragung)</span></label>
                 </div>
             </div>
 
@@ -666,14 +692,17 @@
         <section class="section page-break">
             <h2 data-i18n="h2_part2">TEIL 2: IHRE BILDUNGSERFAHRUNG</h2>
 
-            <div class="instruction" data-i18n-html="likert_instruction"></div>
+            <div class="instruction" data-i18n-html="likert_instruction">
+                <strong>ANLEITUNG:</strong><br>
+                Bitte geben Sie für jede Aussage an, inwieweit Sie ihr zustimmen. Wählen Sie dazu eine Zahl von 1 bis 5. Es gibt keine richtigen oder falschen Antworten – es geht um Ihre persönliche Einschätzung. Bitte lesen Sie jede Aussage sorgfältig durch und beantworten Sie alle Fragen.
+            </div>
 
             <div class="likert-legend">
-                <span data-i18n-html="likert_1"></span>
-                <span data-i18n-html="likert_2"></span>
-                <span data-i18n-html="likert_3"></span>
-                <span data-i18n-html="likert_4"></span>
-                <span data-i18n-html="likert_5"></span>
+                <span data-i18n-html="likert_1"><strong>1</strong><br>Stimme überhaupt nicht zu</span>
+                <span data-i18n-html="likert_2"><strong>2</strong><br>Stimme eher nicht zu</span>
+                <span data-i18n-html="likert_3"><strong>3</strong><br>Teils-teils</span>
+                <span data-i18n-html="likert_4"><strong>4</strong><br>Stimme eher zu</span>
+                <span data-i18n-html="likert_5"><strong>5</strong><br>Stimme voll und ganz zu</span>
             </div>
 
             <!-- SKALA A: SELBSTWIRKSAMKEIT -->

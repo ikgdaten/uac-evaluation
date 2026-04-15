@@ -283,6 +283,116 @@
             font-size: 11px;
             padding: 30px 20px;
         }
+
+        /* SAMPLE MATRIX */
+        .matrix-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .matrix-table th, .matrix-table td {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        .matrix-table th {
+            background: var(--accent-light);
+            color: var(--muted);
+            font-weight: normal;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        .matrix-table td.row-label {
+            text-align: left;
+            font-weight: bold;
+            background: #fcfbf8;
+            color: var(--accent);
+        }
+        .matrix-table td.total-cell { font-weight: bold; background: var(--accent-light); }
+        .matrix-table .cell-zero { color: var(--border); }
+        .matrix-table .cell-low { color: var(--danger); font-weight: bold; }
+
+        /* QUALITY INDICATORS */
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+        }
+        .quality-item {
+            background: #fcfbf8;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 14px;
+        }
+        .quality-item .qi-label {
+            font-size: 11px; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .quality-item .qi-value { font-size: 22px; font-weight: bold; color: var(--accent); }
+        .quality-item .qi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        .quality-warn { border-left: 3px solid #e67e22; }
+        .quality-ok { border-left: 3px solid var(--success); }
+        .quality-bad { border-left: 3px solid var(--danger); }
+        .flagged-list { margin-top: 10px; font-size: 12px; color: var(--muted); }
+        .flagged-list .flag-item {
+            padding: 6px 10px;
+            background: #fde8e8;
+            border-left: 3px solid var(--danger);
+            margin-bottom: 4px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* RESPONSE DETAIL MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: var(--paper);
+            border-radius: 8px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .modal-close {
+            position: absolute; top: 12px; right: 16px;
+            background: none; border: none; font-size: 22px;
+            cursor: pointer; color: var(--muted); padding: 4px 8px;
+        }
+        .modal-close:hover { color: var(--text); }
+        .modal-content h3 { margin: 0 0 6px 0; font-size: 17px; color: var(--accent); }
+        .modal-meta { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+        .modal-scale-section { margin-bottom: 16px; }
+        .modal-scale-section h4 {
+            font-size: 13px; color: var(--accent);
+            margin: 0 0 6px 0; padding-bottom: 4px;
+            border-bottom: 1px solid var(--border);
+        }
+        .modal-items { display: grid; grid-template-columns: 1fr; gap: 4px; }
+        .modal-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 4px 8px; font-size: 13px; border-radius: 3px;
+        }
+        .modal-item:nth-child(even) { background: #fcfbf8; }
+        .modal-item .item-key { font-family: monospace; color: var(--muted); min-width: 36px; }
+        .modal-item .item-val {
+            font-weight: bold; min-width: 24px; text-align: center;
+            padding: 2px 8px; border-radius: 3px;
+        }
+        .likert-1 { background: #fde8e8; color: #c0392b; }
+        .likert-2 { background: #fcebd4; color: #d4764e; }
+        .likert-3 { background: #f5f1eb; color: #8b7355; }
+        .likert-4 { background: #e3f0dc; color: #5d8a3f; }
+        .likert-5 { background: #d4e8cc; color: #3d6b2f; }
+        .likert-null { background: #f0f0f0; color: #aaa; }
+
+        table tr.clickable-row { cursor: pointer; }
+        table tr.clickable-row:hover td { background: #f0ead8; }
     </style>
 </head>
 <body>
@@ -378,6 +488,75 @@
                 </div>
             </div>
 
+            <!-- SCALE DETAIL VIEW -->
+            <div class="chart-card" style="margin-bottom: 24px;">
+                <h2 style="display: flex; justify-content: space-between; align-items: center;">
+                    Itemverteilung pro Skala
+                    <select id="scale-detail-select" style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; background: #fcfbf8; font-family: inherit; font-size: 13px;">
+                    </select>
+                </h2>
+                <p id="scale-detail-hint" style="color: var(--muted); font-size: 13px; margin: 0 0 14px 0;">Wähle eine Skala, um die Häufigkeitsverteilung pro Item zu sehen (Likert 1–5).</p>
+                <div id="scale-detail-wrap" style="display:none; position: relative;">
+                    <canvas id="chart-scale-detail"></canvas>
+                    <div id="scale-detail-legend" style="margin-top: 12px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; font-size: 12px; color: var(--muted);">
+                    </div>
+                </div>
+                <div id="scale-detail-empty" style="display: none;" class="empty-state">
+                    Keine Daten für diese Skala mit den aktuellen Filtern.
+                </div>
+            </div>
+
+            <!-- LONGITUDINAL T1→T2→T3 CHART -->
+            <div class="chart-card" style="margin-bottom: 24px;">
+                <h2 style="display: flex; justify-content: space-between; align-items: center;">
+                    Längsschnitt: T1 → T2 → T3
+                    <select id="longitudinal-scale-select" style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; background: #fcfbf8; font-family: inherit; font-size: 13px;">
+                    </select>
+                </h2>
+                <p id="longitudinal-hint" style="color: var(--muted); font-size: 13px; margin: 0 0 14px 0;">Wähle eine Skala, um die Mittelwert-Entwicklung über die drei Messzeitpunkte zu sehen.</p>
+                <div id="longitudinal-wrap" style="display: none;">
+                    <canvas id="chart-longitudinal"></canvas>
+                </div>
+                <div id="longitudinal-empty" style="display: none;" class="empty-state">Nicht genügend Daten über mehrere Zeitpunkte.</div>
+            </div>
+
+            <!-- SAMPLE SIZE MATRIX -->
+            <div class="chart-card" style="margin-bottom: 24px;">
+                <h2>Stichprobenmatrix (n pro Zelle)</h2>
+                <div id="sample-matrix-wrap"></div>
+            </div>
+
+            <!-- DEMOGRAPHICS -->
+            <div class="charts" style="margin-bottom: 24px;">
+                <div class="chart-card">
+                    <h2>Altersverteilung</h2>
+                    <canvas id="chart-age"></canvas>
+                    <div id="age-empty" style="display: none;" class="empty-state">Keine Altersdaten vorhanden.</div>
+                </div>
+                <div class="chart-card">
+                    <h2>Geschlechterverteilung</h2>
+                    <canvas id="chart-gender"></canvas>
+                    <div id="gender-empty" style="display: none;" class="empty-state">Keine Geschlechtsdaten vorhanden.</div>
+                </div>
+            </div>
+
+            <!-- DATA QUALITY -->
+            <div class="chart-card" style="margin-bottom: 24px;">
+                <h2>Datenqualität</h2>
+                <div class="quality-grid" id="quality-grid"></div>
+                <div class="flagged-list" id="flagged-list"></div>
+            </div>
+
+            <!-- RESPONSE DETAIL MODAL (hidden) -->
+            <div id="response-modal" class="modal-overlay" style="display: none;">
+                <div class="modal-content">
+                    <button class="modal-close" id="modal-close-btn">&times;</button>
+                    <h3 id="modal-title">Einzelantwort</h3>
+                    <div class="modal-meta" id="modal-meta"></div>
+                    <div id="modal-body"></div>
+                </div>
+            </div>
+
             <div class="table-card">
                 <h2>
                     Letzte 20 Antworten
@@ -442,7 +621,19 @@
         };
 
         let allResponses = [];
-        let charts = { institution: null, zeitpunkt: null, scales: null, timeline: null };
+        let charts = {
+            institution: null, zeitpunkt: null, scales: null, timeline: null,
+            scaleDetail: null, longitudinal: null, age: null, gender: null
+        };
+
+        // Likert colours for frequency bars (1–5)
+        const LIKERT_COLORS = ['#c0392b','#d4764e','#d4c4b0','#8bb07a','#5d7a4f'];
+        const LIKERT_LABELS = ['1 – trifft nicht zu','2','3','4','5 – trifft voll zu'];
+
+        const GENDER_LABELS = {
+            'weiblich': 'Weiblich', 'maennlich': 'Männlich',
+            'divers': 'Divers', 'keine_angabe': 'Keine Angabe'
+        };
 
         // ============================================================
         // LOGIN
@@ -547,6 +738,11 @@
             drawZeitpunktChart(rows);
             drawScalesChart(rows);
             drawTimelineChart(rows);
+            drawScaleDetail(rows);
+            drawLongitudinalChart(rows);
+            drawSampleMatrix(rows);
+            drawDemographics(rows);
+            drawQualityCheck(rows);
             drawTable(rows);
         }
 
@@ -686,6 +882,8 @@
             }
             recent.forEach(r => {
                 const tr = document.createElement('tr');
+                tr.className = 'clickable-row';
+                tr.title = 'Klicken für Detailansicht';
                 tr.innerHTML = `
                     <td>${new Date(r.created_at).toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short' })}</td>
                     <td style="font-family: monospace;">${r.anonymous_code || '—'}</td>
@@ -694,8 +892,495 @@
                     <td>${(r.language || 'de').toUpperCase()}</td>
                     <td>${r.duration_seconds ? Math.round(r.duration_seconds / 60) : '—'}</td>
                 `;
+                tr.addEventListener('click', () => showResponseDetail(r));
                 tbody.appendChild(tr);
             });
+        }
+
+        // ---- Scale Detail ----
+        // Populate dropdown
+        (function() {
+            const sel = document.getElementById('scale-detail-select');
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '— Skala wählen —';
+            sel.appendChild(placeholder);
+            Object.entries(SCALES).forEach(([key, s]) => {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = s.name;
+                sel.appendChild(opt);
+            });
+            sel.addEventListener('change', () => render());
+        })();
+
+        function drawScaleDetail(rows) {
+            const scaleKey = document.getElementById('scale-detail-select').value;
+            const wrap = document.getElementById('scale-detail-wrap');
+            const hint = document.getElementById('scale-detail-hint');
+            const empty = document.getElementById('scale-detail-empty');
+
+            if (!scaleKey) {
+                wrap.style.display = 'none';
+                hint.style.display = 'block';
+                empty.style.display = 'none';
+                if (charts.scaleDetail) { charts.scaleDetail.destroy(); charts.scaleDetail = null; }
+                return;
+            }
+
+            hint.style.display = 'none';
+            const scale = SCALES[scaleKey];
+            const items = scale.items;
+
+            // Build frequency data: for each item, count 1–5
+            const datasets = [];
+            for (let likert = 1; likert <= 5; likert++) {
+                const counts = items.map(item => {
+                    return rows.filter(r => r[item] === likert).length;
+                });
+                datasets.push({
+                    label: LIKERT_LABELS[likert - 1],
+                    data: counts,
+                    backgroundColor: LIKERT_COLORS[likert - 1],
+                    borderRadius: 2
+                });
+            }
+
+            const hasData = datasets.some(ds => ds.data.some(v => v > 0));
+            if (!hasData) {
+                wrap.style.display = 'none';
+                empty.style.display = 'block';
+                if (charts.scaleDetail) { charts.scaleDetail.destroy(); charts.scaleDetail = null; }
+                return;
+            }
+
+            wrap.style.display = 'block';
+            empty.style.display = 'none';
+
+            const labels = items.map(item => item.toUpperCase());
+
+            if (charts.scaleDetail) charts.scaleDetail.destroy();
+            charts.scaleDetail = new Chart(document.getElementById('chart-scale-detail'), {
+                type: 'bar',
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true, position: 'bottom', labels: { boxWidth: 14, padding: 12, font: { size: 11 } } },
+                        tooltip: {
+                            callbacks: {
+                                title: ctx => {
+                                    const item = items[ctx[0].dataIndex];
+                                    return item.toUpperCase();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Item' },
+                            ticks: { font: { size: 12 } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 },
+                            title: { display: true, text: 'Anzahl Antworten' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ---- Longitudinal T1→T2→T3 ----
+        (function() {
+            const sel = document.getElementById('longitudinal-scale-select');
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '— Skala wählen —';
+            sel.appendChild(placeholder);
+            // Add "Alle Skalen" option
+            const allOpt = document.createElement('option');
+            allOpt.value = '_ALL';
+            allOpt.textContent = 'Alle Skalen (Gesamtmittel)';
+            sel.appendChild(allOpt);
+            Object.entries(SCALES).forEach(([key, s]) => {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = s.name;
+                sel.appendChild(opt);
+            });
+            sel.addEventListener('change', () => render());
+        })();
+
+        function drawLongitudinalChart(rows) {
+            const scaleKey = document.getElementById('longitudinal-scale-select').value;
+            const wrap = document.getElementById('longitudinal-wrap');
+            const hint = document.getElementById('longitudinal-hint');
+            const empty = document.getElementById('longitudinal-empty');
+
+            if (!scaleKey) {
+                wrap.style.display = 'none';
+                hint.style.display = 'block';
+                empty.style.display = 'none';
+                if (charts.longitudinal) { charts.longitudinal.destroy(); charts.longitudinal = null; }
+                return;
+            }
+            hint.style.display = 'none';
+
+            const zeitpunkte = ['T1','T2','T3'];
+            const uacRows = rows.filter(r => r.institution && r.institution.startsWith('flow-'));
+            const ctrlRows = rows.filter(r => r.institution === 'konventionell');
+
+            function groupMean(group, zp) {
+                const zpRows = group.filter(r => r.zeitpunkt === zp);
+                if (zpRows.length === 0) return null;
+                if (scaleKey === '_ALL') {
+                    // Grand mean across all scales
+                    const vals = zpRows.map(r => {
+                        const scaleMeans = Object.values(SCALES).map(s => scaleMean(r, s.items)).filter(v => v !== null);
+                        return scaleMeans.length > 0 ? scaleMeans.reduce((a,b) => a+b, 0) / scaleMeans.length : null;
+                    }).filter(v => v !== null);
+                    return vals.length > 0 ? vals.reduce((a,b) => a+b, 0) / vals.length : null;
+                } else {
+                    const items = SCALES[scaleKey].items;
+                    const vals = zpRows.map(r => scaleMean(r, items)).filter(v => v !== null);
+                    return vals.length > 0 ? vals.reduce((a,b) => a+b, 0) / vals.length : null;
+                }
+            }
+
+            const uacData = zeitpunkte.map(zp => groupMean(uacRows, zp));
+            const ctrlData = zeitpunkte.map(zp => groupMean(ctrlRows, zp));
+
+            const hasAny = [...uacData, ...ctrlData].some(v => v !== null);
+            if (!hasAny) {
+                wrap.style.display = 'none';
+                empty.style.display = 'block';
+                if (charts.longitudinal) { charts.longitudinal.destroy(); charts.longitudinal = null; }
+                return;
+            }
+
+            wrap.style.display = 'block';
+            empty.style.display = 'none';
+
+            // Count n per group per zeitpunkt for labels
+            const uacN = zeitpunkte.map(zp => uacRows.filter(r => r.zeitpunkt === zp).length);
+            const ctrlN = zeitpunkte.map(zp => ctrlRows.filter(r => r.zeitpunkt === zp).length);
+            const xLabels = zeitpunkte.map((zp, i) => `${zp} (UAC n=${uacN[i]}, Vgl n=${ctrlN[i]})`);
+
+            if (charts.longitudinal) charts.longitudinal.destroy();
+            charts.longitudinal = new Chart(document.getElementById('chart-longitudinal'), {
+                type: 'line',
+                data: {
+                    labels: xLabels,
+                    datasets: [
+                        {
+                            label: 'UAC-Gruppe',
+                            data: uacData,
+                            borderColor: '#6b5d52',
+                            backgroundColor: '#6b5d52',
+                            tension: 0.2,
+                            pointRadius: 6,
+                            pointBackgroundColor: '#6b5d52',
+                            spanGaps: true,
+                            borderWidth: 2.5
+                        },
+                        {
+                            label: 'Vergleichsgruppe',
+                            data: ctrlData,
+                            borderColor: '#b8a58a',
+                            backgroundColor: '#b8a58a',
+                            tension: 0.2,
+                            pointRadius: 6,
+                            pointBackgroundColor: '#b8a58a',
+                            spanGaps: true,
+                            borderWidth: 2.5,
+                            borderDash: [6, 3]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y !== null ? ctx.parsed.y.toFixed(2) : '—'}` } }
+                    },
+                    scales: {
+                        y: { beginAtZero: false, min: 1, max: 5, title: { display: true, text: 'Mittelwert (1–5)' } }
+                    }
+                }
+            });
+        }
+
+        // ---- Sample Size Matrix ----
+        function drawSampleMatrix(rows) {
+            const wrap = document.getElementById('sample-matrix-wrap');
+            const zeitpunkte = ['T1','T2','T3'];
+            const institutions = Object.keys(INSTITUTION_LABELS);
+
+            let html = '<table class="matrix-table"><thead><tr><th></th>';
+            zeitpunkte.forEach(zp => html += `<th>${zp}</th>`);
+            html += '<th>Gesamt</th></tr></thead><tbody>';
+
+            let colTotals = zeitpunkte.map(() => 0);
+            let grandTotal = 0;
+
+            institutions.forEach(inst => {
+                html += `<tr><td class="row-label">${INSTITUTION_LABELS[inst]}</td>`;
+                let rowTotal = 0;
+                zeitpunkte.forEach((zp, zi) => {
+                    const n = rows.filter(r => r.institution === inst && r.zeitpunkt === zp).length;
+                    const cls = n === 0 ? 'cell-zero' : (n < 3 ? 'cell-low' : '');
+                    html += `<td class="${cls}">${n}</td>`;
+                    rowTotal += n;
+                    colTotals[zi] += n;
+                });
+                grandTotal += rowTotal;
+                html += `<td class="total-cell">${rowTotal}</td></tr>`;
+            });
+
+            // Totals row
+            html += '<tr><td class="row-label">Gesamt</td>';
+            colTotals.forEach(t => html += `<td class="total-cell">${t}</td>`);
+            html += `<td class="total-cell">${grandTotal}</td></tr>`;
+
+            // Also count rows with missing/unknown institution or zeitpunkt
+            const noInst = rows.filter(r => !r.institution || !institutions.includes(r.institution)).length;
+            const noZp = rows.filter(r => !r.zeitpunkt || !zeitpunkte.includes(r.zeitpunkt)).length;
+            html += '</tbody></table>';
+            if (noInst > 0 || noZp > 0) {
+                html += `<p style="font-size:12px;color:var(--muted);margin-top:8px;">`;
+                if (noInst > 0) html += `${noInst} Antwort(en) ohne Institution. `;
+                if (noZp > 0) html += `${noZp} Antwort(en) ohne Zeitpunkt.`;
+                html += '</p>';
+            }
+            wrap.innerHTML = html;
+        }
+
+        // ---- Demographics ----
+        function drawDemographics(rows) {
+            // Age histogram
+            const ages = rows.map(r => parseInt(r.age)).filter(a => !isNaN(a) && a > 0 && a < 120);
+            const ageCanvas = document.getElementById('chart-age');
+            const ageEmpty = document.getElementById('age-empty');
+
+            if (ages.length === 0) {
+                ageCanvas.style.display = 'none';
+                ageEmpty.style.display = 'block';
+                if (charts.age) { charts.age.destroy(); charts.age = null; }
+            } else {
+                ageCanvas.style.display = 'block';
+                ageEmpty.style.display = 'none';
+                // Create bins: 16-19, 20-24, 25-29, 30-34, 35-39, 40+
+                const bins = [
+                    { label: '16–19', min: 0, max: 19 },
+                    { label: '20–24', min: 20, max: 24 },
+                    { label: '25–29', min: 25, max: 29 },
+                    { label: '30–34', min: 30, max: 34 },
+                    { label: '35–39', min: 35, max: 39 },
+                    { label: '40+',   min: 40, max: 999 }
+                ];
+                const binCounts = bins.map(b => ages.filter(a => a >= b.min && a <= b.max).length);
+                if (charts.age) charts.age.destroy();
+                charts.age = new Chart(ageCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: bins.map(b => b.label),
+                        datasets: [{
+                            label: 'Anzahl',
+                            data: binCounts,
+                            backgroundColor: '#8b7355',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false },
+                            title: { display: true, text: `n = ${ages.length}, M = ${(ages.reduce((a,b)=>a+b,0)/ages.length).toFixed(1)}, Md = ${ages.sort((a,b)=>a-b)[Math.floor(ages.length/2)]}`, font: { size: 12 }, color: '#8b7355' }
+                        },
+                        scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+                    }
+                });
+            }
+
+            // Gender doughnut
+            const genderCanvas = document.getElementById('chart-gender');
+            const genderEmpty = document.getElementById('gender-empty');
+            const genderCounts = {};
+            rows.forEach(r => {
+                const g = r.gender || r.geschlecht || 'keine_angabe';
+                genderCounts[g] = (genderCounts[g] || 0) + 1;
+            });
+            const genderKeys = Object.keys(genderCounts);
+
+            if (rows.length === 0) {
+                genderCanvas.style.display = 'none';
+                genderEmpty.style.display = 'block';
+                if (charts.gender) { charts.gender.destroy(); charts.gender = null; }
+            } else {
+                genderCanvas.style.display = 'block';
+                genderEmpty.style.display = 'none';
+                const gColors = ['#6b5d52','#a08d75','#d4c4b0','#e0d6c8','#8b7355'];
+                if (charts.gender) charts.gender.destroy();
+                charts.gender = new Chart(genderCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: genderKeys.map(k => GENDER_LABELS[k] || k),
+                        datasets: [{
+                            data: genderKeys.map(k => genderCounts[k]),
+                            backgroundColor: gColors.slice(0, genderKeys.length)
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { position: 'right' } }
+                    }
+                });
+            }
+        }
+
+        // ---- Data Quality Check ----
+        function drawQualityCheck(rows) {
+            const grid = document.getElementById('quality-grid');
+            const flaggedDiv = document.getElementById('flagged-list');
+
+            if (rows.length === 0) {
+                grid.innerHTML = '<div class="empty-state">Keine Daten für Qualitätsauswertung.</div>';
+                flaggedDiv.innerHTML = '';
+                return;
+            }
+
+            // 1. Average duration
+            const durations = rows.map(r => r.duration_seconds).filter(d => typeof d === 'number' && d > 0);
+            const avgDur = durations.length > 0 ? durations.reduce((a,b)=>a+b,0) / durations.length : null;
+
+            // 2. Missing items rate
+            const allItems = Object.values(SCALES).flatMap(s => s.items);
+            let totalCells = 0, missingCells = 0;
+            rows.forEach(r => {
+                allItems.forEach(item => {
+                    totalCells++;
+                    if (r[item] === null || r[item] === undefined) missingCells++;
+                });
+            });
+            const missingPct = totalCells > 0 ? (missingCells / totalCells * 100) : 0;
+
+            // 3. Completion rate (rows with <50% items filled)
+            const incompleteRows = rows.filter(r => {
+                const filled = allItems.filter(item => r[item] !== null && r[item] !== undefined).length;
+                return filled < allItems.length * 0.5;
+            });
+
+            // 4. Suspicious speed (< 2 min)
+            const speedFlags = rows.filter(r => r.duration_seconds && r.duration_seconds < 120);
+
+            // 5. Straight-lining detection (all same answer)
+            const straightLineFlags = rows.filter(r => {
+                const vals = allItems.map(item => r[item]).filter(v => typeof v === 'number');
+                if (vals.length < 20) return false;
+                return vals.every(v => v === vals[0]);
+            });
+
+            // Build quality cards
+            let html = '';
+
+            // Duration card
+            const durClass = avgDur === null ? '' : (avgDur < 180 ? 'quality-warn' : 'quality-ok');
+            html += `<div class="quality-item ${durClass}">
+                <div class="qi-label">Ø Bearbeitungszeit</div>
+                <div class="qi-value">${avgDur !== null ? Math.round(avgDur / 60) + ' min' : '—'}</div>
+                <div class="qi-sub">${durations.length} von ${rows.length} mit Zeitangabe</div>
+            </div>`;
+
+            // Missing rate card
+            const missClass = missingPct < 5 ? 'quality-ok' : (missingPct < 15 ? 'quality-warn' : 'quality-bad');
+            html += `<div class="quality-item ${missClass}">
+                <div class="qi-label">Fehlende Werte</div>
+                <div class="qi-value">${missingPct.toFixed(1)}%</div>
+                <div class="qi-sub">${missingCells} von ${totalCells} Zellen leer</div>
+            </div>`;
+
+            // Incomplete responses
+            const incClass = incompleteRows.length === 0 ? 'quality-ok' : 'quality-warn';
+            html += `<div class="quality-item ${incClass}">
+                <div class="qi-label">Unvollständige Antworten</div>
+                <div class="qi-value">${incompleteRows.length}</div>
+                <div class="qi-sub">&lt;50% der Items ausgefüllt</div>
+            </div>`;
+
+            // Flags count
+            const totalFlags = speedFlags.length + straightLineFlags.length;
+            const flagClass = totalFlags === 0 ? 'quality-ok' : 'quality-bad';
+            html += `<div class="quality-item ${flagClass}">
+                <div class="qi-label">Auffällige Antworten</div>
+                <div class="qi-value">${totalFlags}</div>
+                <div class="qi-sub">${speedFlags.length} zu schnell, ${straightLineFlags.length} Straight-Lining</div>
+            </div>`;
+
+            grid.innerHTML = html;
+
+            // Flagged details
+            let flagHtml = '';
+            if (totalFlags > 0) {
+                flagHtml = '<p style="font-size:12px;color:var(--muted);margin-bottom:6px;"><strong>Flagged Responses:</strong></p>';
+                speedFlags.forEach(r => {
+                    flagHtml += `<div class="flag-item">⚡ <strong>${r.anonymous_code || '—'}</strong> — ${Math.round(r.duration_seconds / 60)} min Bearbeitungszeit (< 2 min)</div>`;
+                });
+                straightLineFlags.forEach(r => {
+                    const val = allItems.map(item => r[item]).find(v => typeof v === 'number');
+                    flagHtml += `<div class="flag-item">📏 <strong>${r.anonymous_code || '—'}</strong> — Alle Items mit ${val} beantwortet (Straight-Lining)</div>`;
+                });
+            }
+            flaggedDiv.innerHTML = flagHtml;
+        }
+
+        // ---- Response Detail Modal ----
+        document.getElementById('modal-close-btn').addEventListener('click', () => {
+            document.getElementById('response-modal').style.display = 'none';
+        });
+        document.getElementById('response-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) e.currentTarget.style.display = 'none';
+        });
+
+        function showResponseDetail(row) {
+            const modal = document.getElementById('response-modal');
+            const title = document.getElementById('modal-title');
+            const meta = document.getElementById('modal-meta');
+            const body = document.getElementById('modal-body');
+
+            title.textContent = 'Einzelantwort: ' + (row.anonymous_code || 'Unbekannt');
+            meta.innerHTML = `
+                <strong>Institution:</strong> ${INSTITUTION_LABELS[row.institution] || row.institution || '—'} &nbsp;|&nbsp;
+                <strong>Zeitpunkt:</strong> ${row.zeitpunkt || '—'} &nbsp;|&nbsp;
+                <strong>Sprache:</strong> ${(row.language || 'de').toUpperCase()} &nbsp;|&nbsp;
+                <strong>Alter:</strong> ${row.age || '—'} &nbsp;|&nbsp;
+                <strong>Geschlecht:</strong> ${GENDER_LABELS[row.gender || row.geschlecht] || row.gender || row.geschlecht || '—'} &nbsp;|&nbsp;
+                <strong>Dauer:</strong> ${row.duration_seconds ? Math.round(row.duration_seconds / 60) + ' min' : '—'} &nbsp;|&nbsp;
+                <strong>Datum:</strong> ${new Date(row.created_at).toLocaleString('de-DE')}
+            `;
+
+            let html = '';
+            Object.entries(SCALES).forEach(([key, scale]) => {
+                const items = scale.items;
+                const vals = items.map(item => row[item]).filter(v => typeof v === 'number');
+                const sMean = vals.length > 0 ? (vals.reduce((a,b) => a+b, 0) / vals.length).toFixed(2) : '—';
+
+                html += `<div class="modal-scale-section">`;
+                html += `<h4>${scale.name} <span style="font-weight:normal;color:var(--muted);">(M = ${sMean})</span></h4>`;
+                html += `<div class="modal-items">`;
+                items.forEach(item => {
+                    const val = row[item];
+                    const valStr = (val !== null && val !== undefined) ? val : '—';
+                    const likertClass = (typeof val === 'number') ? `likert-${val}` : 'likert-null';
+                    html += `<div class="modal-item">
+                        <span class="item-key">${item.toUpperCase()}</span>
+                        <span class="item-val ${likertClass}">${valStr}</span>
+                    </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            body.innerHTML = html;
+            modal.style.display = 'flex';
         }
 
         // ---- CSV Export ----
