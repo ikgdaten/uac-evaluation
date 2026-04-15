@@ -1162,7 +1162,7 @@
         // ---- Demographics ----
         function drawDemographics(rows) {
             // Age histogram
-            const ages = rows.map(r => parseInt(r.age)).filter(a => !isNaN(a) && a > 0 && a < 120);
+            const ages = rows.map(r => parseInt(r.sozio_alter)).filter(a => !isNaN(a) && a > 0 && a < 120);
             const ageCanvas = document.getElementById('chart-age');
             const ageEmpty = document.getElementById('age-empty');
 
@@ -1210,7 +1210,7 @@
             const genderEmpty = document.getElementById('gender-empty');
             const genderCounts = {};
             rows.forEach(r => {
-                const g = r.gender || r.geschlecht || 'keine_angabe';
+                const g = r.sozio_geschlecht || 'keine_angabe';
                 genderCounts[g] = (genderCounts[g] || 0) + 1;
             });
             const genderKeys = Object.keys(genderCounts);
@@ -1355,8 +1355,8 @@
                 <strong>Institution:</strong> ${INSTITUTION_LABELS[row.institution] || row.institution || '—'} &nbsp;|&nbsp;
                 <strong>Zeitpunkt:</strong> ${row.zeitpunkt || '—'} &nbsp;|&nbsp;
                 <strong>Sprache:</strong> ${(row.language || 'de').toUpperCase()} &nbsp;|&nbsp;
-                <strong>Alter:</strong> ${row.age || '—'} &nbsp;|&nbsp;
-                <strong>Geschlecht:</strong> ${GENDER_LABELS[row.gender || row.geschlecht] || row.gender || row.geschlecht || '—'} &nbsp;|&nbsp;
+                <strong>Alter:</strong> ${row.sozio_alter || '—'} &nbsp;|&nbsp;
+                <strong>Geschlecht:</strong> ${GENDER_LABELS[row.sozio_geschlecht] || row.sozio_geschlecht || '—'} &nbsp;|&nbsp;
                 <strong>Dauer:</strong> ${row.duration_seconds ? Math.round(row.duration_seconds / 60) + ' min' : '—'} &nbsp;|&nbsp;
                 <strong>Datum:</strong> ${new Date(row.created_at).toLocaleString('de-DE')}
             `;
