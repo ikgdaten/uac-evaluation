@@ -635,7 +635,7 @@
 
             <div class="demo-question">
                 <div class="demo-label" data-i18n="s5_label">S5. Was ist Ihr aktueller Studien-/Bildungsschwerpunkt? (Freitext)</div>
-                <textarea class="demo-input" rows="2" data-i18n-placeholder="s5_placeholder"></textarea>
+                <textarea class="demo-input" name="study-focus" rows="2" data-i18n-placeholder="s5_placeholder"></textarea>
             </div>
 
             <h3 data-i18n="h3_social">Sozialer Hintergrund</h3>
@@ -643,47 +643,47 @@
             <div class="demo-question">
                 <div class="demo-label" data-i18n="s6_label">S6. Welchen höchsten Bildungsabschluss hat Ihr Vater/Elternteil 1?</div>
                 <div class="checkbox-group">
-                    <label><input type="radio" name="edu-father"> <span data-i18n="s6_no_degree">Kein Abschluss</span></label>
-                    <label><input type="radio" name="edu-father"> <span data-i18n="s6_secondary">Hauptschulabschluss</span></label>
-                    <label><input type="radio" name="edu-father"> <span data-i18n="s6_middle">Realschulabschluss / Mittlere Reife</span></label>
-                    <label><input type="radio" name="edu-father"> <span data-i18n="s6_abibi">Abitur / Fachabitur</span></label>
-                    <label><input type="radio" name="edu-father"> <span data-i18n="s6_degree">Abgeschlossenes Studium</span></label>
-                    <label><input type="radio" name="edu-father"> <span data-i18n="s6_phd">Promotion</span></label>
-                    <label><input type="radio" name="edu-father"> <span data-i18n="s6_unknown">Weiß nicht</span></label>
+                    <label><input type="radio" name="edu-father" value="kein_abschluss"> <span data-i18n="s6_no_degree">Kein Abschluss</span></label>
+                    <label><input type="radio" name="edu-father" value="hauptschule"> <span data-i18n="s6_secondary">Hauptschulabschluss</span></label>
+                    <label><input type="radio" name="edu-father" value="realschule"> <span data-i18n="s6_middle">Realschulabschluss / Mittlere Reife</span></label>
+                    <label><input type="radio" name="edu-father" value="abitur"> <span data-i18n="s6_abibi">Abitur / Fachabitur</span></label>
+                    <label><input type="radio" name="edu-father" value="studium"> <span data-i18n="s6_degree">Abgeschlossenes Studium</span></label>
+                    <label><input type="radio" name="edu-father" value="promotion"> <span data-i18n="s6_phd">Promotion</span></label>
+                    <label><input type="radio" name="edu-father" value="weiss_nicht"> <span data-i18n="s6_unknown">Weiß nicht</span></label>
                 </div>
             </div>
 
             <div class="demo-question">
                 <div class="demo-label" data-i18n="s7_label">S7. Welchen höchsten Bildungsabschluss hat Ihre Mutter/Elternteil 2?</div>
                 <div class="checkbox-group">
-                    <label><input type="radio" name="edu-mother"> <span data-i18n="s6_no_degree">Kein Abschluss</span></label>
-                    <label><input type="radio" name="edu-mother"> <span data-i18n="s6_secondary">Hauptschulabschluss</span></label>
-                    <label><input type="radio" name="edu-mother"> <span data-i18n="s6_middle">Realschulabschluss / Mittlere Reife</span></label>
-                    <label><input type="radio" name="edu-mother"> <span data-i18n="s6_abibi">Abitur / Fachabitur</span></label>
-                    <label><input type="radio" name="edu-mother"> <span data-i18n="s6_degree">Abgeschlossenes Studium</span></label>
-                    <label><input type="radio" name="edu-mother"> <span data-i18n="s6_phd">Promotion</span></label>
-                    <label><input type="radio" name="edu-mother"> <span data-i18n="s6_unknown">Weiß nicht</span></label>
+                    <label><input type="radio" name="edu-mother" value="kein_abschluss"> <span data-i18n="s6_no_degree">Kein Abschluss</span></label>
+                    <label><input type="radio" name="edu-mother" value="hauptschule"> <span data-i18n="s6_secondary">Hauptschulabschluss</span></label>
+                    <label><input type="radio" name="edu-mother" value="realschule"> <span data-i18n="s6_middle">Realschulabschluss / Mittlere Reife</span></label>
+                    <label><input type="radio" name="edu-mother" value="abitur"> <span data-i18n="s6_abibi">Abitur / Fachabitur</span></label>
+                    <label><input type="radio" name="edu-mother" value="studium"> <span data-i18n="s6_degree">Abgeschlossenes Studium</span></label>
+                    <label><input type="radio" name="edu-mother" value="promotion"> <span data-i18n="s6_phd">Promotion</span></label>
+                    <label><input type="radio" name="edu-mother" value="weiss_nicht"> <span data-i18n="s6_unknown">Weiß nicht</span></label>
                 </div>
             </div>
 
             <div class="demo-question">
                 <div class="demo-label" data-i18n="s8_label">S8. Haben Sie einen Migrationshintergrund?</div>
                 <div class="checkbox-group">
-                    <label><input type="radio" name="migration"> <span data-i18n="s8_self_migrated">Ja, ich bin selbst nach Deutschland migriert</span></label>
-                    <label><input type="radio" name="migration"> <span data-i18n="s8_parents_migrated">Ja, mindestens ein Elternteil ist nach Deutschland migriert</span></label>
-                    <label><input type="radio" name="migration"> <span data-i18n="s8_no">Nein</span></label>
-                    <label><input type="radio" name="migration"> <span data-i18n="s8_no_answer">Keine Angabe</span></label>
+                    <label><input type="radio" name="migration" value="selbst_migriert"> <span data-i18n="s8_self_migrated">Ja, ich bin selbst nach Deutschland migriert</span></label>
+                    <label><input type="radio" name="migration" value="eltern_migriert"> <span data-i18n="s8_parents_migrated">Ja, mindestens ein Elternteil ist nach Deutschland migriert</span></label>
+                    <label><input type="radio" name="migration" value="nein"> <span data-i18n="s8_no">Nein</span></label>
+                    <label><input type="radio" name="migration" value="keine_angabe"> <span data-i18n="s8_no_answer">Keine Angabe</span></label>
                 </div>
             </div>
 
             <div class="demo-question">
                 <div class="demo-label" data-i18n="s9_label">S9. Wie würden Sie die finanzielle Situation Ihrer Herkunftsfamilie beschreiben?</div>
                 <div class="checkbox-group">
-                    <label><input type="radio" name="financial"> <span data-i18n="s9_very_difficult">Sehr schwierig</span></label>
-                    <label><input type="radio" name="financial"> <span data-i18n="s9_difficult">Eher schwierig</span></label>
-                    <label><input type="radio" name="financial"> <span data-i18n="s9_medium">Mittel</span></label>
-                    <label><input type="radio" name="financial"> <span data-i18n="s9_good">Eher gut</span></label>
-                    <label><input type="radio" name="financial"> <span data-i18n="s9_very_good">Sehr gut</span></label>
+                    <label><input type="radio" name="financial" value="sehr_schwierig"> <span data-i18n="s9_very_difficult">Sehr schwierig</span></label>
+                    <label><input type="radio" name="financial" value="eher_schwierig"> <span data-i18n="s9_difficult">Eher schwierig</span></label>
+                    <label><input type="radio" name="financial" value="mittel"> <span data-i18n="s9_medium">Mittel</span></label>
+                    <label><input type="radio" name="financial" value="eher_gut"> <span data-i18n="s9_good">Eher gut</span></label>
+                    <label><input type="radio" name="financial" value="sehr_gut"> <span data-i18n="s9_very_good">Sehr gut</span></label>
                 </div>
             </div>
         </section>
@@ -2638,8 +2638,8 @@
                 const lastSaved = new Date(formData._lastSaved);
                 const hoursSinceSave = (new Date() - lastSaved) / (1000 * 60 * 60);
 
-                // Nur laden wenn weniger als 24 Stunden alt
-                if (hoursSinceSave < 24) {
+                // Nur laden wenn weniger als 1 Stunde alt
+                if (hoursSinceSave < 1) {
                     if (confirm('Es wurden gespeicherte Antworten gefunden. Möchten Sie diese wiederherstellen?')) {
                         Object.keys(formData).forEach(name => {
                             if (name.startsWith('_')) return;
@@ -2658,6 +2658,9 @@
                         });
                         updateProgress();
                     }
+                } else {
+                    // Abgelaufen — altes Backup löschen
+                    localStorage.removeItem('uac-fragebogen-backup');
                 }
             }
         }
@@ -2783,11 +2786,11 @@
                 sozio_alter: formData['age'] ? parseInt(formData['age'], 10) : null,
                 sozio_geschlecht: formData['gender'] || null,
                 sozio_semester: formData['semester'] ? parseInt(formData['semester'], 10) : null,
-                sozio_bildung: formData['edu-mother'] || formData['edu-father'] || null,
-                sozio_vorerfahrung: formData['migration'] || null,
-                sozio_land: formData['financial'] || null,
-                sozio_muttersprache: null,
-                sozio_sonstiges: null
+                sozio_bildung_vater: formData['edu-father'] || null,
+                sozio_bildung_mutter: formData['edu-mother'] || null,
+                sozio_studienfach: formData['study-focus'] || null,
+                sozio_migration: formData['migration'] || null,
+                sozio_finanziell: formData['financial'] || null
             };
 
             // Skalen-Items: A1..Q6 → a1..q6 (SMALLINT)

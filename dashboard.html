@@ -466,7 +466,43 @@
                         <option value="T3">T3 – Semesterende</option>
                     </select>
                 </div>
+                <button type="button" class="refresh-btn" id="toggle-zeitraum-btn" style="margin-left: 0;">⚙ Zeiträume</button>
                 <button type="button" class="refresh-btn" id="refresh-btn">↻ Aktualisieren</button>
+            </div>
+
+            <!-- ZEITRAUM KONFIGURATION -->
+            <div id="zeitraum-config" class="chart-card" style="margin-bottom: 24px; display: none;">
+                <h2>Messzeitpunkte konfigurieren</h2>
+                <p style="font-size: 13px; color: var(--muted); margin: 0 0 14px 0;">
+                    Lege die Datumsbereiche für T1, T2 und T3 fest. Jede Antwort wird automatisch anhand ihres Timestamps zugeordnet — für UAC und Vergleichsgruppe gleichermaßen.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                    <div style="padding: 12px; background: #fcfbf8; border: 1px solid var(--border); border-radius: 5px;">
+                        <strong style="color: var(--accent);">T1 – Semesterbeginn</strong><br>
+                        <label style="font-size: 12px; color: var(--muted);">Von:</label>
+                        <input type="date" id="t1-start" style="padding: 4px 8px; border: 1px solid var(--border); border-radius: 3px; font-family: inherit; font-size: 13px;">
+                        <label style="font-size: 12px; color: var(--muted); margin-left: 8px;">Bis:</label>
+                        <input type="date" id="t1-end" style="padding: 4px 8px; border: 1px solid var(--border); border-radius: 3px; font-family: inherit; font-size: 13px;">
+                    </div>
+                    <div style="padding: 12px; background: #fcfbf8; border: 1px solid var(--border); border-radius: 5px;">
+                        <strong style="color: var(--accent);">T2 – Semestermitte</strong><br>
+                        <label style="font-size: 12px; color: var(--muted);">Von:</label>
+                        <input type="date" id="t2-start" style="padding: 4px 8px; border: 1px solid var(--border); border-radius: 3px; font-family: inherit; font-size: 13px;">
+                        <label style="font-size: 12px; color: var(--muted); margin-left: 8px;">Bis:</label>
+                        <input type="date" id="t2-end" style="padding: 4px 8px; border: 1px solid var(--border); border-radius: 3px; font-family: inherit; font-size: 13px;">
+                    </div>
+                    <div style="padding: 12px; background: #fcfbf8; border: 1px solid var(--border); border-radius: 5px;">
+                        <strong style="color: var(--accent);">T3 – Semesterende</strong><br>
+                        <label style="font-size: 12px; color: var(--muted);">Von:</label>
+                        <input type="date" id="t3-start" style="padding: 4px 8px; border: 1px solid var(--border); border-radius: 3px; font-family: inherit; font-size: 13px;">
+                        <label style="font-size: 12px; color: var(--muted); margin-left: 8px;">Bis:</label>
+                        <input type="date" id="t3-end" style="padding: 4px 8px; border: 1px solid var(--border); border-radius: 3px; font-family: inherit; font-size: 13px;">
+                    </div>
+                </div>
+                <div style="margin-top: 12px; display: flex; gap: 10px; align-items: center;">
+                    <button type="button" id="apply-zeitraum-btn" style="padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer; font-family: inherit; font-size: 13px;">Zeiträume anwenden</button>
+                    <span id="zeitraum-status" style="font-size: 12px; color: var(--success);"></span>
+                </div>
             </div>
 
             <div class="charts">
@@ -628,6 +664,16 @@
         const LIKERT_COLORS = ['#c0392b','#d4764e','#d4c4b0','#8bb07a','#5d7a4f'];
         const LIKERT_LABELS = ['1 – trifft nicht zu','2','3','4','5 – trifft voll zu'];
 
+        // Reverse-coded items: 6 - value (1→5, 2→4, 3→3, 4→2, 5→1)
+        const REVERSE_ITEMS = new Set([
+            'a2','b1','c2','d2','e1','f2','g1','h2','i2','j1','k1','l1','m2','q4','q5'
+        ]);
+        function itemVal(row, item) {
+            const v = row[item];
+            if (typeof v !== 'number' || isNaN(v)) return null;
+            return REVERSE_ITEMS.has(item) ? (6 - v) : v;
+        }
+
         const GENDER_LABELS = {
             'weiblich': 'Weiblich', 'maennlich': 'Männlich',
             'divers': 'Divers', 'keine_angabe': 'Keine Angabe'
@@ -699,12 +745,103 @@
                 return;
             }
             allResponses = data || [];
+            applyZeitraumToData();
             render();
         }
 
         document.getElementById('refresh-btn').addEventListener('click', loadData);
         document.getElementById('filter-institution').addEventListener('change', render);
         document.getElementById('filter-zeitpunkt').addEventListener('change', render);
+
+        // ============================================================
+        // ZEITRAUM KONFIGURATION
+        // ============================================================
+        const ZEITRAUM_STORAGE_KEY = 'uac_zeitraum_config';
+        const ZEITRAUM_DEFAULTS = {
+            t1Start: '2026-04-27', t1End: '2026-05-25',
+            t2Start: '2026-06-15', t2End: '2026-07-12',
+            t3Start: '2026-09-01', t3End: '2026-10-02'
+        };
+
+        function loadZeitraumConfig() {
+            try {
+                const saved = localStorage.getItem(ZEITRAUM_STORAGE_KEY);
+                if (saved) return JSON.parse(saved);
+            } catch (e) { /* ignore */ }
+            return { ...ZEITRAUM_DEFAULTS };
+        }
+
+        function saveZeitraumConfig(cfg) {
+            localStorage.setItem(ZEITRAUM_STORAGE_KEY, JSON.stringify(cfg));
+        }
+
+        function applyZeitraumConfigToUI(cfg) {
+            document.getElementById('t1-start').value = cfg.t1Start || '';
+            document.getElementById('t1-end').value   = cfg.t1End || '';
+            document.getElementById('t2-start').value = cfg.t2Start || '';
+            document.getElementById('t2-end').value   = cfg.t2End || '';
+            document.getElementById('t3-start').value = cfg.t3Start || '';
+            document.getElementById('t3-end').value   = cfg.t3End || '';
+        }
+
+        function readZeitraumConfigFromUI() {
+            return {
+                t1Start: document.getElementById('t1-start').value,
+                t1End:   document.getElementById('t1-end').value,
+                t2Start: document.getElementById('t2-start').value,
+                t2End:   document.getElementById('t2-end').value,
+                t3Start: document.getElementById('t3-start').value,
+                t3End:   document.getElementById('t3-end').value
+            };
+        }
+
+        function computeZeitpunkt(createdAt, cfg) {
+            if (!createdAt) return null;
+            const d = createdAt.slice(0, 10); // 'YYYY-MM-DD'
+            if (cfg.t1Start && cfg.t1End && d >= cfg.t1Start && d <= cfg.t1End) return 'T1';
+            if (cfg.t2Start && cfg.t2End && d >= cfg.t2Start && d <= cfg.t2End) return 'T2';
+            if (cfg.t3Start && cfg.t3End && d >= cfg.t3Start && d <= cfg.t3End) return 'T3';
+            return null; // outside any defined range
+        }
+
+        function applyZeitraumToData() {
+            const cfg = loadZeitraumConfig();
+            let assigned = 0, unassigned = 0;
+            allResponses.forEach(r => {
+                const computed = computeZeitpunkt(r.created_at, cfg);
+                if (computed) {
+                    r.zeitpunkt = computed;
+                    assigned++;
+                } else {
+                    // Keep original self-reported value if outside all ranges
+                    unassigned++;
+                }
+            });
+            return { assigned, unassigned };
+        }
+
+        // Toggle panel
+        document.getElementById('toggle-zeitraum-btn').addEventListener('click', () => {
+            const panel = document.getElementById('zeitraum-config');
+            const visible = panel.style.display !== 'none';
+            panel.style.display = visible ? 'none' : 'block';
+            if (!visible) {
+                applyZeitraumConfigToUI(loadZeitraumConfig());
+            }
+        });
+
+        // Apply button
+        document.getElementById('apply-zeitraum-btn').addEventListener('click', () => {
+            const cfg = readZeitraumConfigFromUI();
+            saveZeitraumConfig(cfg);
+            const { assigned, unassigned } = applyZeitraumToData();
+            const status = document.getElementById('zeitraum-status');
+            status.textContent = `✓ ${assigned} Antworten zugeordnet` + (unassigned > 0 ? `, ${unassigned} außerhalb der Zeiträume` : '');
+            render();
+        });
+
+        // Initialize config UI on first load
+        applyZeitraumConfigToUI(loadZeitraumConfig());
 
         // ============================================================
         // FILTERING & RENDERING
@@ -804,7 +941,7 @@
         }
 
         function scaleMean(row, items) {
-            const vals = items.map(k => row[k]).filter(v => typeof v === 'number');
+            const vals = items.map(k => itemVal(row, k)).filter(v => v !== null);
             if (vals.length === 0) return null;
             return vals.reduce((s, v) => s + v, 0) / vals.length;
         }
@@ -930,9 +1067,9 @@
             const scale = SCALES[scaleKey];
             const items = scale.items;
 
-            // Calculate mean per item
+            // Calculate mean per item (with reverse coding)
             const itemMeans = items.map(item => {
-                const vals = rows.map(r => r[item]).filter(v => typeof v === 'number' && !isNaN(v));
+                const vals = rows.map(r => itemVal(r, item)).filter(v => v !== null);
                 return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
             });
 
@@ -947,7 +1084,7 @@
             wrap.style.display = 'block';
             empty.style.display = 'none';
 
-            const labels = items.map(item => item.toUpperCase());
+            const labels = items.map(item => item.toUpperCase() + (REVERSE_ITEMS.has(item) ? ' (R)' : ''));
             const nResponses = rows.filter(r => items.some(item => typeof r[item] === 'number')).length;
 
             if (charts.scaleDetail) charts.scaleDetail.destroy();
@@ -1364,19 +1501,23 @@
             let html = '';
             Object.entries(SCALES).forEach(([key, scale]) => {
                 const items = scale.items;
-                const vals = items.map(item => row[item]).filter(v => typeof v === 'number');
+                const vals = items.map(item => itemVal(row, item)).filter(v => v !== null);
                 const sMean = vals.length > 0 ? (vals.reduce((a,b) => a+b, 0) / vals.length).toFixed(2) : '—';
 
                 html += `<div class="modal-scale-section">`;
                 html += `<h4>${scale.name} <span style="font-weight:normal;color:var(--muted);">(M = ${sMean})</span></h4>`;
                 html += `<div class="modal-items">`;
                 items.forEach(item => {
-                    const val = row[item];
-                    const valStr = (val !== null && val !== undefined) ? val : '—';
-                    const likertClass = (typeof val === 'number') ? `likert-${val}` : 'likert-null';
+                    const raw = row[item];
+                    const coded = itemVal(row, item);
+                    const isReverse = REVERSE_ITEMS.has(item);
+                    const valStr = (coded !== null) ? coded : '—';
+                    const likertClass = (typeof coded === 'number') ? `likert-${coded}` : 'likert-null';
+                    const rLabel = isReverse ? ' <span style="color:var(--danger);font-size:10px;">(R: ' + raw + '→' + coded + ')</span>' : '';
                     html += `<div class="modal-item">
-                        <span class="item-key">${item.toUpperCase()}</span>
+                        <span class="item-key">${item.toUpperCase()}${isReverse ? ' ®' : ''}</span>
                         <span class="item-val ${likertClass}">${valStr}</span>
+                        ${rLabel}
                     </div>`;
                 });
                 html += `</div></div>`;
