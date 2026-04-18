@@ -630,28 +630,31 @@
         // Skalenstruktur für Mittelwert-Berechnung
         const SCALES = {
             A: { name: 'A Selbstwirksamkeit', items: ['a1','a2','a3','a4','a5','a6'] },
-            B: { name: 'B Autonomie',         items: ['b1','b2','b3','b4','b5'] },
+            B: { name: 'B Autonomie',         items: ['b1','b2','b3','b4','b5','b6'] },
             C: { name: 'C Soz. Eingeb.',      items: ['c1','c2','c3','c4','c5'] },
             D: { name: 'D Intr. Motivation',  items: ['d1','d2','d3','d4','d5'] },
-            E: { name: 'E Reflexion',         items: ['e1','e2','e3','e4','e5'] },
-            F: { name: 'F Wohlbefinden',      items: ['f1','f2','f3','f4','f5'] },
+            E: { name: 'E SRL',               items: ['e1','e2','e3','e4','e5'] },
+            F: { name: 'F Wohlbefinden',      items: ['f1','f2','f3'] },
             G: { name: 'G Kooperation',       items: ['g1','g2','g3','g4','g5'] },
             H: { name: 'H Psy. Sicherheit',   items: ['h1','h2','h3','h4','h5','h6'] },
             I: { name: 'I Resilienz',         items: ['i1','i2','i3','i4','i5','i6'] },
-            J: { name: 'J Kompetenzerl.',     items: ['j1','j2','j3','j4'] },
             K: { name: 'K Flow',              items: ['k1','k2','k3','k4'] },
             L: { name: 'L Naturverb.',        items: ['l1','l2','l3','l4','l5'] },
             M: { name: 'M Partizipation',     items: ['m1','m2','m3','m4','m5','m6'] },
             N: { name: 'N Transformation',    items: ['n1','n2','n3','n4'] },
             O: { name: 'O Vor-Motivation',    items: ['o1','o2','o3'] },
-            Q: { name: 'Q Ungew.-Toleranz',   items: ['q1','q2','q3','q4','q5','q6'] }
+            Q: { name: 'Q Ungew.-Toleranz',   items: ['q1','q2','q3','q4','q5','q6'] },
+            P: { name: 'P Stress (PSS-4)',    items: ['p1','p2','p3','p4'] },
+            R: { name: 'R Studienzufriedenheit', items: ['r1','r2','r3','r4','r5','r6'] },
+            S: { name: 'S Lernzuwachs',       items: ['s1','s2','s3','s4'] },
+            T: { name: 'T Autonomieunterst.', items: ['t1','t2','t3','t4','t5','t6'] }
         };
 
         const INSTITUTION_LABELS = {
             'flow-valley': 'Flow Valley',
             'flow-forest': 'Flow Forest',
             'flow-hills':  'Flow Hills',
-            'konventionell': 'Konventionell'
+            'konventionell': 'Andere Hochschule'
         };
 
         let allResponses = [];
@@ -665,8 +668,10 @@
         const LIKERT_LABELS = ['1 – trifft nicht zu','2','3','4','5 – trifft voll zu'];
 
         // Reverse-coded items: 6 - value (1→5, 2→4, 3→3, 4→2, 5→1)
+        // Aktualisiert 2026-04-16: Skala B komplett neu (keine Reverse-Items),
+        // Skala J entfernt, Skala P (p2, p3) und R (r6) als Reverse neu hinzugefügt.
         const REVERSE_ITEMS = new Set([
-            'a2','b1','c2','d2','e1','f2','g1','h2','i2','j1','k1','l1','m2','q4','q5'
+            'a3','b2','c3','d3','e2','g4','h3','i3','k2','l2','m3','p2','p3','q5','q6','r6'
         ]);
         function itemVal(row, item) {
             const v = row[item];
@@ -1528,20 +1533,69 @@
         }
 
         // ---- CSV Export ----
+        // Exportiert:
+        //   1. Alle Rohdaten (original wie eingegeben)
+        //   2. Reverse-codierte Spalten als eigene Spalten (z.B. a3_R)
+        //   3. Skalenmittelwerte (mit Reverse-Kodierung) als eigene Spalten
         document.getElementById('export-csv').addEventListener('click', () => {
             const rows = filtered();
             if (rows.length === 0) { alert('Keine Daten zum Exportieren.'); return; }
-            // Union of all keys across all rows
-            const keySet = new Set();
-            rows.forEach(r => Object.keys(r).forEach(k => keySet.add(k)));
-            const keys = Array.from(keySet);
+
+            // Basis-Spalten (Meta + Sozio + alle Items roh)
+            const metaKeys = ['id','created_at','language','duration_seconds','anonymous_code',
+                'zeitpunkt','institution','institution_name',
+                'sozio_alter','sozio_geschlecht','sozio_semester',
+                'sozio_bildung_vater','sozio_bildung_mutter','sozio_studienfach',
+                'sozio_migration','sozio_finanziell','sozio_finanziell_objektiv'];
+
+            // Alle Item-Keys in Skalen-Reihenfolge
+            const allItems = Object.values(SCALES).flatMap(s => s.items);
+
+            // Reverse-codierte Spalten-Keys
+            const reverseKeys = allItems.filter(i => REVERSE_ITEMS.has(i)).map(i => i + '_R');
+
+            // Skalenmittelwert-Spalten
+            const scaleKeys = Object.entries(SCALES).map(([k, s]) => 'mean_' + k);
+
+            // Header zusammenbauen
+            const headers = [...metaKeys, ...allItems, ...reverseKeys, ...scaleKeys];
+
             const esc = v => {
                 if (v === null || v === undefined) return '';
                 const s = String(v).replace(/"/g, '""');
                 return /[",\n;]/.test(s) ? '"' + s + '"' : s;
             };
-            const lines = [keys.join(';')];
-            rows.forEach(r => lines.push(keys.map(k => esc(r[k])).join(';')));
+
+            const lines = [headers.join(';')];
+
+            rows.forEach(r => {
+                const vals = [];
+
+                // Meta
+                metaKeys.forEach(k => vals.push(esc(r[k])));
+
+                // Rohdaten aller Items
+                allItems.forEach(item => vals.push(esc(r[item])));
+
+                // Reverse-codierte Werte (6 − Rohwert)
+                allItems.filter(i => REVERSE_ITEMS.has(i)).forEach(item => {
+                    const raw = r[item];
+                    const coded = (typeof raw === 'number' && !isNaN(raw)) ? (6 - raw) : null;
+                    vals.push(esc(coded));
+                });
+
+                // Skalenmittelwerte (mit Reverse-Kodierung)
+                Object.entries(SCALES).forEach(([key, s]) => {
+                    const itemVals = s.items.map(item => itemVal(r, item)).filter(v => v !== null);
+                    const m = itemVals.length > 0
+                        ? (itemVals.reduce((a, b) => a + b, 0) / itemVals.length).toFixed(3)
+                        : '';
+                    vals.push(esc(m));
+                });
+
+                lines.push(vals.join(';'));
+            });
+
             const csv = '\ufeff' + lines.join('\n'); // UTF-8 BOM for Excel
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
