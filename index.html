@@ -170,6 +170,14 @@
             font-size: 14px;
             margin-bottom: 3px;
         }
+
+        .likert-label-text {
+            display: block;
+            font-size: 10px;
+            color: #6b5d52;
+            line-height: 1.25;
+            margin-top: 2px;
+        }
         
         .demo-question {
             margin-bottom: 20px;
@@ -361,6 +369,13 @@
             .likert-number {
                 display: inline;
                 margin-right: 10px;
+            }
+
+            .likert-label-text {
+                display: inline;
+                font-size: 14px;
+                margin-top: 0;
+                color: #5d4e37;
             }
 
             .likert-legend {
@@ -621,26 +636,11 @@
                     <span class="item-number">A1.</span>
                     <span class="item-text" data-i18n="item_A1">Wenn sich Schwierigkeiten auftun, finde ich Mittel und Wege, diese zu überwinden.</span>
                     <div class="likert-scale">
-                        <label class="likert-option">
-                            <input type="radio" name="A1" value="1">
-                            <span class="likert-number">1</span>überhaupt nicht
-                        </label>
-                        <label class="likert-option">
-                            <input type="radio" name="A1" value="2">
-                            <span class="likert-number">2</span>eher nicht
-                        </label>
-                        <label class="likert-option">
-                            <input type="radio" name="A1" value="3">
-                            <span class="likert-number">3</span>teils-teils
-                        </label>
-                        <label class="likert-option">
-                            <input type="radio" name="A1" value="4">
-                            <span class="likert-number">4</span>eher zu
-                        </label>
-                        <label class="likert-option">
-                            <input type="radio" name="A1" value="5">
-                            <span class="likert-number">5</span>voll und ganz
-                        </label>
+                        <label class="likert-option"><input type="radio" name="A1" value="1"><span class="likert-number">1</span></label>
+                        <label class="likert-option"><input type="radio" name="A1" value="2"><span class="likert-number">2</span></label>
+                        <label class="likert-option"><input type="radio" name="A1" value="3"><span class="likert-number">3</span></label>
+                        <label class="likert-option"><input type="radio" name="A1" value="4"><span class="likert-number">4</span></label>
+                        <label class="likert-option"><input type="radio" name="A1" value="5"><span class="likert-number">5</span></label>
                     </div>
                 </div>
 
@@ -2185,8 +2185,8 @@
             en: 'Items:'
           },
           info_items: {
-            de: '80 + 9 Soziodemografie',
-            en: '80 + 9 Socio-demographics'
+            de: '95 + 9 Soziodemografie',
+            en: '95 + 9 Socio-demographics'
           },
 
           // Consent section translations
@@ -2544,10 +2544,6 @@
             de: 'Deine Fähigkeit, Herausforderungen zu bewältigen und zu wachsen',
             en: 'Your ability to cope with challenges and grow'
           },
-          scale_J_desc: {
-            de: 'Dein Gefühl, in wichtigen Bereichen kompetent zu sein',
-            en: 'Your sense of competence in important areas'
-          },
           scale_K_desc: {
             de: 'Dein Erleben von Absorption und Freude beim Lernen',
             en: 'Your experience of absorption and joy in learning'
@@ -2756,6 +2752,32 @@
           item_T6: { de: 'Meine Kommiliton:innen bzw. Mitlernenden nehmen mich als eigenständige Person ernst.', en: 'My fellow learners take me seriously as an independent person.' }
         };
 
+        // Likert-Labels werden pro Option dynamisch aus TRANSLATIONS gerendert,
+        // damit sie bei jedem Item vollständig sichtbar sind (nicht nur in der Legende).
+        // Wording ist identisch mit der Legende: "Stimme ... zu".
+        function renderLikertLabels() {
+          const shortLabels = {
+            '1': { de: 'Stimme überhaupt nicht zu', en: 'Strongly disagree' },
+            '2': { de: 'Stimme eher nicht zu',      en: 'Disagree' },
+            '3': { de: 'Teils-teils',                en: 'Neutral' },
+            '4': { de: 'Stimme eher zu',             en: 'Agree' },
+            '5': { de: 'Stimme voll und ganz zu',    en: 'Strongly agree' }
+          };
+          document.querySelectorAll('.likert-option').forEach(opt => {
+            const input = opt.querySelector('input[type="radio"]');
+            if (!input) return;
+            const v = input.value;
+            if (!shortLabels[v]) return;
+            let textSpan = opt.querySelector('.likert-label-text');
+            if (!textSpan) {
+              textSpan = document.createElement('span');
+              textSpan.className = 'likert-label-text';
+              opt.appendChild(textSpan);
+            }
+            textSpan.textContent = shortLabels[v][currentLanguage] || shortLabels[v].de;
+          });
+        }
+
         function setLanguage(lang) {
           if (lang !== 'de' && lang !== 'en') return;
           currentLanguage = lang;
@@ -2793,12 +2815,15 @@
           }
 
           try { localStorage.setItem('uac-lang', lang); } catch (e) {}
+
+          renderLikertLabels();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
           let saved = null;
           try { saved = localStorage.getItem('uac-lang'); } catch (e) {}
           if (saved === 'en') setLanguage('en');
+          else renderLikertLabels();
 
           // ===== CONSENT GATE LOGIC =====
           const consentCheckbox = document.getElementById('consent-checkbox');

@@ -7,8 +7,9 @@ Dieses Paket enthält alles, was für die Online-Erhebung der UAC-Evaluationsstu
 | Datei | Zweck |
 |-------|-------|
 | `index.html` | Der zweisprachige Fragebogen (DE/EN). Wird auf GitHub Pages gehostet und an die Teilnehmenden verschickt. |
-| `dashboard.html` | Passwortgeschütztes Dashboard mit Live-Zahlen, Charts und CSV-Export. |
-| `01_database_setup.sql` | Einmaliges SQL-Skript, das die Tabelle `responses` samt RLS-Policies in Supabase anlegt. |
+| `dashboard.html` | Passwortgeschütztes Dashboard mit Live-Zahlen, Charts und CSV-Export (Rohwerte, Reverse-kodierte `*_R` Spalten, Skalenmittelwerte). |
+| `00_complete_setup.sql` | Einmaliges, konsolidiertes SQL-Skript, das die Tabelle `responses` samt RLS-Policies in Supabase anlegt (inkl. aller Spalten für die 95 Items + deprecated Spalten j1–j4, f4, f5 für Abwärtskompatibilität). |
+| `.github/workflows/supabase-keepalive.yml` | GitHub Action, die alle 4 Tage einen HTTP-Ping an Supabase sendet, damit das Free-Tier-Projekt nicht nach 7 Tagen Inaktivität pausiert wird. |
 | `README.md` | Diese Anleitung. |
 
 ## Architektur in einem Satz
@@ -25,7 +26,7 @@ Bereits erledigt. Die Tabelle `responses` existiert und RLS-Policies sind aktiv:
 - `SELECT` nur für `authenticated` → Dashboard sieht Daten, Fragebogen nicht
 - `UPDATE` / `DELETE` sind bewusst **nicht** erlaubt
 
-Falls die Tabelle neu aufgesetzt werden muss, `01_database_setup.sql` im Supabase SQL-Editor ausführen.
+Falls die Tabelle neu aufgesetzt werden muss, `00_complete_setup.sql` im Supabase SQL-Editor ausführen.
 
 ### 2. Dashboard-User anlegen (Supabase)
 
@@ -54,7 +55,9 @@ Bereits erledigt. In Supabase → Authentication → Users ist ein User angelegt
 
 ## Funktionen im Fragebogen
 
-- 80 Items in 16 Skalen (A–O, Q), deutsch und englisch umschaltbar (oben rechts)
+- 95 Items in 19 Skalen (A–T, ohne J), deutsch und englisch umschaltbar (oben rechts)
+- Skala J (Kompetenz) wurde entfernt, da SDT-Kompetenz indirekt über Skala A (Selbstwirksamkeit) und K (Flow) miterfasst wird
+- Neu seit April 2026: Skala B überarbeitet (Inhalt/Prozess-Subdimensionen), Skala D mit IMI-Items, Skala F auf WHO-5 Kurzform gekürzt, Skala G neu (CRCG), plus 4 neue Skalen P (PSS-4 Stress), R (FB-SZ-K Studienzufriedenheit), S (Rovai Lernzuwachs), T (LCQ-6 Autonomieunterstützung)
 - Soziodemografie, anonymer Teilnehmer-Code, Einwilligungserklärung
 - Auto-Backup im Browser-Speicher (localStorage) alle 30 Sekunden, falls jemand mitten im Ausfüllen die Seite schließt
 - Beim Absenden: vollständige Validierung, dann Insert in die Supabase-Tabelle
@@ -71,7 +74,14 @@ Bereits erledigt. In Supabase → Authentication → Users ist ein User angelegt
 
 ## Supabase Free Tier – wichtig!
 
-Das kostenlose Supabase-Tier pausiert Projekte nach 7 Tagen Inaktivität. Da die Erhebung über Wochen läuft und es Wartepausen zwischen T1, T2 und T3 gibt, muss das Projekt regelmäßig „angepingt" werden. Ein cron-job.org-Trigger reicht (täglich eine beliebige GET-Anfrage an `https://fbcbtoqmyyefdmevygvv.supabase.co/rest/v1/responses?select=id&limit=1`).
+Das kostenlose Supabase-Tier pausiert Projekte nach 7 Tagen Inaktivität. Da die Erhebung über Wochen läuft und es Wartepausen zwischen T1, T2 und T3 gibt, muss das Projekt regelmäßig „angepingt" werden.
+
+**Lösung:** Die GitHub Action `.github/workflows/supabase-keepalive.yml` erledigt das automatisch:
+
+- Läuft alle 4 Tage um 08:00 UTC (Cron `0 8 */4 * *`) — sicherer Abstand zur 7-Tage-Grenze
+- Zusätzlich manuell auslösbar im Tab **Actions → Supabase Keep-Alive → Run workflow**
+- Nutzt die Repo-Secrets `SUPABASE_URL` und `SUPABASE_KEY` (beide müssen in **Settings → Secrets and variables → Actions** gesetzt sein)
+- Sendet einen authentifizierten GET an `/rest/v1/responses?select=id&limit=1`; Erfolg = HTTP 200, andernfalls schlägt die Action fehl und GitHub verschickt automatisch eine Fehler-E-Mail an den Repo-Owner
 
 ## Technischer Stack
 
@@ -82,7 +92,10 @@ Das kostenlose Supabase-Tier pausiert Projekte nach 7 Tagen Inaktivität. Da die
 
 ## Datenschutz
 
-- Alle Daten pseudonymisiert (nur selbst gewählter Code, keine Namen/E-Mails)
+- Alle Daten **pseudonymisiert** (selbst generierter Code aus Mutter-Vorname + Geburtstag + Geburtsort — erlaubt Verknüpfung von T1/T2/T3, aber keine Re-Identifikation)
 - Speicherort: Supabase-Rechenzentrum Frankfurt (EU)
-- Keine Cookies, kein Tracking, keine Drittanbieter-Analytics
-- Widerrufsrecht: technisch nicht möglich, da vollständig anonym (so im Einwilligungstext erklärt)
+- Keine Cookies, kein Tracking, keine Drittanbieter-Analytics, keine IP-Adressen-Speicherung
+- Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung), Informationspflicht nach Art. 13 DSGVO erfüllt
+- Auftragsverarbeitung (Art. 28 DSGVO) mit Supabase; Drittlandtransfer abgedeckt durch Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO)
+- Kein Profiling / keine automatisierte Entscheidungsfindung (Art. 22 DSGVO)
+- Widerrufsrecht: über den selbstgewählten Pseudonym-Code möglich (via Kontakt zur Projektleitung), praktisch eingeschränkt durch den Pseudonymisierungsgrad — so im Einwilligungstext erklärt
