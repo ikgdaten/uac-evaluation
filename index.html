@@ -224,6 +224,71 @@
             font-weight: bold;
         }
 
+        /* Highlight für unbeantwortete Fragen (Validation-Feedback) */
+        .item.unanswered {
+            background: #fdecea;
+            border-left: 4px solid #c0392b;
+            padding-left: 12px;
+            margin-left: -16px;
+            border-radius: 3px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .demo-question.unanswered {
+            background: #fdecea;
+            border-left: 4px solid #c0392b;
+            padding-left: 12px;
+            border-radius: 3px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .validation-summary {
+            background: #fdecea;
+            border: 1px solid #c0392b;
+            border-left: 5px solid #c0392b;
+            color: #7b1f14;
+            padding: 15px 18px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .validation-summary strong { color: #7b1f14; }
+        .validation-summary .missing-list {
+            margin-top: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #5d1510;
+        }
+
+        /* Dynamischer Framing-Banner über dem Likert-Teil */
+        .framing-banner {
+            background: #eaf3ea;
+            border-left: 5px solid #5a7a4f;
+            color: #3a5030;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .framing-banner.pending {
+            background: #fdf6e3;
+            border-left-color: #d4a017;
+            color: #6b4f17;
+        }
+        .framing-banner strong { font-weight: 700; }
+
+        /* Perspektiven-Info oberhalb der Einwilligung */
+        .perspective-intro {
+            background: #f5efe4;
+            border-left: 4px solid #8b7355;
+            padding: 14px 18px;
+            margin: 0 0 20px 0;
+            border-radius: 3px;
+            color: #4d4138;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
         #consent-continue-btn {
             background: linear-gradient(135deg, #8b7355, #6b5d52);
             color: white;
@@ -499,6 +564,10 @@
             <strong data-i18n="info_duration_label">Bearbeitungszeit:</strong> <span data-i18n="info_duration">ca. 28-30 Minuten</span> | <strong data-i18n="info_items_label">Items:</strong> <span data-i18n="info_items">80 + 9 Soziodemografie</span>
         </div>
 
+        <div class="perspective-intro" data-i18n-html="perspective_intro">
+            <strong>Vor dem Ausfüllen:</strong> Diese Befragung erfasst Ihre Erfahrungen in einem konkreten Lernkontext. Sie werden gleich angeben, welche Bildungseinrichtung das ist — beantworten Sie dann alle Fragen bewusst aus dieser Perspektive.
+        </div>
+
         <!-- DATENSCHUTZ & EINWILLIGUNG -->
         <section class="section" id="consent-section">
             <h2 data-i18n="h2_consent">DATENSCHUTZ & EINWILLIGUNG</h2>
@@ -604,6 +673,30 @@
             </div>
         </section>
 
+        <!-- IHRE BILDUNGSEINRICHTUNG (neu nach vorne gezogen, setzt den Referenzrahmen für alle folgenden Fragen) -->
+        <section class="section" id="institution-section">
+            <h2 data-i18n="h2_institution">IHRE BILDUNGSEINRICHTUNG</h2>
+
+            <div class="info-box" data-i18n-html="institution_intro">
+                <strong>Warum diese Frage zuerst?</strong><br>
+                Ihre Antworten sollen sich auf einen konkreten Lernkontext beziehen. Bitte wählen Sie jetzt aus, an welcher Einrichtung Sie aktuell lernen — alle nachfolgenden Fragen beantworten Sie dann aus dieser Perspektive.
+            </div>
+
+            <div class="demo-question">
+                <div class="demo-label"><span data-i18n="s4_label">S4. An welcher Institution studieren/lernen Sie?</span> <span class="required">*</span></div>
+                <div class="checkbox-group">
+                    <label><input type="radio" name="institution" value="flow-valley" required> <span data-i18n="s4_flow_valley">Uniartcity of Flow Valley</span></label>
+                    <label><input type="radio" name="institution" value="flow-forest"> <span data-i18n="s4_flow_forest">Uniartcity of Flow Forest</span></label>
+                    <label><input type="radio" name="institution" value="flow-hills"> <span data-i18n="s4_flow_hills">Uniartcity of Flow Hills</span></label>
+                    <label><input type="radio" name="institution" value="konventionell" id="institution-konventionell"> <span data-i18n="s4_conventional">Andere Hochschule/Universität</span></label>
+                </div>
+                <div id="institution-detail" style="margin-top: 10px; padding-left: 25px; display: none;">
+                    <label style="font-size: 13px; color: #6b5d52;" data-i18n="s4_institution_name">Name der Hochschule/Universität:</label>
+                    <input type="text" class="demo-input" name="institution-name" id="institution-name" data-i18n-placeholder="s4_institution_placeholder">
+                </div>
+            </div>
+        </section>
+
         <div class="instruction" data-i18n-html="honesty_note">
             <strong>WICHTIGER HINWEIS ZUR EHRLICHKEIT:</strong><br>
             Bitte antworten Sie so ehrlich wie möglich. Es gibt keine richtigen oder falschen Antworten. Ihre Antworten sind anonym und werden nur für Forschungszwecke verwendet. Auch kritische oder negative Erfahrungen sind für uns wertvoll und wichtig.
@@ -612,6 +705,10 @@
         <!-- TEIL 1: HAUPTFRAGEBOGEN -->
         <section class="section page-break">
             <h2 data-i18n="h2_part2">TEIL 1: IHRE BILDUNGSERFAHRUNG</h2>
+
+            <div class="framing-banner pending" id="framing-banner">
+                <span id="framing-text" data-i18n="framing_placeholder">Bitte wählen Sie oben zuerst Ihre Bildungseinrichtung aus. Die folgenden Fragen beantworten Sie aus dieser Perspektive.</span>
+            </div>
 
             <div class="instruction" data-i18n-html="likert_instruction">
                 <strong>ANLEITUNG:</strong><br>
@@ -1960,20 +2057,7 @@
                 <input type="number" class="demo-input" name="semester" data-i18n-placeholder="s3_placeholder" min="1" max="20" required>
             </div>
 
-            <div class="demo-question">
-                <div class="demo-label"><span data-i18n="s4_label">S4. An welcher Institution studieren/lernen Sie?</span> <span class="required">*</span></div>
-                <div class="checkbox-group">
-                    <label><input type="radio" name="institution" value="flow-valley" required> <span data-i18n="s4_flow_valley">Uniartcity of Flow Valley</span></label>
-                    <label><input type="radio" name="institution" value="flow-forest"> <span data-i18n="s4_flow_forest">Uniartcity of Flow Forest</span></label>
-                    <label><input type="radio" name="institution" value="flow-hills"> <span data-i18n="s4_flow_hills">Uniartcity of Flow Hills</span></label>
-                    <label><input type="radio" name="institution" value="konventionell" id="institution-konventionell"> <span data-i18n="s4_conventional">Andere Hochschule/Universität</span></label>
-                </div>
-                <div id="institution-detail" style="margin-top: 10px; padding-left: 25px; display: none;">
-                    <label style="font-size: 13px; color: #6b5d52;" data-i18n="s4_institution_name">Name der Hochschule/Universität:</label>
-                    <input type="text" class="demo-input" name="institution-name" id="institution-name" data-i18n-placeholder="s4_institution_placeholder">
-                </div>
-            </div>
-
+            <!-- S4 (Institution) wurde nach oben verschoben (vor dem Likert-Teil) und setzt dort den Referenzrahmen. -->
             <!-- Zeitpunkt wird automatisch im Dashboard über created_at zugeordnet -->
 
             <div class="demo-question">
@@ -2059,6 +2143,7 @@
                 <div id="validation-errors" style="display: none; background: #fde8e8; border-left: 3px solid #c0392b; padding: 15px; margin-bottom: 20px; color: #922b21;">
                     <strong data-i18n="validation_header">Bitte korrigieren Sie folgende Punkte:</strong>
                     <ul id="error-list" style="margin-top: 10px; margin-left: 20px;"></ul>
+                    <button type="button" id="jump-to-missing-btn" onclick="scrollToFirstUnanswered()" data-i18n="jump_to_missing" style="margin-top: 10px; background: #c0392b; color: white; border: none; padding: 8px 16px; border-radius: 3px; font-size: 14px; cursor: pointer;">→ Zur ersten fehlenden Frage springen</button>
                 </div>
 
                 <button type="button" id="submit-btn" onclick="submitForm()" style="
@@ -2162,6 +2247,28 @@
           btn_note:        { de: 'Nach dem Absenden können Sie Ihre Antworten nicht mehr ändern.', en: 'After submission you can no longer change your answers.' },
           submit_check_header: { de: 'Bitte überprüfen Sie vor dem Absenden:', en: 'Please check before submitting:' },
           validation_header: { de: 'Bitte korrigieren Sie folgende Punkte:', en: 'Please correct the following items:' },
+          jump_to_missing: { de: '→ Zur ersten fehlenden Frage springen', en: '→ Jump to first missing question' },
+          h2_institution:  { de: 'IHRE BILDUNGSEINRICHTUNG', en: 'YOUR INSTITUTION' },
+          perspective_intro: {
+            de: '<strong>Vor dem Ausfüllen:</strong> Diese Befragung erfasst Ihre Erfahrungen in einem konkreten Lernkontext. Sie werden gleich angeben, welche Bildungseinrichtung das ist — beantworten Sie dann alle Fragen bewusst aus dieser Perspektive.',
+            en: '<strong>Before you start:</strong> This survey records your experiences in a specific learning context. You will be asked in a moment which institution this refers to — please answer all subsequent questions from that perspective.'
+          },
+          institution_intro: {
+            de: '<strong>Warum diese Frage zuerst?</strong><br>Ihre Antworten sollen sich auf einen konkreten Lernkontext beziehen. Bitte wählen Sie jetzt aus, an welcher Einrichtung Sie aktuell lernen — alle nachfolgenden Fragen beantworten Sie dann aus dieser Perspektive.',
+            en: '<strong>Why this question first?</strong><br>Your answers should refer to one specific learning context. Please select now where you currently study — all subsequent questions are to be answered from that perspective.'
+          },
+          framing_placeholder: {
+            de: 'Bitte wählen Sie oben zuerst Ihre Bildungseinrichtung aus. Die folgenden Fragen beantworten Sie aus dieser Perspektive.',
+            en: 'Please select your institution above first. The questions below refer to that context.'
+          },
+          framing_uac: {
+            de: 'Bitte beantworten Sie die folgenden Fragen <strong>mit Blick auf Ihre Erfahrungen bei Uniartcity</strong>.',
+            en: 'Please answer the following questions <strong>with reference to your experience at Uniartcity</strong>.'
+          },
+          framing_conventional: {
+            de: 'Bitte beantworten Sie die folgenden Fragen <strong>mit Blick auf Ihre Erfahrungen an Ihrer Hochschule/Universität</strong>.',
+            en: 'Please answer the following questions <strong>with reference to your experience at your regular university/college</strong>.'
+          },
           thanks_body:     { de: 'Ihre Antworten wurden erfolgreich übermittelt und tragen zur wissenschaftlichen Erforschung selbstbestimmter Bildung bei.', en: 'Your answers have been successfully submitted and contribute to the scientific investigation of self-determined education.' },
           thanks_code_label: { de: 'Ihr anonymer Code:', en: 'Your anonymous code:' },
           thanks_code_note:{ de: 'Bitte notieren Sie sich diesen Code, falls Sie an der Folgebefragung teilnehmen.', en: 'Please keep this code in case you take part in the follow-up survey.' },
@@ -2817,6 +2924,7 @@
           try { localStorage.setItem('uac-lang', lang); } catch (e) {}
 
           renderLikertLabels();
+          if (typeof updateFramingBanner === 'function') updateFramingBanner();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -2892,7 +3000,31 @@
             }
         }
 
-        // Show/hide institution detail field
+        // Show/hide institution detail field + dynamisches Framing für den Likert-Teil
+        function updateFramingBanner() {
+          const banner = document.getElementById('framing-banner');
+          const text = document.getElementById('framing-text');
+          if (!banner || !text) return;
+          const selected = document.querySelector('input[name="institution"]:checked');
+          if (!selected) {
+            banner.classList.add('pending');
+            text.textContent = (currentLanguage === 'en')
+              ? 'Please select your institution above first. The questions below refer to that context.'
+              : 'Bitte wählen Sie oben zuerst Ihre Bildungseinrichtung aus. Die folgenden Fragen beantworten Sie aus dieser Perspektive.';
+            return;
+          }
+          banner.classList.remove('pending');
+          if (selected.value === 'konventionell') {
+            text.innerHTML = (currentLanguage === 'en')
+              ? 'Please answer the following questions <strong>with reference to your experience at your regular university/college</strong>.'
+              : 'Bitte beantworten Sie die folgenden Fragen <strong>mit Blick auf Ihre Erfahrungen an Ihrer Hochschule/Universität</strong>.';
+          } else {
+            text.innerHTML = (currentLanguage === 'en')
+              ? 'Please answer the following questions <strong>with reference to your experience at Uniartcity</strong>.'
+              : 'Bitte beantworten Sie die folgenden Fragen <strong>mit Blick auf Ihre Erfahrungen bei Uniartcity</strong>.';
+          }
+        }
+
         document.querySelectorAll('input[name="institution"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 const detailDiv = document.getElementById('institution-detail');
@@ -2906,9 +3038,13 @@
                     detailInput.required = false;
                     detailInput.value = '';
                 }
+                updateFramingBanner();
                 updateProgress();
             });
         });
+
+        // Beim Start: Framing in neutralem Zustand zeigen
+        document.addEventListener('DOMContentLoaded', updateFramingBanner);
 
         // Update progress on any input change
         document.querySelectorAll('input, textarea').forEach(input => {
@@ -3056,20 +3192,95 @@
                 'T1','T2','T3','T4','T5','T6'
             ];
 
-            let unansweredCount = 0;
+            // Alte Highlights zunächst zurücksetzen
+            document.querySelectorAll('.item.unanswered, .demo-question.unanswered')
+              .forEach(el => el.classList.remove('unanswered'));
+
+            const unansweredItems = [];
             scaleNames.forEach(name => {
                 const answered = document.querySelector(`input[name="${name}"]:checked`);
                 if (!answered) {
-                    unansweredCount++;
+                    unansweredItems.push(name);
+                    const firstRadio = document.querySelector(`input[name="${name}"]`);
+                    if (firstRadio) {
+                        const itemEl = firstRadio.closest('.item') || firstRadio.closest('.demo-question');
+                        if (itemEl) itemEl.classList.add('unanswered');
+                    }
                 }
             });
 
-            if (unansweredCount > 0) {
-                errors.push(`Es sind noch ${unansweredCount} Fragen unbeantwortet.`);
+            // Demografie-Felder ebenfalls highlighten falls fehlend
+            if (!consent || !consent.checked) {
+                const el = document.getElementById('consent-checkbox');
+                if (el) (el.closest('.demo-question') || el.parentElement).classList.add('unanswered');
+            }
+            if (!anonCode || anonCode.value.trim().length < 6) {
+                const el = document.getElementById('participant-code');
+                if (el) (el.closest('.demo-question') || el.parentElement).classList.add('unanswered');
+            }
+            if (!institution) {
+                const el = document.querySelector('input[name="institution"]');
+                if (el) (el.closest('.demo-question') || el.parentElement).classList.add('unanswered');
+            }
+            if (!age || age.value === '' || parseInt(age.value) < 16 || parseInt(age.value) > 99) {
+                const el = document.querySelector('input[name="age"]');
+                if (el) (el.closest('.demo-question') || el.parentElement).classList.add('unanswered');
+            }
+            if (!gender) {
+                const el = document.querySelector('input[name="gender"]');
+                if (el) (el.closest('.demo-question') || el.parentElement).classList.add('unanswered');
+            }
+            const semesterInput = document.querySelector('input[name="semester"]');
+            if (!semesterInput || semesterInput.value === '') {
+                if (semesterInput) (semesterInput.closest('.demo-question') || semesterInput.parentElement).classList.add('unanswered');
+            }
+
+            if (unansweredItems.length > 0) {
+                // Max 10 Item-Namen anzeigen, Rest als „+ X weitere"
+                const preview = unansweredItems.slice(0, 10).join(', ');
+                const more = unansweredItems.length > 10 ? ` (+${unansweredItems.length - 10} ${currentLanguage === 'en' ? 'more' : 'weitere'})` : '';
+                const msg = (currentLanguage === 'en')
+                  ? `${unansweredItems.length} question(s) missing: ${preview}${more}. Missing questions are highlighted in red.`
+                  : `Es fehlen noch ${unansweredItems.length} Antworten: ${preview}${more}. Die betroffenen Fragen sind rot markiert.`;
+                errors.push(msg);
             }
 
             return errors;
         }
+
+        // Hilfsfunktion: zum ersten unbeantworteten Element scrollen
+        function scrollToFirstUnanswered() {
+            const first = document.querySelector('.item.unanswered, .demo-question.unanswered');
+            if (first) {
+                first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Beim Ausfüllen eines Items Highlight automatisch entfernen
+        document.addEventListener('change', function(e) {
+            if (e.target && (e.target.type === 'radio' || e.target.type === 'checkbox' || e.target.tagName === 'INPUT')) {
+                const parent = e.target.closest('.item.unanswered, .demo-question.unanswered');
+                if (parent) {
+                    // Prüfen ob jetzt eine gültige Auswahl vorliegt
+                    const name = e.target.name;
+                    if (name) {
+                        const anyChecked = document.querySelector(`input[name="${name}"]:checked`);
+                        const hasValue = e.target.value && e.target.value.trim && e.target.value.trim() !== '';
+                        if (anyChecked || hasValue) {
+                            parent.classList.remove('unanswered');
+                        }
+                    }
+                }
+            }
+        });
+        document.addEventListener('input', function(e) {
+            if (e.target && (e.target.type === 'text' || e.target.type === 'number')) {
+                const parent = e.target.closest('.demo-question.unanswered');
+                if (parent && e.target.value && e.target.value.trim() !== '') {
+                    parent.classList.remove('unanswered');
+                }
+            }
+        });
 
         // ============================================================
         // MAPPING: Formular-Feldnamen → Datenbank-Spalten
