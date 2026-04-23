@@ -1436,21 +1436,9 @@
                 <div class="qi-sub">${durations.length} von ${rows.length} mit Zeitangabe</div>
             </div>`;
 
-            // Missing rate card
-            const missClass = missingPct < 5 ? 'quality-ok' : (missingPct < 15 ? 'quality-warn' : 'quality-bad');
-            html += `<div class="quality-item ${missClass}">
-                <div class="qi-label">Fehlende Werte</div>
-                <div class="qi-value">${missingPct.toFixed(1)}%</div>
-                <div class="qi-sub">${missingCells} von ${totalCells} Zellen leer</div>
-            </div>`;
-
-            // Incomplete responses
-            const incClass = incompleteRows.length === 0 ? 'quality-ok' : 'quality-warn';
-            html += `<div class="quality-item ${incClass}">
-                <div class="qi-label">Unvollständige Antworten</div>
-                <div class="qi-value">${incompleteRows.length}</div>
-                <div class="qi-sub">&lt;50% der Items ausgefüllt</div>
-            </div>`;
+            // Karten "Fehlende Werte" und "Unvollständige Antworten" entfernt:
+            // Formular-Validierung erzwingt vollständige Beantwortung, beide
+            // Werte wären immer 0.
 
             // Flags count
             const totalFlags = speedFlags.length + straightLineFlags.length;
