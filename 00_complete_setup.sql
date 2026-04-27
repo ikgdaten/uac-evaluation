@@ -1,22 +1,29 @@
 -- ============================================================
 -- UAC EVALUATIONSSTUDIE – VOLLSTÄNDIGES DATENBANK-SETUP
 -- ============================================================
--- Konsolidiertes Setup-Script (ersetzt 01–05_*.sql)
--- Stand: 2026-04-16 (nach Charlott-Rubach-Rework)
+-- Konsolidiertes Setup-Script (kanonischer Stand der Datenbank).
+-- Stand: 2026-04-27 (Skala-O-Replacement nach Häcker-Methodengespräch)
 --
 -- AUSFÜHRUNG:
 -- 1. Supabase Dashboard → SQL Editor → "New query"
 -- 2. Diesen gesamten Inhalt einfügen
 -- 3. "Run" klicken (Cmd/Ctrl + Enter)
 --
+-- IDEMPOTENZ:
+-- Diese Datei ist sicher mehrfach ausführbar. Sie nutzt durchgehend
+-- "IF NOT EXISTS" / "IF EXISTS"-Klauseln. Bestehende Daten werden
+-- NICHT gelöscht. Neue Spalten werden additiv ergänzt.
+--
 -- Enthält:
 --   • Tabelle "responses" mit allen Skalen + Soziodemografie
+--   • Drei TEXT-Spalten für offene Fragen F1–F3 (ersetzt Skala O)
 --   • Row Level Security (RLS)
 --   • Indizes
 --
--- Skalenstruktur (95 Items):
+-- Skalenstruktur (95 Items + 3 offene Fragen):
 --   A  Selbstwirksamkeit         6 Items   Bandura (1997) / Schwarzer & Jerusalem (1995)
 --   B  Autonomie Inhalt+Prozess  6 Items   Deci & Ryan (2000), Reeve (2006)
+--                                          (Häufigkeits-Anker statt Zustimmung, ab April 2026)
 --   C  Soziale Eingebundenheit   5 Items   Deci & Ryan (2000)
 --   D  Intrinsische Motivation   5 Items   Ryan & Deci (2000), Wilde et al. (2009) IMI
 --   E  Selbstreguliertes Lernen  5 Items   Roth, Ogrin & Schmitz (2016)
@@ -28,20 +35,24 @@
 --   L  Naturverbundenheit        5 Items   Mayer & Frantz (2004)
 --   M  Partizipation & Demokratie 6 Items  Schulz et al. (2023)
 --   N  Transformation            4 Items   Mezirow (1991)
---   O  Vor-Motivation            3 Items   Kontrollvariable (retrospektiv)
+--   O  ENTFERNT (April 2026)              ersetzt durch offene Fragen F1–F3
 --   P  Wahrgenommener Stress     4 Items   Cohen et al. (1983) PSS-4
 --   Q  Ungewissheitstoleranz     6 Items   Dalbert (1999) UGTS
 --   R  Studienzufriedenheit      6 Items   Westermann et al. (1996) FB-SZ-K
 --   S  Wahrgenommener Lernzuwachs 4 Items  Rovai et al. (2009)
 --   T  Autonomieunterstützung    6 Items   Black & Deci (2000) LCQ-6
 --
+--   F1 Bildungs-Wertehaltung           offene Antwort   (offen_wichtigkeit)
+--   F2 Lerninhalte letzter Monat       offene Antwort   (offen_letzter_monat)
+--   F3 Erleben des Wichtigen           offene Antwort   (offen_erleben)
+--
 -- Reverse-codierte Items (Dashboard: 6 − Wert):
 --   a3, b2, c3, d3, e2, g4, h3, i3, k2, l2, m3, p2, p3, q5, q6, r6
 --
--- Hinweis: Skala J (Kompetenzerleben) wurde bewusst entfernt.
---   Spalten j1–j4 existieren weiterhin für Rückwärtskompatibilität,
---   werden aber nicht mehr durch den Fragebogen befüllt.
---   Spalten f4, f5 analog (Wohlbefinden-Kurzform).
+-- Deprecated, aber Spalten bleiben für Altdaten:
+--   j1–j4 (Skala J Kompetenzerleben, entfernt vor April 2026)
+--   f4, f5 (Wohlbefinden Langform, jetzt Kurzform)
+--   o1–o3 (Skala O Vor-Motivation, ersetzt durch F1–F3 ab April 2026)
 -- ============================================================
 
 -- Tabelle für Fragebogen-Antworten
@@ -176,10 +187,11 @@ CREATE TABLE IF NOT EXISTS public.responses (
     n3 SMALLINT CHECK (n3 BETWEEN 1 AND 5),
     n4 SMALLINT CHECK (n4 BETWEEN 1 AND 5),
 
-    -- Skala O: Motivation vor Bildungserfahrung (3 Items) — keine Reverse
-    o1 SMALLINT CHECK (o1 BETWEEN 1 AND 5),
-    o2 SMALLINT CHECK (o2 BETWEEN 1 AND 5),
-    o3 SMALLINT CHECK (o3 BETWEEN 1 AND 5),
+    -- Skala O: ENTFERNT ab April 2026 — Spalten bleiben für Altdaten
+    -- Ersetzt durch offene Fragen F1–F3 (siehe TEXT-Spalten am Ende dieses Blocks)
+    o1 SMALLINT CHECK (o1 BETWEEN 1 AND 5),  -- NICHT MEHR BEFÜLLT
+    o2 SMALLINT CHECK (o2 BETWEEN 1 AND 5),  -- NICHT MEHR BEFÜLLT
+    o3 SMALLINT CHECK (o3 BETWEEN 1 AND 5),  -- NICHT MEHR BEFÜLLT
 
     -- Skala P: Wahrgenommener Stress PSS-4 (4 Items) — R: p2, p3
     p1 SMALLINT CHECK (p1 BETWEEN 1 AND 5),
@@ -216,8 +228,36 @@ CREATE TABLE IF NOT EXISTS public.responses (
     t3 SMALLINT CHECK (t3 BETWEEN 1 AND 5),
     t4 SMALLINT CHECK (t4 BETWEEN 1 AND 5),
     t5 SMALLINT CHECK (t5 BETWEEN 1 AND 5),
-    t6 SMALLINT CHECK (t6 BETWEEN 1 AND 5)
+    t6 SMALLINT CHECK (t6 BETWEEN 1 AND 5),
+
+    -- ============================================================
+    -- OFFENE FRAGEN F1–F3 (ersetzen Skala O ab April 2026)
+    -- Auf Empfehlung von Prof. Dr. Thomas Häcker im Methodengespräch
+    -- ============================================================
+    offen_wichtigkeit   TEXT,  -- F1: Was ist Ihnen für Ihre eigene Bildung wichtig?
+    offen_letzter_monat TEXT,  -- F2: Was haben Sie im letzten Monat ... gelernt? (Wortlaut institutionsspezifisch)
+    offen_erleben       TEXT   -- F3: Inwieweit erleben Sie ... das, was Ihnen wichtig ist? (Wortlaut institutionsspezifisch)
 );
+
+-- ============================================================
+-- ZUSÄTZLICHE SPALTEN-MIGRATION
+-- ============================================================
+-- Falls die Tabelle bereits aus einer früheren Version existiert (vor
+-- April 2026), werden hier die drei neuen TEXT-Spalten additiv ergänzt.
+-- Auf einer frischen DB sind sie schon im CREATE TABLE oben enthalten —
+-- die ALTER-Statements sind dann No-Ops dank "IF NOT EXISTS".
+-- ============================================================
+ALTER TABLE public.responses
+    ADD COLUMN IF NOT EXISTS offen_wichtigkeit   TEXT,
+    ADD COLUMN IF NOT EXISTS offen_letzter_monat TEXT,
+    ADD COLUMN IF NOT EXISTS offen_erleben       TEXT;
+
+COMMENT ON COLUMN public.responses.offen_wichtigkeit IS
+    'F1: Was ist Ihnen für Ihre eigene Bildung wichtig? (offene Antwort, optional)';
+COMMENT ON COLUMN public.responses.offen_letzter_monat IS
+    'F2: Was haben Sie im letzten Monat in Ihrer aktuellen Bildungserfahrung gelernt? (offene Antwort, optional, Wortlaut institutionsspezifisch)';
+COMMENT ON COLUMN public.responses.offen_erleben IS
+    'F3: Inwieweit erleben Sie das, was Ihnen für Ihre Bildung wichtig ist? (offene Antwort, optional, Wortlaut institutionsspezifisch)';
 
 -- ============================================================
 -- INDIZES
@@ -253,4 +293,8 @@ CREATE POLICY "Authenticated users can read all responses"
 
 -- ============================================================
 -- FERTIG – Tabelle "responses" ist bereit.
+--
+-- Diese Datei ist die einzige kanonische Datenbank-Definition für
+-- das Projekt. Bei Schema-Änderungen wird sie aktualisiert und ist
+-- nach jedem Run auf einer Supabase-Instanz wieder im Soll-Zustand.
 -- ============================================================
