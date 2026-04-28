@@ -277,6 +277,31 @@
         }
         .framing-banner strong { font-weight: 700; }
 
+        /* Bezugsrahmen-Box (Konkretisierung von "Lernumfeld" / "Lerngruppe") */
+        .context-anchor {
+            background: #f5f1e8;
+            border-left: 4px solid #8b7355;
+            padding: 14px 18px;
+            margin: 0 0 20px 0;
+            border-radius: 3px;
+            color: #4d4138;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+        .context-anchor strong { font-weight: 700; color: #3a2f24; }
+        .context-anchor ul {
+            margin: 8px 0 4px 0;
+            padding-left: 22px;
+        }
+        .context-anchor li { margin: 3px 0; }
+        .context-anchor.hidden { display: none; }
+        .context-anchor .note {
+            font-style: italic;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #6b5d52;
+        }
+
         /* Perspektiven-Info oberhalb der Einwilligung */
         .perspective-intro {
             background: #f5efe4;
@@ -561,6 +586,7 @@
         <div class="info-box">
             <strong>Institut für Kulturgestaltung e.V.</strong><br>
             <span data-i18n="info_scientific_lead">Wissenschaftliche Leitung: Prof. Dr. Thomas Häcker, Universität Rostock</span><br>
+            <span data-i18n="info_scientific_companion">Wissenschaftliche Begleitung: Charlott Rubach, Universität Rostock</span><br>
             <strong data-i18n="info_duration_label">Bearbeitungszeit:</strong> <span data-i18n="info_duration">ca. 28-30 Minuten</span> | <strong data-i18n="info_items_label">Items:</strong> <span data-i18n="info_items">80 + 9 Soziodemografie</span>
         </div>
 
@@ -590,7 +616,10 @@
 
                 <p style="margin-bottom: 15px;" data-i18n-html="consent_scientific"><strong>Wissenschaftliche Leitung:</strong><br>
                 Prof. Dr. Thomas Häcker<br>
-                Universität Rostock, Institut für Schulpädagogik und Bildungsforschung</p>
+                Universität Rostock, Institut für Schulpädagogik und Bildungsforschung<br><br>
+                <strong>Wissenschaftliche Begleitung:</strong><br>
+                Charlott Rubach<br>
+                Universität Rostock</p>
 
                 <p style="margin-bottom: 15px;" data-i18n-html="consent_dpo"><strong>Ansprechperson für Datenschutzfragen:</strong><br>
                 Bei Fragen zum Datenschutz wenden Sie sich bitte an:<br>
@@ -710,6 +739,10 @@
                 <span id="framing-text" data-i18n="framing_placeholder">Bitte wählen Sie oben zuerst Ihre Bildungseinrichtung aus. Die folgenden Fragen beantworten Sie aus dieser Perspektive.</span>
             </div>
 
+            <div class="context-anchor hidden" id="context-anchor">
+                <div id="context-anchor-text"></div>
+            </div>
+
             <div class="instruction" data-i18n-html="likert_instruction">
                 <strong>ANLEITUNG:</strong><br>
                 Bitte geben Sie für jede Aussage an, inwieweit Sie ihr zustimmen. Wählen Sie dazu eine Zahl von 1 bis 5. Es gibt keine richtigen oder falschen Antworten – es geht um Ihre persönliche Einschätzung. Bitte lesen Sie jede Aussage sorgfältig durch und beantworten Sie alle Fragen.
@@ -804,10 +837,26 @@
             </div>
 
             <!-- SKALA B: AUTONOMIE (Inhalt + Prozess, 6 Items) — B2 reverse -->
+            <!-- Anker dieser Skala wechseln auf HÄUFIGKEIT (statt Zustimmung), da
+                 die B-Items verhaltensbezogen sind. Methodische Begründung im
+                 Methodenteil dokumentieren. -->
             <div class="question-group">
                 <div class="scale-header" data-i18n="scale_B">SKALA B: AUTONOMIE – INHALT & PROZESS (6 Items)</div>
                 <div class="scale-info" data-i18n="scale_B_basis">Theoretische Basis: Deci &amp; Ryan (2000), Ryan &amp; Deci (2017); Reeve (2006)</div>
                 <p style="margin-bottom: 15px; color: #6b5d52;" data-i18n="scale_B_desc">Ihr Erleben von Eigenständigkeit in Inhalten (was Sie lernen) und im Prozess (wie Sie lernen)</p>
+
+                <div class="instruction" style="margin-bottom: 14px;" data-i18n-html="scale_B_freq_intro">
+                    <strong>Hinweis zu dieser Skala:</strong><br>
+                    Bitte schätzen Sie ein, <strong>wie häufig</strong> die folgenden Aussagen auf Ihren Lernalltag zutreffen. Die Bedeutung der Zahlen ändert sich für diese Skala wie folgt:
+                </div>
+
+                <div class="likert-legend">
+                    <span data-i18n-html="freq_1"><strong>1</strong><br>trifft fast nie zu</span>
+                    <span data-i18n-html="freq_2"><strong>2</strong><br>trifft selten zu</span>
+                    <span data-i18n-html="freq_3"><strong>3</strong><br>trifft manchmal zu</span>
+                    <span data-i18n-html="freq_4"><strong>4</strong><br>trifft oft zu</span>
+                    <span data-i18n-html="freq_5"><strong>5</strong><br>trifft fast immer zu</span>
+                </div>
 
                 <h4 style="margin: 10px 0 5px 0; color: #5d4e37; font-size: 14px;" data-i18n="scale_B_sub_content">Inhaltliche Autonomie (B1–B3)</h4>
 
@@ -891,7 +940,12 @@
             <div class="question-group">
                 <div class="scale-header" data-i18n="scale_C">SKALA C: SOZIALE EINGEBUNDENHEIT (5 Items)</div>
                 <div class="scale-info">Theoretische Basis: Deci & Ryan (2000), Ryan & Deci (2017)</div>
-                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr Gefühl von Verbundenheit und Gemeinschaft</p>
+                <p style="margin-bottom: 12px; color: #6b5d52;">Ihr Gefühl von Verbundenheit und Gemeinschaft</p>
+
+                <!-- Skala-spezifischer Bezugsrahmen für "Lernumfeld" — wird dynamisch befüllt -->
+                <div class="context-anchor" id="scale-c-context" style="margin-bottom: 18px; font-size: 13px; padding: 10px 14px;">
+                    <div id="scale-c-context-text"></div>
+                </div>
 
                 <div class="item">
                     <span class="item-number">C1.</span>
@@ -1138,8 +1192,12 @@
             <div class="question-group page-break">
                 <div class="scale-header" data-i18n="scale_G">SKALA G: KOOPERATION & ZUSAMMENARBEIT (5 Items)</div>
                 <div class="scale-info">Theoretische Basis: León-del-Barco et al. (2018) – CRCG; Johnson & Johnson (2009)</div>
-                <p style="margin-bottom: 15px; color: #6b5d52;">Die fünf Grundelemente kooperativen Lernens in Ihrem Lernumfeld<br>
-                <em style="font-size: 12px;">Falls Sie keine formellen Gruppenarbeiten haben, beziehen Sie sich auf informelle Zusammenarbeit mit Kommiliton:innen oder Mitlernenden.</em></p>
+                <p style="margin-bottom: 12px; color: #6b5d52;">Die fünf Grundelemente kooperativen Lernens in Ihrer Lerngruppe.</p>
+
+                <!-- Skala-spezifischer Bezugsrahmen für "Lerngruppe" — wird dynamisch befüllt -->
+                <div class="context-anchor" id="scale-g-context" style="margin-bottom: 18px; font-size: 13px; padding: 10px 14px;">
+                    <div id="scale-g-context-text"></div>
+                </div>
 
                 <div class="item">
                     <span class="item-number">G1.</span>
@@ -1207,7 +1265,12 @@
             <div class="question-group">
                 <div class="scale-header" data-i18n="scale_H">SKALA H: PSYCHOLOGISCHE SICHERHEIT (6 Items)</div>
                 <div class="scale-info">Theoretische Basis: Edmondson (1999, 2018)</div>
-                <p style="margin-bottom: 15px; color: #6b5d52;">Die Sicherheit, Risiken einzugehen und Fehler zu machen</p>
+                <p style="margin-bottom: 12px; color: #6b5d52;">Die Sicherheit, Risiken einzugehen und Fehler zu machen</p>
+
+                <!-- Skala-spezifischer Bezugsrahmen für "Lernumfeld" — wird dynamisch befüllt -->
+                <div class="context-anchor" id="scale-h-context" style="margin-bottom: 18px; font-size: 13px; padding: 10px 14px;">
+                    <div id="scale-h-context-text"></div>
+                </div>
 
                 <div class="item">
                     <span class="item-number">H1.</span>
@@ -1498,7 +1561,12 @@
             <div class="question-group">
                 <div class="scale-header" data-i18n="scale_M">SKALA M: PARTIZIPATION & DEMOKRATIE (6 Items)</div>
                 <div class="scale-info">Theoretische Basis: Schulz et al. (2023), Flanagan & Levine (2010)</div>
-                <p style="margin-bottom: 15px; color: #6b5d52;">Ihr Erleben von Mitbestimmung und Umgang mit Vielfalt</p>
+                <p style="margin-bottom: 12px; color: #6b5d52;">Ihr Erleben von Mitbestimmung und Umgang mit Vielfalt</p>
+
+                <!-- Skala-spezifischer Bezugsrahmen für "Lernumfeld" — wird dynamisch befüllt -->
+                <div class="context-anchor" id="scale-m-context" style="margin-bottom: 18px; font-size: 13px; padding: 10px 14px;">
+                    <div id="scale-m-context-text"></div>
+                </div>
 
                 <div class="item">
                     <span class="item-number">M1.</span>
@@ -1630,45 +1698,28 @@
                 </div>
             </div>
 
-            <!-- SKALA O: MOTIVATION VOR BILDUNGSERFAHRUNG -->
+            <!-- OFFENE FRAGEN ZU IHRER BILDUNG (ersetzt frühere Skala O ab April 2026,
+                 auf Empfehlung von Prof. Dr. Thomas Häcker im Methodengespräch) -->
             <div class="question-group">
-                <div class="scale-header" data-i18n="scale_O">SKALA O: MOTIVATION VOR DER AKTUELLEN BILDUNGSERFAHRUNG (3 Items)</div>
-                <div class="scale-info">Retrospektive Einschätzung – wie waren Sie VOR dieser Bildungserfahrung?</div>
+                <div class="scale-header" data-i18n="scale_open_header">OFFENE FRAGEN ZU IHRER BILDUNG</div>
+                <p style="margin-bottom: 15px; color: #6b5d52;" data-i18n="scale_open_desc">Drei kurze Fragen, die Ihre Erfahrung in eigenen Worten erfassen. Auch ein paar Stichpunkte oder ein, zwei Sätze sind hilfreich – schreiben Sie so kurz oder ausführlich, wie es Ihnen passt.</p>
 
                 <div class="item">
-                    <span class="item-number">O1.</span>
-                    <span class="item-text" data-i18n="item_O1">Schon vor meiner aktuellen Bildungserfahrung war mir selbstbestimmtes Lernen wichtig.</span>
-                    <div class="likert-scale">
-                        <label class="likert-option"><input type="radio" name="O1" value="1"><span class="likert-number">1</span></label>
-                        <label class="likert-option"><input type="radio" name="O1" value="2"><span class="likert-number">2</span></label>
-                        <label class="likert-option"><input type="radio" name="O1" value="3"><span class="likert-number">3</span></label>
-                        <label class="likert-option"><input type="radio" name="O1" value="4"><span class="likert-number">4</span></label>
-                        <label class="likert-option"><input type="radio" name="O1" value="5"><span class="likert-number">5</span></label>
-                    </div>
+                    <span class="item-number">F1.</span>
+                    <span class="item-text" data-i18n="item_F1">Was ist Ihnen für Ihre eigene Bildung wichtig?</span>
+                    <textarea class="demo-input" name="offen_wichtigkeit" rows="4" maxlength="2000" style="margin-top: 10px;" data-i18n-placeholder="open_placeholder" placeholder="Ihre Antwort…"></textarea>
                 </div>
 
                 <div class="item">
-                    <span class="item-number">O2.</span>
-                    <span class="item-text" data-i18n="item_O2">Ich habe mich bewusst für diesen Bildungsweg entschieden, weil er meinen Werten entspricht.</span>
-                    <div class="likert-scale">
-                        <label class="likert-option"><input type="radio" name="O2" value="1"><span class="likert-number">1</span></label>
-                        <label class="likert-option"><input type="radio" name="O2" value="2"><span class="likert-number">2</span></label>
-                        <label class="likert-option"><input type="radio" name="O2" value="3"><span class="likert-number">3</span></label>
-                        <label class="likert-option"><input type="radio" name="O2" value="4"><span class="likert-number">4</span></label>
-                        <label class="likert-option"><input type="radio" name="O2" value="5"><span class="likert-number">5</span></label>
-                    </div>
+                    <span class="item-number">F2.</span>
+                    <span class="item-text" id="item-F2-text">Was haben Sie im letzten Monat in Ihrer aktuellen Bildungserfahrung gelernt?</span>
+                    <textarea class="demo-input" name="offen_letzter_monat" rows="4" maxlength="2000" style="margin-top: 10px;" data-i18n-placeholder="open_placeholder" placeholder="Ihre Antwort…"></textarea>
                 </div>
 
                 <div class="item">
-                    <span class="item-number">O3.</span>
-                    <span class="item-text" data-i18n="item_O3">Auch in früheren Bildungskontexten habe ich gerne eigenständig gelernt.</span>
-                    <div class="likert-scale">
-                        <label class="likert-option"><input type="radio" name="O3" value="1"><span class="likert-number">1</span></label>
-                        <label class="likert-option"><input type="radio" name="O3" value="2"><span class="likert-number">2</span></label>
-                        <label class="likert-option"><input type="radio" name="O3" value="3"><span class="likert-number">3</span></label>
-                        <label class="likert-option"><input type="radio" name="O3" value="4"><span class="likert-number">4</span></label>
-                        <label class="likert-option"><input type="radio" name="O3" value="5"><span class="likert-number">5</span></label>
-                    </div>
+                    <span class="item-number">F3.</span>
+                    <span class="item-text" id="item-F3-text">Inwieweit erleben Sie in Ihrer aktuellen Bildungserfahrung das, was Ihnen für Ihre Bildung wichtig ist?</span>
+                    <textarea class="demo-input" name="offen_erleben" rows="4" maxlength="2000" style="margin-top: 10px;" data-i18n-placeholder="open_placeholder" placeholder="Ihre Antwort…"></textarea>
                 </div>
             </div>
 
@@ -2003,6 +2054,11 @@
 
                 <p style="font-weight:600; color:#6b5d52; margin-top:15px;" data-i18n="scale_T_sub_peers">Kommiliton:innen / Mitlernende (T5–T6)</p>
 
+                <!-- Skala-spezifischer Bezugsrahmen für "Kommiliton:innen / Mitlernende" — dynamisch -->
+                <div class="context-anchor" id="scale-t-context" style="margin: 8px 0 18px 0; font-size: 13px; padding: 10px 14px;">
+                    <div id="scale-t-context-text"></div>
+                </div>
+
                 <div class="item">
                     <span class="item-number">T5.</span>
                     <span class="item-text" data-i18n="item_T5">Meine Kommiliton:innen bzw. Mitlernenden unterstützen mich darin, eigene Entscheidungen zu treffen.</span>
@@ -2200,7 +2256,9 @@
             Weidelbach 14, 91550 Dinkelsbühl<br>
             uniartcity@gmail.com | www.uniartcity.org</p>
             <p style="margin-top: 15px;">Wissenschaftliche Leitung: Prof. Dr. Thomas Häcker<br>
-            Universität Rostock | Institut für Schulpädagogik und Bildungsforschung</p>
+            Universität Rostock | Institut für Schulpädagogik und Bildungsforschung<br>
+            <span style="display:inline-block; margin-top:8px;">Wissenschaftliche Begleitung: Charlott Rubach<br>
+            Universität Rostock</span></p>
             <p style="margin-top: 15px; font-size: 11px; color: #95a5a6;">
                 Evaluationsbogen Version 21 | Dezember 2025<br>
                 Alle Rechte vorbehalten © Institut für Kulturgestaltung e.V.
@@ -2277,6 +2335,10 @@
           thanks_contact:  { de: 'Bei Fragen wenden Sie sich an:', en: 'If you have any questions, please contact:' },
 
           // Info box
+          info_scientific_companion: {
+            de: 'Wissenschaftliche Begleitung: Charlott Rubach, Universität Rostock',
+            en: 'Scientific support: Charlott Rubach, University of Rostock'
+          },
           info_scientific_lead: {
             de: 'Wissenschaftliche Leitung: Prof. Dr. Thomas Häcker, Universität Rostock',
             en: 'Scientific direction: Prof. Dr. Thomas Häcker, University of Rostock'
@@ -2316,8 +2378,8 @@
             en: '<strong>Responsible party (Art. 4(7) GDPR):</strong><br>Institut für Kulturgestaltung e.V.<br>Weidelbach 14, 91550 Dinkelsbühl<br>E-Mail: uniartcity@gmail.com'
           },
           consent_scientific: {
-            de: '<strong>Wissenschaftliche Leitung:</strong><br>Prof. Dr. Thomas Häcker<br>Universität Rostock, Institut für Schulpädagogik und Bildungsforschung',
-            en: '<strong>Scientific direction:</strong><br>Prof. Dr. Thomas Häcker<br>University of Rostock, Institute for School Pedagogy and Educational Research'
+            de: '<strong>Wissenschaftliche Leitung:</strong><br>Prof. Dr. Thomas Häcker<br>Universität Rostock, Institut für Schulpädagogik und Bildungsforschung<br><br><strong>Wissenschaftliche Begleitung:</strong><br>Charlott Rubach<br>Universität Rostock',
+            en: '<strong>Scientific direction:</strong><br>Prof. Dr. Thomas Häcker<br>University of Rostock, Institute for School Pedagogy and Educational Research<br><br><strong>Scientific support:</strong><br>Charlott Rubach<br>University of Rostock'
           },
           consent_dpo: {
             de: '<strong>Ansprechperson für Datenschutzfragen:</strong><br>Bei Fragen zum Datenschutz wenden Sie sich bitte an:<br>uniartcity@gmail.com',
@@ -2620,6 +2682,50 @@
             en: '<strong>5</strong><br>Strongly agree'
           },
 
+          // Häufigkeits-Anker für Skala B (Autonomie)
+          scale_B_freq_intro: {
+            de: '<strong>Hinweis zu dieser Skala:</strong><br>Bitte schätzen Sie ein, <strong>wie häufig</strong> die folgenden Aussagen auf Ihren Lernalltag zutreffen. Die Bedeutung der Zahlen ändert sich für diese Skala wie folgt:',
+            en: '<strong>Note on this scale:</strong><br>Please rate <strong>how frequently</strong> the following statements apply to your everyday learning. The meaning of the numbers changes for this scale as follows:'
+          },
+          freq_1: {
+            de: '<strong>1</strong><br>trifft fast nie zu',
+            en: '<strong>1</strong><br>almost never applies'
+          },
+          freq_2: {
+            de: '<strong>2</strong><br>trifft selten zu',
+            en: '<strong>2</strong><br>rarely applies'
+          },
+          freq_3: {
+            de: '<strong>3</strong><br>trifft manchmal zu',
+            en: '<strong>3</strong><br>sometimes applies'
+          },
+          freq_4: {
+            de: '<strong>4</strong><br>trifft oft zu',
+            en: '<strong>4</strong><br>often applies'
+          },
+          freq_5: {
+            de: '<strong>5</strong><br>trifft fast immer zu',
+            en: '<strong>5</strong><br>almost always applies'
+          },
+
+          // Offene Fragen F1-F3 (ersetzen Skala O ab April 2026)
+          scale_open_header: {
+            de: 'OFFENE FRAGEN ZU IHRER BILDUNG',
+            en: 'OPEN QUESTIONS ABOUT YOUR EDUCATION'
+          },
+          scale_open_desc: {
+            de: 'Drei kurze Fragen, die Ihre Erfahrung in eigenen Worten erfassen. Auch ein paar Stichpunkte oder ein, zwei Sätze sind hilfreich – schreiben Sie so kurz oder ausführlich, wie es Ihnen passt.',
+            en: 'Three short open-ended questions that capture your experience in your own words. Even a few keywords or one or two sentences are helpful – write as briefly or in as much detail as you like.'
+          },
+          item_F1: {
+            de: 'Was ist Ihnen für Ihre eigene Bildung wichtig?',
+            en: 'What is important to you for your own education?'
+          },
+          open_placeholder: {
+            de: 'Ihre Antwort…',
+            en: 'Your answer…'
+          },
+
           // Scale descriptions
           scale_A_desc: {
             de: 'Ihr Vertrauen in die eigenen Fähigkeiten',
@@ -2865,29 +2971,40 @@
           item_T6: { de: 'Meine Kommiliton:innen bzw. Mitlernenden nehmen mich als eigenständige Person ernst.', en: 'My fellow learners take me seriously as an independent person.' }
         };
 
-        // Likert-Labels werden pro Option dynamisch aus TRANSLATIONS gerendert,
-        // damit sie bei jedem Item vollständig sichtbar sind (nicht nur in der Legende).
-        // Wording ist identisch mit der Legende: "Stimme ... zu".
+        // Likert-Labels werden pro Option dynamisch gerendert, damit sie bei
+        // jedem Item vollständig sichtbar sind (nicht nur in der Legende).
+        // Skala B (Autonomie) nutzt seit April 2026 Häufigkeits-Anker statt
+        // Zustimmungs-Anker — die Auswahl erfolgt anhand des `name`-Attributs.
         function renderLikertLabels() {
-          const shortLabels = {
+          const agreeLabels = {
             '1': { de: 'Stimme überhaupt nicht zu', en: 'Strongly disagree' },
             '2': { de: 'Stimme eher nicht zu',      en: 'Disagree' },
             '3': { de: 'Teils-teils',                en: 'Neutral' },
             '4': { de: 'Stimme eher zu',             en: 'Agree' },
             '5': { de: 'Stimme voll und ganz zu',    en: 'Strongly agree' }
           };
+          const freqLabels = {
+            '1': { de: 'trifft fast nie zu',     en: 'almost never applies' },
+            '2': { de: 'trifft selten zu',       en: 'rarely applies' },
+            '3': { de: 'trifft manchmal zu',     en: 'sometimes applies' },
+            '4': { de: 'trifft oft zu',          en: 'often applies' },
+            '5': { de: 'trifft fast immer zu',   en: 'almost always applies' }
+          };
           document.querySelectorAll('.likert-option').forEach(opt => {
             const input = opt.querySelector('input[type="radio"]');
             if (!input) return;
             const v = input.value;
-            if (!shortLabels[v]) return;
+            // Skala B → Häufigkeits-Anker, alle anderen Skalen → Zustimmungs-Anker
+            const isFreqScale = input.name && /^B\d+$/.test(input.name);
+            const labels = isFreqScale ? freqLabels : agreeLabels;
+            if (!labels[v]) return;
             let textSpan = opt.querySelector('.likert-label-text');
             if (!textSpan) {
               textSpan = document.createElement('span');
               textSpan.className = 'likert-label-text';
               opt.appendChild(textSpan);
             }
-            textSpan.textContent = shortLabels[v][currentLanguage] || shortLabels[v].de;
+            textSpan.textContent = labels[v][currentLanguage] || labels[v].de;
           });
         }
 
@@ -3006,10 +3123,68 @@
             }
         }
 
+        // Helper: Liefert den passenden Kontext-Reminder für eine Skala,
+        // abhängig von Institution + Sprache. Verwendet von Skala C, G, H, M, T.
+        // type: 'lernumfeld' | 'lerngruppe' | 'peers'
+        function getScaleContextHtml(type, institution, lang) {
+          if (!institution) return '';
+          const isUac = institution !== 'konventionell';
+          const isEn = (lang === 'en');
+
+          if (type === 'lernumfeld') {
+            if (isUac) {
+              return isEn
+                ? 'When you read <strong>“learning environment”</strong> here, think of your overall context at Uniartcity — your everyday learning life, shared spaces, training settings, also moments of learning on your own.'
+                : 'Denken Sie bei <strong>„Lernumfeld"</strong> hier an Ihren Gesamtkontext bei Uniartcity — Lernalltag, gemeinsame Räume, Trainings-Settings, auch Momente des Lernens allein.';
+            }
+            return isEn
+              ? 'When you read <strong>“learning environment”</strong> here, think of the broader context of your studies — lectures, seminars, tutorials, studying alone or in the library, your everyday study life as a whole.'
+              : 'Denken Sie bei <strong>„Lernumfeld"</strong> hier an den breiteren Kontext Ihres Studiums — Vorlesungen, Seminare, Tutorien, Lernen allein oder in der Bibliothek, Ihren Studienalltag insgesamt.';
+          }
+
+          if (type === 'lerngruppe') {
+            if (isUac) {
+              return isEn
+                ? 'When you read <strong>“learning group”</strong> here, think of concrete groups you co-learn with at Uniartcity — Bildungsbrief-Gruppe (~20 people), small groups, topic-specific learning groups.'
+                : 'Denken Sie bei <strong>„Lerngruppe"</strong> hier an konkrete Gruppen, mit denen Sie bei Uniartcity zusammen lernen — Bildungsbrief-Gruppe (~20 Personen), Kleingruppen, themenspezifische Lerngruppen.';
+            }
+            return isEn
+              ? 'When you read <strong>“learning group”</strong> here, think of concrete groups you co-learn with — seminar groups, project teams, lab groups, formal or informal study groups, regular learning tandems. If you mostly study on your own, refer to the closest group context — even occasional informal collaboration counts.'
+              : 'Denken Sie bei <strong>„Lerngruppe"</strong> hier an konkrete Gruppen, mit denen Sie zusammen lernen — Seminargruppen, Projektteams, Laborgruppen, formelle oder informelle Lerngruppen, regelmäßige Lerntandems. Falls Sie überwiegend allein lernen, beziehen Sie sich auf den nächstgelegenen Gruppenkontext — auch gelegentliche informelle Zusammenarbeit zählt.';
+          }
+
+          if (type === 'peers') {
+            if (isUac) {
+              return isEn
+                ? 'When you read <strong>“fellow learners”</strong> here, think of the people you learn alongside at Uniartcity — Bildungsbrief members, small-group partners, peers in your topic-specific groups.'
+                : 'Denken Sie bei <strong>„Kommiliton:innen / Mitlernende"</strong> hier an die Menschen, mit denen Sie bei Uniartcity zusammen lernen — Bildungsbrief-Mitglieder, Kleingruppen-Partner:innen, Mitlernende aus themenspezifischen Gruppen.';
+            }
+            return isEn
+              ? 'When you read <strong>“fellow learners”</strong> here, think of students you study alongside — peers in seminars, project teams, study groups, or other co-learners.'
+              : 'Denken Sie bei <strong>„Kommiliton:innen / Mitlernende"</strong> hier an Studierende, mit denen Sie zusammen lernen — Mit-Studierende in Seminaren, Projektteams, Lerngruppen oder andere Mitlernende.';
+          }
+
+          return '';
+        }
+
         // Show/hide institution detail field + dynamisches Framing für den Likert-Teil
         function updateFramingBanner() {
           const banner = document.getElementById('framing-banner');
           const text = document.getElementById('framing-text');
+          const anchor = document.getElementById('context-anchor');
+          const anchorText = document.getElementById('context-anchor-text');
+          const f2Text = document.getElementById('item-F2-text');
+          const f3Text = document.getElementById('item-F3-text');
+
+          // Skala-spezifische Bezugsrahmen-Boxen
+          const scaleContexts = [
+            { id: 'scale-c-context', textId: 'scale-c-context-text', type: 'lernumfeld' },
+            { id: 'scale-g-context', textId: 'scale-g-context-text', type: 'lerngruppe' },
+            { id: 'scale-h-context', textId: 'scale-h-context-text', type: 'lernumfeld' },
+            { id: 'scale-m-context', textId: 'scale-m-context-text', type: 'lernumfeld' },
+            { id: 'scale-t-context', textId: 'scale-t-context-text', type: 'peers' }
+          ];
+
           if (!banner || !text) return;
           const selected = document.querySelector('input[name="institution"]:checked');
           if (!selected) {
@@ -3017,6 +3192,19 @@
             text.textContent = (currentLanguage === 'en')
               ? 'Please select your institution above first. The questions below refer to that context.'
               : 'Bitte wählen Sie oben zuerst Ihre Bildungseinrichtung aus. Die folgenden Fragen beantworten Sie aus dieser Perspektive.';
+            if (anchor) anchor.classList.add('hidden');
+            // Alle Skala-Kontext-Boxen verstecken
+            scaleContexts.forEach(s => {
+              const el = document.getElementById(s.id);
+              if (el) el.classList.add('hidden');
+            });
+            // Generischer Default-Text für F2/F3, solange keine Institution gewählt ist
+            if (f2Text) f2Text.textContent = (currentLanguage === 'en')
+              ? 'What have you learned in your current educational experience over the past month?'
+              : 'Was haben Sie im letzten Monat in Ihrer aktuellen Bildungserfahrung gelernt?';
+            if (f3Text) f3Text.textContent = (currentLanguage === 'en')
+              ? 'To what extent do you experience what is important to you for your education in your current educational setting?'
+              : 'Inwieweit erleben Sie in Ihrer aktuellen Bildungserfahrung das, was Ihnen für Ihre Bildung wichtig ist?';
             return;
           }
           banner.classList.remove('pending');
@@ -3024,11 +3212,98 @@
             text.innerHTML = (currentLanguage === 'en')
               ? 'Please answer the following questions <strong>with reference to your experience at your regular university/college</strong>.'
               : 'Bitte beantworten Sie die folgenden Fragen <strong>mit Blick auf Ihre Erfahrungen an Ihrer Hochschule/Universität</strong>.';
+            // Dynamische Wortlaute für F2/F3 (Uni-Variante)
+            if (f2Text) f2Text.textContent = (currentLanguage === 'en')
+              ? 'What have you learned at your university / college over the past month?'
+              : 'Was haben Sie im letzten Monat an Ihrer Hochschule / Universität gelernt?';
+            if (f3Text) f3Text.textContent = (currentLanguage === 'en')
+              ? 'To what extent do you experience at your university / college what is important to you for your education?'
+              : 'Inwieweit erleben Sie an Ihrer Hochschule / Universität das, was Ihnen für Ihre Bildung wichtig ist?';
+            if (anchor && anchorText) {
+              anchor.classList.remove('hidden');
+              anchorText.innerHTML = (currentLanguage === 'en')
+                ? '<strong>Frame of reference</strong>'
+                  + '<p style="margin:6px 0 4px 0;"><strong>Learning environment</strong> (the broader context of your studies):</p>'
+                  + '<ul>'
+                  + '<li>lectures and seminars</li>'
+                  + '<li>tutorials and exercises</li>'
+                  + '<li>studying alone, in the library, or in tandems</li>'
+                  + '<li>everyday study life as a whole</li>'
+                  + '</ul>'
+                  + '<p style="margin:10px 0 4px 0;"><strong>Learning group</strong> (concrete groups you co-learn with):</p>'
+                  + '<ul>'
+                  + '<li>seminar groups, project teams, lab groups</li>'
+                  + '<li>formal or informal study groups</li>'
+                  + '<li>regular learning tandems</li>'
+                  + '</ul>'
+                  + '<div class="note">If you mostly study on your own, refer "learning group" items to whatever group context comes closest — even occasional informal collaboration.</div>'
+                : '<strong>Bezugsrahmen</strong>'
+                  + '<p style="margin:6px 0 4px 0;"><strong>Lernumfeld</strong> (der breitere Kontext Ihres Studiums):</p>'
+                  + '<ul>'
+                  + '<li>Vorlesungen und Seminare</li>'
+                  + '<li>Tutorien und Übungen</li>'
+                  + '<li>Lernen allein, in der Bibliothek oder in Tandems</li>'
+                  + '<li>Ihr Studienalltag insgesamt</li>'
+                  + '</ul>'
+                  + '<p style="margin:10px 0 4px 0;"><strong>Lerngruppe</strong> (konkrete Gruppen, mit denen Sie zusammen lernen):</p>'
+                  + '<ul>'
+                  + '<li>Seminargruppen, Projektteams, Laborgruppen</li>'
+                  + '<li>formelle oder informelle Lerngruppen</li>'
+                  + '<li>regelmäßige Lerntandems</li>'
+                  + '</ul>'
+                  + '<div class="note">Falls Sie überwiegend allein lernen, beziehen Sie Items zur „Lerngruppe" auf den nächstgelegenen Gruppenkontext — auch gelegentliche informelle Zusammenarbeit zählt.</div>';
+            }
           } else {
             text.innerHTML = (currentLanguage === 'en')
               ? 'Please answer the following questions <strong>with reference to your experience at Uniartcity</strong>.'
               : 'Bitte beantworten Sie die folgenden Fragen <strong>mit Blick auf Ihre Erfahrungen bei Uniartcity</strong>.';
+            // Dynamische Wortlaute für F2/F3 (UAC-Variante)
+            if (f2Text) f2Text.textContent = (currentLanguage === 'en')
+              ? 'What have you learned at Uniartcity over the past month?'
+              : 'Was haben Sie im letzten Monat bei Uniartcity gelernt?';
+            if (f3Text) f3Text.textContent = (currentLanguage === 'en')
+              ? 'To what extent do you experience at Uniartcity what is important to you for your education?'
+              : 'Inwieweit erleben Sie bei Uniartcity das, was Ihnen für Ihre Bildung wichtig ist?';
+            if (anchor && anchorText) {
+              anchor.classList.remove('hidden');
+              anchorText.innerHTML = (currentLanguage === 'en')
+                ? '<strong>Frame of reference</strong>'
+                  + '<p style="margin:6px 0 4px 0;"><strong>Learning environment</strong> (your overall context at Uniartcity):</p>'
+                  + '<ul>'
+                  + '<li>your everyday learning life at Uniartcity</li>'
+                  + '<li>shared spaces, training settings, learning together with others</li>'
+                  + '<li>also moments of learning on your own</li>'
+                  + '</ul>'
+                  + '<p style="margin:10px 0 4px 0;"><strong>Learning group</strong> (concrete groups you co-learn with):</p>'
+                  + '<ul>'
+                  + '<li>Bildungsbrief-Gruppe (~20 people)</li>'
+                  + '<li>small groups</li>'
+                  + '<li>topic-specific learning groups</li>'
+                  + '</ul>'
+                : '<strong>Bezugsrahmen</strong>'
+                  + '<p style="margin:6px 0 4px 0;"><strong>Lernumfeld</strong> (Ihr Gesamtkontext bei Uniartcity):</p>'
+                  + '<ul>'
+                  + '<li>Ihr Lernalltag bei Uniartcity insgesamt</li>'
+                  + '<li>gemeinsame Räume, Trainings-Settings, Lernen mit anderen</li>'
+                  + '<li>auch Momente des Lernens allein</li>'
+                  + '</ul>'
+                  + '<p style="margin:10px 0 4px 0;"><strong>Lerngruppe</strong> (konkrete Gruppen, mit denen Sie zusammen lernen):</p>'
+                  + '<ul>'
+                  + '<li>Bildungsbrief-Gruppe (~20 Personen)</li>'
+                  + '<li>Kleingruppen</li>'
+                  + '<li>themenspezifische Lerngruppen</li>'
+                  + '</ul>';
+            }
           }
+
+          // Pro-Skala-Erinnerungs-Boxen einblenden + befüllen (gilt für UAC und Uni)
+          scaleContexts.forEach(s => {
+            const el = document.getElementById(s.id);
+            const txt = document.getElementById(s.textId);
+            if (!el || !txt) return;
+            txt.innerHTML = getScaleContextHtml(s.type, selected.value, currentLanguage);
+            el.classList.remove('hidden');
+          });
         }
 
         document.querySelectorAll('input[name="institution"]').forEach(radio => {
@@ -3190,7 +3465,9 @@
                 'L1','L2','L3','L4','L5',
                 'M1','M2','M3','M4','M5','M6',
                 'N1','N2','N3','N4',
-                'O1','O2','O3',
+                // O1, O2, O3 entfernt (April 2026): Skala O wurde durch drei
+                // offene Fragen F1-F3 ersetzt — F1-F3 sind verpflichtend und
+                // werden weiter unten separat geprüft (Textarea-Validierung).
                 'P1','P2','P3','P4',
                 'Q1','Q2','Q3','Q4','Q5','Q6',
                 'R1','R2','R3','R4','R5','R6',
@@ -3241,6 +3518,23 @@
                 if (semesterInput) (semesterInput.closest('.demo-question') || semesterInput.parentElement).classList.add('unanswered');
             }
 
+            // Offene Fragen F1-F3 (verpflichtend seit April 2026)
+            const openFields = [
+                { name: 'offen_wichtigkeit',   code: 'F1' },
+                { name: 'offen_letzter_monat', code: 'F2' },
+                { name: 'offen_erleben',       code: 'F3' }
+            ];
+            openFields.forEach(f => {
+                const ta = document.querySelector(`textarea[name="${f.name}"]`);
+                if (!ta || ta.value.trim() === '') {
+                    unansweredItems.push(f.code);
+                    if (ta) {
+                        const itemEl = ta.closest('.item');
+                        if (itemEl) itemEl.classList.add('unanswered');
+                    }
+                }
+            });
+
             if (unansweredItems.length > 0) {
                 // Max 10 Item-Namen anzeigen, Rest als „+ X weitere"
                 const preview = unansweredItems.slice(0, 10).join(', ');
@@ -3286,6 +3580,13 @@
                     parent.classList.remove('unanswered');
                 }
             }
+            // Auch Textareas (offene Fragen F1-F3) beim Tippen aus Highlight rausnehmen
+            if (e.target && e.target.tagName === 'TEXTAREA') {
+                const parent = e.target.closest('.item.unanswered, .demo-question.unanswered');
+                if (parent && e.target.value && e.target.value.trim() !== '') {
+                    parent.classList.remove('unanswered');
+                }
+            }
         });
 
         // ============================================================
@@ -3311,12 +3612,18 @@
                 sozio_studienfach: formData['study-focus'] || null,
                 sozio_migration: formData['migration'] || null,
                 sozio_finanziell: formData['financial'] || null,
-                sozio_finanziell_objektiv: formData['financial-objective'] || null
+                sozio_finanziell_objektiv: formData['financial-objective'] || null,
+
+                // Offene Fragen F1-F3 (ersetzt frühere Skala O ab April 2026)
+                offen_wichtigkeit:   (formData['offen_wichtigkeit']   || '').trim() || null,
+                offen_letzter_monat: (formData['offen_letzter_monat'] || '').trim() || null,
+                offen_erleben:       (formData['offen_erleben']       || '').trim() || null
             };
 
             // Skalen-Items: A1..T6 → a1..t6 (SMALLINT)
-            // Skala J (Kompetenzerleben) wurde entfernt; neu: P, R, S, T
-            const scaleLetters = ['A','B','C','D','E','F','G','H','I','K','L','M','N','O','P','Q','R','S','T'];
+            // Skala J (Kompetenzerleben) und Skala O (Motivation vor Bildungserfahrung)
+            // wurden entfernt; O wurde durch offene Fragen F1-F3 ersetzt (April 2026).
+            const scaleLetters = ['A','B','C','D','E','F','G','H','I','K','L','M','N','P','Q','R','S','T'];
             scaleLetters.forEach(letter => {
                 for (let i = 1; i <= 10; i++) {
                     const formKey = letter + i;
