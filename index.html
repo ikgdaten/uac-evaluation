@@ -277,6 +277,25 @@
         }
         .framing-banner strong { font-weight: 700; }
 
+        /* "Kann ich nicht beantworten" — Opt-out unter Likert-Skalen */
+        .likert-na {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0 0 0;
+            padding: 4px 8px;
+            font-size: 13px;
+            color: #6b5d52;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .likert-na:hover { background: #f5efe4; }
+        .likert-na input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+        }
+
         /* Bezugsrahmen-Box (Konkretisierung von "Lernumfeld" / "Lerngruppe") */
         .context-anchor {
             background: #f5f1e8;
@@ -2069,6 +2088,7 @@
                         <label class="likert-option"><input type="radio" name="T5" value="4"><span class="likert-number">4</span></label>
                         <label class="likert-option"><input type="radio" name="T5" value="5"><span class="likert-number">5</span></label>
                     </div>
+                    <label class="likert-na"><input type="radio" name="T5" value="na"><span data-i18n="likert_na">Kann ich nicht beantworten</span></label>
                 </div>
 
                 <div class="item">
@@ -2081,6 +2101,7 @@
                         <label class="likert-option"><input type="radio" name="T6" value="4"><span class="likert-number">4</span></label>
                         <label class="likert-option"><input type="radio" name="T6" value="5"><span class="likert-number">5</span></label>
                     </div>
+                    <label class="likert-na"><input type="radio" name="T6" value="na"><span data-i18n="likert_na">Kann ich nicht beantworten</span></label>
                 </div>
             </div>
 
@@ -2708,6 +2729,12 @@
             en: '<strong>5</strong><br>almost always applies'
           },
 
+          // Opt-out für T5/T6 (und ggf. weitere Items mit Bezug zu Mitlernenden/Gruppen)
+          likert_na: {
+            de: 'Kann ich nicht beantworten',
+            en: 'I cannot answer this'
+          },
+
           // Offene Fragen F1-F3 (ersetzen Skala O ab April 2026)
           scale_open_header: {
             de: 'OFFENE FRAGEN ZU IHRER BILDUNG',
@@ -3138,8 +3165,8 @@
             // — Solo-Lernen ist für diese Items konstruktiv nicht passend.
             if (isUac) {
               return isEn
-                ? 'When you read <strong>“learning environment”</strong> here, think of your <em>social</em> learning context at Uniartcity — the people around you, shared learning situations, training settings and encounters with others.'
-                : 'Denken Sie bei <strong>„Lernumfeld"</strong> hier an Ihren <em>sozialen</em> Lernkontext bei Uniartcity — die Menschen um Sie herum, gemeinsame Lernsituationen, Trainings-Settings und Begegnungen mit anderen.';
+                ? 'When you read <strong>“learning environment”</strong> here, think of your <em>social</em> learning context at Uniartcity — the people around you, shared learning situations, research settings and encounters with others.'
+                : 'Denken Sie bei <strong>„Lernumfeld"</strong> hier an Ihren <em>sozialen</em> Lernkontext bei Uniartcity — die Menschen um Sie herum, gemeinsame Lernsituationen, Forschungs-Settings und Begegnungen mit anderen.';
             }
             return isEn
               ? 'When you read <strong>“learning environment”</strong> here, think of the <em>social</em> context of your studies — lectures, seminars, tutorials and other situations in which you learn together with others.'
@@ -3149,8 +3176,8 @@
           if (type === 'lerngruppe') {
             if (isUac) {
               return isEn
-                ? 'When you read <strong>“learning group”</strong> here, think of concrete groups you co-learn with at Uniartcity — Bildungsbrief-Gruppe (~20 people), small groups, topic-specific learning groups.'
-                : 'Denken Sie bei <strong>„Lerngruppe"</strong> hier an konkrete Gruppen, mit denen Sie bei Uniartcity zusammen lernen — Bildungsbrief-Gruppe (~20 Personen), Kleingruppen, themenspezifische Lerngruppen.';
+                ? 'When you read <strong>“learning group”</strong> here, think of concrete groups you co-learn with at Uniartcity — community (10–20 people), small groups, topic-specific learning groups.'
+                : 'Denken Sie bei <strong>„Lerngruppe"</strong> hier an konkrete Gruppen, mit denen Sie bei Uniartcity zusammen lernen — Gemeinschaft (10–20 Personen), Kleingruppen, themenspezifische Lerngruppen.';
             }
             return isEn
               ? 'When you read <strong>“learning group”</strong> here, think of concrete groups you co-learn with — seminar groups, project teams, lab groups, formal or informal study groups, regular learning tandems. If you mostly study on your own, refer to the closest group context — even occasional informal collaboration counts.'
@@ -3160,8 +3187,8 @@
           if (type === 'peers') {
             if (isUac) {
               return isEn
-                ? 'When you read <strong>“fellow learners”</strong> here, think of the people you learn alongside at Uniartcity — Bildungsbrief members, small-group partners, peers in your topic-specific groups.'
-                : 'Denken Sie bei <strong>„Kommiliton:innen / Mitlernende"</strong> hier an die Menschen, mit denen Sie bei Uniartcity zusammen lernen — Bildungsbrief-Mitglieder, Kleingruppen-Partner:innen, Mitlernende aus themenspezifischen Gruppen.';
+                ? 'When you read <strong>“fellow learners”</strong> here, think of the people you learn alongside at Uniartcity — community members, small-group partners, peers in your topic-specific groups.'
+                : 'Denken Sie bei <strong>„Kommiliton:innen / Mitlernende"</strong> hier an die Menschen, mit denen Sie bei Uniartcity zusammen lernen — Gemeinschaftsmitglieder, Kleingruppen-Partner:innen, Mitlernende aus themenspezifischen Gruppen.';
             }
             return isEn
               ? 'When you read <strong>“fellow learners”</strong> here, think of students you study alongside — peers in seminars, project teams, study groups, or other co-learners.'
@@ -3273,12 +3300,12 @@
                   + '<p style="margin:6px 0 4px 0;"><strong>Learning environment</strong> (your social context at Uniartcity):</p>'
                   + '<ul>'
                   + '<li>your everyday learning life at Uniartcity together with others</li>'
-                  + '<li>shared spaces and training settings</li>'
+                  + '<li>shared spaces and research settings</li>'
                   + '<li>encounters with fellow learners</li>'
                   + '</ul>'
                   + '<p style="margin:10px 0 4px 0;"><strong>Learning group</strong> (concrete groups you co-learn with):</p>'
                   + '<ul>'
-                  + '<li>Bildungsbrief-Gruppe (~20 people)</li>'
+                  + '<li>community (10–20 people)</li>'
                   + '<li>small groups</li>'
                   + '<li>topic-specific learning groups</li>'
                   + '</ul>'
@@ -3286,12 +3313,12 @@
                   + '<p style="margin:6px 0 4px 0;"><strong>Lernumfeld</strong> (Ihr sozialer Kontext bei Uniartcity):</p>'
                   + '<ul>'
                   + '<li>Ihr Lernalltag bei Uniartcity zusammen mit anderen</li>'
-                  + '<li>gemeinsame Räume und Trainings-Settings</li>'
+                  + '<li>gemeinsame Räume und Forschungs-Settings</li>'
                   + '<li>Begegnungen mit Mitlernenden</li>'
                   + '</ul>'
                   + '<p style="margin:10px 0 4px 0;"><strong>Lerngruppe</strong> (konkrete Gruppen, mit denen Sie zusammen lernen):</p>'
                   + '<ul>'
-                  + '<li>Bildungsbrief-Gruppe (~20 Personen)</li>'
+                  + '<li>Gemeinschaft (10–20 Personen)</li>'
                   + '<li>Kleingruppen</li>'
                   + '<li>themenspezifische Lerngruppen</li>'
                   + '</ul>';
@@ -3625,13 +3652,19 @@
             // Skalen-Items: A1..T6 → a1..t6 (SMALLINT)
             // Skala J (Kompetenzerleben) und Skala O (Motivation vor Bildungserfahrung)
             // wurden entfernt; O wurde durch offene Fragen F1-F3 ersetzt (April 2026).
+            // Spezialfall: T5/T6 erlauben "Kann ich nicht beantworten" (value="na")
+            // → wird als NULL in die DB geschrieben (nullable SMALLINT).
             const scaleLetters = ['A','B','C','D','E','F','G','H','I','K','L','M','N','P','Q','R','S','T'];
             scaleLetters.forEach(letter => {
                 for (let i = 1; i <= 10; i++) {
                     const formKey = letter + i;
                     const dbKey = letter.toLowerCase() + i;
-                    if (formData[formKey] !== undefined && formData[formKey] !== '') {
-                        row[dbKey] = parseInt(formData[formKey], 10);
+                    const v = formData[formKey];
+                    if (v === 'na') {
+                        row[dbKey] = null;  // explizit "Kann ich nicht beantworten"
+                    } else if (v !== undefined && v !== '') {
+                        const parsed = parseInt(v, 10);
+                        if (!isNaN(parsed)) row[dbKey] = parsed;
                     }
                 }
             });
