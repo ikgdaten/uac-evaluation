@@ -45,6 +45,7 @@
 --   F1 Bildungs-Wertehaltung           offene Antwort   (offen_wichtigkeit)
 --   F2 Lerninhalte letzter Monat       offene Antwort   (offen_letzter_monat)
 --   F3 Erleben des Wichtigen           offene Antwort   (offen_erleben)
+--   F4 Veränderungswunsch              offene Antwort   (offen_wunsch)
 --
 -- Reverse-codierte Items (Dashboard: 6 − Wert):
 --   a3, b2, c3, d3, e2, g4, h3, i3, k2, l2, m3, p2, p3, q5, q6, r6
@@ -231,12 +232,13 @@ CREATE TABLE IF NOT EXISTS public.responses (
     t6 SMALLINT CHECK (t6 BETWEEN 1 AND 5),
 
     -- ============================================================
-    -- OFFENE FRAGEN F1–F3 (ersetzen Skala O ab April 2026)
+    -- OFFENE FRAGEN F1–F4 (ersetzen Skala O ab April 2026; F4 ergänzt Mai 2026)
     -- Auf Empfehlung von Prof. Dr. Thomas Häcker im Methodengespräch
     -- ============================================================
     offen_wichtigkeit   TEXT,  -- F1: Was ist Ihnen für Ihre eigene Bildung wichtig?
     offen_letzter_monat TEXT,  -- F2: Was haben Sie im letzten Monat ... gelernt? (Wortlaut institutionsspezifisch)
-    offen_erleben       TEXT   -- F3: Inwieweit erleben Sie ... das, was Ihnen wichtig ist? (Wortlaut institutionsspezifisch)
+    offen_erleben       TEXT,  -- F3: Inwieweit erleben Sie ... das, was Ihnen wichtig ist? (Wortlaut institutionsspezifisch)
+    offen_wunsch        TEXT   -- F4: Welche Veränderung würden Sie sich ... wünschen? (Wortlaut institutionsspezifisch)
 );
 
 -- ============================================================
@@ -250,14 +252,17 @@ CREATE TABLE IF NOT EXISTS public.responses (
 ALTER TABLE public.responses
     ADD COLUMN IF NOT EXISTS offen_wichtigkeit   TEXT,
     ADD COLUMN IF NOT EXISTS offen_letzter_monat TEXT,
-    ADD COLUMN IF NOT EXISTS offen_erleben       TEXT;
+    ADD COLUMN IF NOT EXISTS offen_erleben       TEXT,
+    ADD COLUMN IF NOT EXISTS offen_wunsch        TEXT;
 
 COMMENT ON COLUMN public.responses.offen_wichtigkeit IS
-    'F1: Was ist Ihnen für Ihre eigene Bildung wichtig? (offene Antwort, optional)';
+    'F1: Was ist Ihnen für Ihre eigene Bildung wichtig? (offene Antwort, verpflichtend)';
 COMMENT ON COLUMN public.responses.offen_letzter_monat IS
-    'F2: Was haben Sie im letzten Monat in Ihrer aktuellen Bildungserfahrung gelernt? (offene Antwort, optional, Wortlaut institutionsspezifisch)';
+    'F2: Was haben Sie im letzten Monat in Ihrer aktuellen Bildungserfahrung gelernt? (offene Antwort, verpflichtend, Wortlaut institutionsspezifisch)';
 COMMENT ON COLUMN public.responses.offen_erleben IS
-    'F3: Inwieweit erleben Sie das, was Ihnen für Ihre Bildung wichtig ist? (offene Antwort, optional, Wortlaut institutionsspezifisch)';
+    'F3: Inwieweit erleben Sie das, was Ihnen für Ihre Bildung wichtig ist? (offene Antwort, verpflichtend, Wortlaut institutionsspezifisch)';
+COMMENT ON COLUMN public.responses.offen_wunsch IS
+    'F4: Welche Veränderung würden Sie sich für Ihre aktuelle Bildungserfahrung wünschen? (offene Antwort, verpflichtend, Wortlaut institutionsspezifisch)';
 
 -- ============================================================
 -- INDIZES
