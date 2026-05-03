@@ -42,10 +42,10 @@
 --   S  Wahrgenommener Lernzuwachs 4 Items  Rovai et al. (2009)
 --   T  Autonomieunterstützung    6 Items   Black & Deci (2000) LCQ-6
 --
---   F1 Bildungs-Wertehaltung           offene Antwort   (offen_wichtigkeit)
---   F2 Lerninhalte letzter Monat       offene Antwort   (offen_letzter_monat)
---   F3 Erleben des Wichtigen           offene Antwort   (offen_erleben)
---   F4 Veränderungswunsch              offene Antwort   (offen_wunsch)
+--   O1 Bildungs-Wertehaltung           offene Antwort   (offen_wichtigkeit)
+--   O2 Lerninhalte letzter Monat       offene Antwort   (offen_letzter_monat)
+--   O3 Erleben des Wichtigen           offene Antwort   (offen_erleben)
+--   O4 Veränderungswunsch              offene Antwort   (offen_wunsch)
 --
 -- Reverse-codierte Items (Dashboard: 6 − Wert):
 --   a3, b2, c3, d3, e2, g4, h3, i3, k2, l2, m3, p2, p3, q5, q6, r6
@@ -232,7 +232,8 @@ CREATE TABLE IF NOT EXISTS public.responses (
     t6 SMALLINT CHECK (t6 BETWEEN 1 AND 5),
 
     -- ============================================================
-    -- OFFENE FRAGEN F1–F4 (ersetzen Skala O ab April 2026; F4 ergänzt Mai 2026)
+    -- OFFENE FRAGEN O1–O4 (ersetzen Skala O ab April 2026; O4 ergänzt Mai 2026 — gleiche
+    -- Buchstaben-Slot wie alte Skala O, aber qualitativ statt Likert)
     -- Auf Empfehlung von Prof. Dr. Thomas Häcker im Methodengespräch
     -- ============================================================
     offen_wichtigkeit   TEXT,  -- F1: Was ist Ihnen für Ihre eigene Bildung wichtig?

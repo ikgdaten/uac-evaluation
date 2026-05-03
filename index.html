@@ -1724,26 +1724,26 @@
                 <p style="margin-bottom: 15px; color: #6b5d52;" data-i18n="scale_open_desc">Drei kurze Fragen, die Ihre Erfahrung in eigenen Worten erfassen. Auch ein paar Stichpunkte oder ein, zwei Sätze sind hilfreich – schreiben Sie so kurz oder ausführlich, wie es Ihnen passt.</p>
 
                 <div class="item">
-                    <span class="item-number">F1.</span>
-                    <span class="item-text" data-i18n="item_F1">Was ist Ihnen für Ihre eigene Bildung wichtig?</span>
+                    <span class="item-number">O1.</span>
+                    <span class="item-text" data-i18n="item_O1_open">Was ist Ihnen für Ihre eigene Bildung wichtig?</span>
                     <textarea class="demo-input" name="offen_wichtigkeit" rows="4" maxlength="2000" style="margin-top: 10px;" data-i18n-placeholder="open_placeholder" placeholder="Ihre Antwort…"></textarea>
                 </div>
 
                 <div class="item">
-                    <span class="item-number">F2.</span>
-                    <span class="item-text" id="item-F2-text">Was haben Sie im letzten Monat in Ihrer aktuellen Bildungserfahrung gelernt?</span>
+                    <span class="item-number">O2.</span>
+                    <span class="item-text" id="item-O2-text">Was haben Sie im letzten Monat in Ihrer aktuellen Bildungserfahrung gelernt?</span>
                     <textarea class="demo-input" name="offen_letzter_monat" rows="4" maxlength="2000" style="margin-top: 10px;" data-i18n-placeholder="open_placeholder" placeholder="Ihre Antwort…"></textarea>
                 </div>
 
                 <div class="item">
-                    <span class="item-number">F3.</span>
-                    <span class="item-text" id="item-F3-text">Inwieweit erleben Sie in Ihrer aktuellen Bildungserfahrung das, was Ihnen für Ihre Bildung wichtig ist?</span>
+                    <span class="item-number">O3.</span>
+                    <span class="item-text" id="item-O3-text">Inwieweit erleben Sie in Ihrer aktuellen Bildungserfahrung das, was Ihnen für Ihre Bildung wichtig ist?</span>
                     <textarea class="demo-input" name="offen_erleben" rows="4" maxlength="2000" style="margin-top: 10px;" data-i18n-placeholder="open_placeholder" placeholder="Ihre Antwort…"></textarea>
                 </div>
 
                 <div class="item">
-                    <span class="item-number">F4.</span>
-                    <span class="item-text" id="item-F4-text">Welche Veränderung würden Sie sich für Ihre aktuelle Bildungserfahrung wünschen?</span>
+                    <span class="item-number">O4.</span>
+                    <span class="item-text" id="item-O4-text">Welche Veränderung würden Sie sich für Ihre aktuelle Bildungserfahrung wünschen?</span>
                     <textarea class="demo-input" name="offen_wunsch" rows="4" maxlength="2000" style="margin-top: 10px;" data-i18n-placeholder="open_placeholder" placeholder="Ihre Antwort…"></textarea>
                 </div>
             </div>
@@ -2747,10 +2747,10 @@
             en: 'OPEN QUESTIONS ABOUT YOUR EDUCATION'
           },
           scale_open_desc: {
-            de: 'Drei kurze Fragen, die Ihre Erfahrung in eigenen Worten erfassen. Auch ein paar Stichpunkte oder ein, zwei Sätze sind hilfreich – schreiben Sie so kurz oder ausführlich, wie es Ihnen passt.',
-            en: 'Three short open-ended questions that capture your experience in your own words. Even a few keywords or one or two sentences are helpful – write as briefly or in as much detail as you like.'
+            de: 'Vier kurze Fragen, die Ihre Erfahrung in eigenen Worten erfassen. Auch ein paar Stichpunkte oder ein, zwei Sätze sind hilfreich – schreiben Sie so kurz oder ausführlich, wie es Ihnen passt.',
+            en: 'Four short open-ended questions that capture your experience in your own words. Even a few keywords or one or two sentences are helpful – write as briefly or in as much detail as you like.'
           },
-          item_F1: {
+          item_O1_open: {
             de: 'Was ist Ihnen für Ihre eigene Bildung wichtig?',
             en: 'What is important to you for your own education?'
           },
@@ -3210,9 +3210,9 @@
           const text = document.getElementById('framing-text');
           const anchor = document.getElementById('context-anchor');
           const anchorText = document.getElementById('context-anchor-text');
-          const f2Text = document.getElementById('item-F2-text');
-          const f3Text = document.getElementById('item-F3-text');
-          const f4Text = document.getElementById('item-F4-text');
+          const o2Text = document.getElementById('item-O2-text');
+          const o3Text = document.getElementById('item-O3-text');
+          const o4Text = document.getElementById('item-O4-text');
 
           // Skala-spezifische Bezugsrahmen-Boxen
           const scaleContexts = [
@@ -3237,13 +3237,13 @@
               if (el) el.classList.add('hidden');
             });
             // Generischer Default-Text für F2/F3, solange keine Institution gewählt ist
-            if (f2Text) f2Text.textContent = (currentLanguage === 'en')
+            if (o2Text) o2Text.textContent = (currentLanguage === 'en')
               ? 'What have you learned in your current educational experience over the past month?'
               : 'Was haben Sie im letzten Monat in Ihrer aktuellen Bildungserfahrung gelernt?';
-            if (f3Text) f3Text.textContent = (currentLanguage === 'en')
+            if (o3Text) o3Text.textContent = (currentLanguage === 'en')
               ? 'To what extent do you experience what is important to you for your education in your current educational setting?'
               : 'Inwieweit erleben Sie in Ihrer aktuellen Bildungserfahrung das, was Ihnen für Ihre Bildung wichtig ist?';
-            if (f4Text) f4Text.textContent = (currentLanguage === 'en')
+            if (o4Text) o4Text.textContent = (currentLanguage === 'en')
               ? 'What change would you wish for in your current educational experience?'
               : 'Welche Veränderung würden Sie sich für Ihre aktuelle Bildungserfahrung wünschen?';
             return;
@@ -3254,13 +3254,13 @@
               ? 'Please answer the following questions <strong>with reference to your experience at your regular university/college</strong>.'
               : 'Bitte beantworten Sie die folgenden Fragen <strong>mit Blick auf Ihre Erfahrungen an Ihrer Hochschule/Universität</strong>.';
             // Dynamische Wortlaute für F2/F3 (Uni-Variante)
-            if (f2Text) f2Text.textContent = (currentLanguage === 'en')
+            if (o2Text) o2Text.textContent = (currentLanguage === 'en')
               ? 'What have you learned at your university / college over the past month?'
               : 'Was haben Sie im letzten Monat an Ihrer Hochschule / Universität gelernt?';
-            if (f3Text) f3Text.textContent = (currentLanguage === 'en')
+            if (o3Text) o3Text.textContent = (currentLanguage === 'en')
               ? 'To what extent do you experience at your university / college what is important to you for your education?'
               : 'Inwieweit erleben Sie an Ihrer Hochschule / Universität das, was Ihnen für Ihre Bildung wichtig ist?';
-            if (f4Text) f4Text.textContent = (currentLanguage === 'en')
+            if (o4Text) o4Text.textContent = (currentLanguage === 'en')
               ? 'What change would you wish for in your educational experience at your university / college?'
               : 'Welche Veränderung würden Sie sich für Ihre Bildungserfahrung an Ihrer Hochschule / Universität wünschen?';
             if (anchor && anchorText) {
@@ -3300,13 +3300,13 @@
               ? 'Please answer the following questions <strong>with reference to your experience at Uniartcity</strong>.'
               : 'Bitte beantworten Sie die folgenden Fragen <strong>mit Blick auf Ihre Erfahrungen bei Uniartcity</strong>.';
             // Dynamische Wortlaute für F2/F3 (UAC-Variante)
-            if (f2Text) f2Text.textContent = (currentLanguage === 'en')
+            if (o2Text) o2Text.textContent = (currentLanguage === 'en')
               ? 'What have you learned at Uniartcity over the past month?'
               : 'Was haben Sie im letzten Monat bei Uniartcity gelernt?';
-            if (f3Text) f3Text.textContent = (currentLanguage === 'en')
+            if (o3Text) o3Text.textContent = (currentLanguage === 'en')
               ? 'To what extent do you experience at Uniartcity what is important to you for your education?'
               : 'Inwieweit erleben Sie bei Uniartcity das, was Ihnen für Ihre Bildung wichtig ist?';
-            if (f4Text) f4Text.textContent = (currentLanguage === 'en')
+            if (o4Text) o4Text.textContent = (currentLanguage === 'en')
               ? 'What change would you wish for in your educational experience at Uniartcity?'
               : 'Welche Veränderung würden Sie sich für Ihre Bildungserfahrung bei Uniartcity wünschen?';
             if (anchor && anchorText) {
@@ -3563,12 +3563,13 @@
                 if (semesterInput) (semesterInput.closest('.demo-question') || semesterInput.parentElement).classList.add('unanswered');
             }
 
-            // Offene Fragen F1-F4 (verpflichtend; F1-F3 seit April 2026, F4 seit Mai 2026)
+            // Offene Fragen O1-O4 (verpflichtend; ersetzen frühere Skala O ab April 2026,
+            // O4 ergänzt Mai 2026). Sichtbare Item-Codes O1-O4, DB-Spalten offen_*.
             const openFields = [
-                { name: 'offen_wichtigkeit',   code: 'F1' },
-                { name: 'offen_letzter_monat', code: 'F2' },
-                { name: 'offen_erleben',       code: 'F3' },
-                { name: 'offen_wunsch',        code: 'F4' }
+                { name: 'offen_wichtigkeit',   code: 'O1' },
+                { name: 'offen_letzter_monat', code: 'O2' },
+                { name: 'offen_erleben',       code: 'O3' },
+                { name: 'offen_wunsch',        code: 'O4' }
             ];
             openFields.forEach(f => {
                 const ta = document.querySelector(`textarea[name="${f.name}"]`);
