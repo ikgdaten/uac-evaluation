@@ -1525,6 +1525,7 @@
         //   1. Alle Rohdaten (original wie eingegeben)
         //   2. Reverse-codierte Spalten als eigene Spalten (z.B. a3_R)
         //   3. Skalenmittelwerte (mit Reverse-Kodierung) als eigene Spalten
+        //   4. Offene Fragen O1–O4 als TEXT-Spalten am Ende
         document.getElementById('export-csv').addEventListener('click', () => {
             const rows = filtered();
             if (rows.length === 0) { alert('Keine Daten zum Exportieren.'); return; }
@@ -1545,8 +1546,11 @@
             // Skalenmittelwert-Spalten
             const scaleKeys = Object.entries(SCALES).map(([k, s]) => 'mean_' + k);
 
-            // Header zusammenbauen
-            const headers = [...metaKeys, ...allItems, ...reverseKeys, ...scaleKeys];
+            // Offene Fragen O1–O4 (ersetzten Skala O ab April 2026; O4 ergänzt Mai 2026)
+            const openKeys = ['offen_wichtigkeit', 'offen_letzter_monat', 'offen_erleben', 'offen_wunsch'];
+
+            // Header zusammenbauen — offene Fragen ans Ende, damit Excel-Layout für Likert nicht bricht
+            const headers = [...metaKeys, ...allItems, ...reverseKeys, ...scaleKeys, ...openKeys];
 
             const esc = v => {
                 if (v === null || v === undefined) return '';
@@ -1580,6 +1584,9 @@
                         : '';
                     vals.push(esc(m));
                 });
+
+                // Offene Fragen O1–O4 (Freitext)
+                openKeys.forEach(k => vals.push(esc(r[k])));
 
                 lines.push(vals.join(';'));
             });
